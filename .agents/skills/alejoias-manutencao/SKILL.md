@@ -27,3 +27,5 @@ Runtime atual: adapter Node + SQLite para execução local; migrar adapter/stora
 - Backend revalida preço, publicação, disponibilidade e opções; preserve revisão concorrente e idempotência das solicitações.
 - Exportação JSON é catálogo, não backup completo. Para cópia completa local, parar o servidor e copiar .data inteira, sem versionar dados privados.
 - Antes de afirmar conclusão, atualizar documentação vigente e registrar o que foi testado; a aparência da tabela no WhatsApp real depende do teste do usuário.
+
+- Responsividade usa largura da tela e pointer:coarse, não identificação por user-agent. Preservar campos mobile com fonte de pelo menos 16px, alvos de toque confortáveis e painel em cartões. Validar 320/360/390px, tablet e desktop ao alterar layout; tests/responsive.cjs usa servidor isolado na porta 4322.

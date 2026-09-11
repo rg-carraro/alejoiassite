@@ -2,7 +2,7 @@
 import '../../styles/admin.css';
 import {categories} from '../../data/categories';
 ---
-<html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="robots" content="noindex"/><title>Gestão · AleJoias</title></head><body>
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="robots" content="noindex"/><title>Gestão · AleJoias</title></head><body>
 <header class="admin-header"><a href="/admin">AleJoias <span>Gestão</span></a><a href="/" target="_blank">Ver site ↗</a><button id="logout" class="secondary">Sair</button></header>
 <main class="admin-main"><h1>Seu catálogo, do seu jeito.</h1><p>Cadastre, ajuste e acompanhe cada peça. Desativar mantém o cadastro e seu histórico.</p><nav class="admin-nav"><a href="#catalogo">Produtos</a><a href="#importacao">Importar lista</a><a href="#solicitacoes">Solicitações</a><a href="#seguranca">Senha</a></nav><p id="feedback" role="status" aria-live="polite"></p>
 <section id="catalogo"><div class="heading"><h2>Produtos</h2><button id="new-product">Cadastrar produto +</button><a class="button secondary" href="/api/export">Exportar catálogo JSON</a></div><div class="controls"><label>Buscar<input id="admin-search" placeholder="Nome ou código"/></label><label>Exibir<select id="admin-status"><option value="">Todos, inclusive desativados</option><option value="enabled">Habilitados</option><option value="disabled">Desativados</option></select></label></div><div class="table-scroll"><table><thead><tr><th>Produto</th><th>Preço</th><th>Publicação</th><th>Disponibilidade</th><th>Ações</th></tr></thead><tbody id="product-rows"></tbody></table></div></section>

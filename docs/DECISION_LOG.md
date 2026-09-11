@@ -84,3 +84,6 @@ A pedido do usuário, itens numerados com nome, código e opção são acompanha
 - Criado docs/ROTEIRO_TESTES.md; documentados limites de backup/exportação e diferença entre solicitação registrada e mensagem enviada.
 - Pendências reais: dados definitivos, retorno de testes, publicação Cloudflare e checkout futuro.
 - Esta rodada altera apenas instruções/documentação, sem modificar comportamento do site.
+
+## Adaptação ao celular
+Usuário pediu identificação do dispositivo e ajuste de tela. Implementada adaptação por largura disponível e capacidade de toque (CSS media queries), sem rastrear aparelho nem depender de user-agent. Loja: navegação, botões, filtros, sacola e campos ajustados. Painel: produtos viram cartões em telas estreitas, editor se adapta à altura visível e campos usam fonte de 16px. Desktop preservado. Testes passaram em oito rotas nas larguras 320/360/390/768/1440px, sem overflow da página, sem erros JavaScript e com editor dentro da tela. Capturas mobile da loja e painel revisadas em banco isolado. Check e build passaram antes da interrupção; retomada concluiu revisão visual e documentação.

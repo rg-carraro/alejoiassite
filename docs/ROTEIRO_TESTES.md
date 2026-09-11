@@ -37,3 +37,6 @@ Dados cadastrados são reais no banco local e permanecem após reiniciar. Não e
 Ao relatar um problema, informe a página, o passo executado, o esperado e o ocorrido. Capturas ajudam; oculte senhas e dados de outras pessoas.
 
 Ainda fora desta rodada: publicação no domínio, pagamento online, banco hospedado e integração com o app Android.
+
+## Tela de celular
+Confira menu, categorias, fotos, campos e sacola com a tela estreita e ao girar o aparelho. No painel, produtos devem aparecer como cartões, com ações e rótulos legíveis. A adaptação é automática pela largura da tela. Testes automatizados em navegador não substituem sua avaliação no aparelho real.
