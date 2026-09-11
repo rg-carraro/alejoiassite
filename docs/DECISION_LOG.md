@@ -76,3 +76,11 @@ Skills locais de manutenção técnica e catálogo salvas em .agents/skills e re
 
 ## Resumo WhatsApp em tabela
 A pedido do usuário, itens numerados com nome, código e opção são acompanhados de tabela monoespaçada com Item, Qtd, Unit. e Total em reais. Formatação compartilhada entre resumo copiável e mensagem gerada no servidor; nomes não são truncados. Solicitações antigas preservam o snapshot original.
+
+## Consolidação antes dos testes do usuário
+- Usuário pediu atualização das skills, documentação restante e sincronização Git antes de testar e retornar com novidades.
+- Contexto e arquitetura consolidados para remover pendências obsoletas (painel/banco/importação já concluídos localmente).
+- Skills atualizadas com BAT, banco privado, validação de solicitações, importação e tabela WhatsApp compartilhada.
+- Criado docs/ROTEIRO_TESTES.md; documentados limites de backup/exportação e diferença entre solicitação registrada e mensagem enviada.
+- Pendências reais: dados definitivos, retorno de testes, publicação Cloudflare e checkout futuro.
+- Esta rodada altera apenas instruções/documentação, sem modificar comportamento do site.

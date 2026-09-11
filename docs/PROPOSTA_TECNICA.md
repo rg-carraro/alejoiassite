@@ -1,35 +1,36 @@
-# Proposta técnica — AleJoias Site
+# Arquitetura técnica — AleJoias Site
 
-Data: 11/09/2026. Status: direção técnica aprovada pelo usuário em 11/09/2026; estrutura inicial implementada; protótipo completo pendente. Detalhes de painel, banco e infraestrutura serão fechados durante o desenvolvimento.
+Atualizado em 11/09/2026. Substitui a proposta preliminar; o histórico permanece em DECISION_LOG.md.
 
-## Caminho recomendado
-- Site próprio com Astro e TypeScript; React somente nos componentes interativos que justificarem seu uso, como sacola e filtros.
-- Páginas de categoria e produto com conteúdo em HTML, títulos e URLs próprios. Astro permite páginas pré-geradas e renderização sob demanda.
-- Protótipo com catálogo demonstrativo em arquivo estruturado e imagens locais autorizadas. Alterações nesse modelo exigem nova publicação; não confundir com painel de gestão.
-- Sacola local no navegador e mensagem de pedido pelo WhatsApp. O clique não confirma envio, venda ou reserva de estoque.
-- Para operação com atualização frequente: painel autenticado, API e banco do site. Cloudflare Workers + D1 e R2 são candidatos, sujeitos ao fechamento dos requisitos e custos.
-- Cloudflare como candidata à hospedagem sob a conta do usuário. Ter o domínio nela não obriga hospedar nela. Sites também foi considerado como fluxo de construção/publicação; nenhuma plataforma de publicação foi escolhida.
-- Código e documentação versionados em Git e futuramente GitHub; banco e fotos de produção precisam de backup próprio.
-- Aplicativo SQLite Sync v2 permanece independente.
+## Implementação atual
+Astro + TypeScript com adapter Node para execução local. Páginas são renderizadas no servidor e leem SQLite. Interações usam TypeScript no navegador; React ainda não foi necessário.
 
-## Evolução
-1. Protótipo local: identidade, categorias, produtos de exemplo, sacola e WhatsApp.
-2. Operação: forma de cadastro definida, dados reais, painel se necessário, disponibilidade, testes e publicação.
-3. Checkout: selecionar provedor, validar preços e disponibilidade no servidor, persistir pedidos e confirmar pagamento por notificação autenticada do provedor, com prevenção de duplicidades. Retorno do navegador não comprova pagamento.
+Fluxo do catálogo: painel autenticado → API → SQLite + histórico → páginas públicas.
+Fluxo de atendimento: sacola → nome/telefone → validação de preços/disponibilidade no servidor → snapshot da solicitação → mensagem WhatsApp para revisão e envio manual.
 
-## Alternativa
-Uma plataforma pronta de comércio eletrônico reduz a programação de gestão e checkout, mas traz mensalidade e restrições de personalização. Shopify permite incorporar produtos e checkout em site existente; avaliar somente se isso se alinhar à operação desejada. Não há provedor de pagamento escolhido.
+Responsabilidades:
+- src/server/store.ts: persistência, revisões, promoções, sessões e solicitações.
+- src/server/importer.ts: prévia e aplicação transacional de CSV/JSON.
+- src/data/catalog.ts: contrato e preços efetivos em centavos.
+- src/data/order-message.ts: tabela de texto compartilhada entre mensagem e resumo.
+- src/pages/api: interfaces autenticadas e endpoint público de solicitação.
+- src/pages/admin e src/scripts/admin.ts: administração.
+- src/scripts/shop.ts: sacola e consumo do catálogo.
 
-## Custos
-A Cloudflare documenta requisições de arquivos estáticos gratuitas e ilimitadas; processamento, banco e armazenamento têm limites e preços próprios. Não prometer custo total zero. Estimar após tamanho do catálogo e rotina de gestão.
+Produtos desativados ficam no histórico, fora do catálogo. Disponibilidade é independente da publicação. Preço e situação são revalidados ao registrar a seleção. Contatos ficam no banco privado; Git versiona código e documentação.
 
-## Questão principal pendente
-O usuário quer cadastrar fotos, preços e disponibilidade por um painel próprio desde a primeira versão operacional, ou aceita inicialmente atualizar o catálogo junto com o desenvolvimento?
+## Publicação ainda pendente
+Cloudflare é a direção aprovada, com domínio já administrado nela. O adapter Node/SQLite em disco não deve ser enviado como se fosse um projeto Workers pronto. Antes do deploy, configurar adapter e armazenamento compatíveis, planejar migração dos dados e fotos e validar autenticação e backup no ambiente hospedado. D1 e R2 foram considerados; não foram provisionados.
 
-## Referências oficiais consultadas
+Nenhuma mudança de DNS foi feita. Custos devem ser reavaliados no momento da escolha, sem presumir custo total zero.
+
+## Evolução posterior
+Produtos reais e retorno dos testes primeiro. Checkout exige provedor definido, validação no servidor, notificações autenticadas e prevenção de processamento duplicado. Retorno do navegador não comprova pagamento. Integração com AleJoias Vendas depende de definição explícita e não modifica sua base SQLite Sync v2 automaticamente.
+
+## Referências técnicas usadas no desenvolvimento
 - https://docs.astro.build/en/concepts/islands/
 - https://docs.astro.build/en/guides/on-demand-rendering/
-- https://developers.cloudflare.com/workers/platform/pricing/
-- https://developers.cloudflare.com/d1/
-- https://developers.cloudflare.com/use-cases/web-apps/store-data/
-- https://www.shopify.com/buy-button
+- https://docs.astro.build/en/guides/integrations-guide/node/
+- https://nodejs.org/api/sqlite.html
+
+Para operação local, veja DESENVOLVIMENTO.md; para regras comerciais/importação, CATALOGO_E_ATENDIMENTO.md.

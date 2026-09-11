@@ -1,129 +1,64 @@
-# PROJECT_CONTEXT.md — Novo Site AleJoias
+# Contexto atual — AleJoias Site
 
-**Atualizado em:** 11/09/2026
-**Status:** protótipo navegável implementado e validado; dados reais e publicação pendentes
+Atualizado em 11/09/2026. Estado: protótipo local funcional, com painel e persistência, pronto para testes do usuário.
 
-## 1. Visão
-Criar o novo site oficial da AleJoias: moderno, elegante, intuitivo e com excelente experiência no celular. A primeira versão será um catálogo com seleção de produtos, sacola e envio do pedido pelo WhatsApp. Pagamento diretamente no site é uma evolução futura.
+## Projeto e continuidade
+- Pasta oficial: C:\Users\rgcar\git\alejoiassite.
+- Repositório: https://github.com/rg-carraro/alejoiassite.git; branch master.
+- Pasta anterior alejoiassite_old é somente recuperação.
+- Domínio confirmado pelo usuário: alejoias.com, administrado na Cloudflare. Nenhum deploy ou alteração de DNS foi feito.
+- O app AleJoias Vendas SQLite Sync v2 é separado. Preservar app, IDs e backend Apps Script.
+- Histórico cronológico em docs/DECISION_LOG.md. Este arquivo descreve o estado vigente, sem repetir pendências já resolvidas.
 
-## 2. Localização e continuidade
-- Pasta atual confirmada pelo usuário: `C:\Users\rgcar\git\alejoiassite`.
-- Nome anterior: `alejoias_site`. Não usar o caminho incorreto `alejoias\_site`.
-- Repositório GitHub criado e sincronizado na master. O usuário clonou o repositório nesta pasta e preservou a pasta anterior como alejoiassite_old.
-- Registrar decisões neste documento e manter o histórico em `docs/DECISION_LOG.md`.
+## Direção aprovada
+Catálogo moderno, elegante e intuitivo, priorizando celular, seleção em sacola e pedido pelo WhatsApp. Pagamento direto será uma etapa futura.
 
-## 3. Ecossistema e domínio
-- AleJoias é a marca/negócio principal.
-- Domínio escolhido: `alejoias.com`, mantido na Cloudflare.
-- Registro documentado em 08/09/2026: ativo, expiração em 08/09/2027, renovação automática ativa e preço de renovação então exibido de US$ 10,46/ano. Dados históricos, não verificados novamente nesta sessão.
-- Cloudflare aprovada como direção de hospedagem. Deploy e configuração definitiva de DNS ainda pendentes.
-- AleJoias Vendas é um aplicativo auxiliar separado, cuja base oficial estável é SQLite Sync v2. Não alterar seu backend, schema, IDs ou funcionalidades para desenvolver o site.
-- Reaproveitamento visual do aplicativo foi autorizado; integração de dados permanece pendente de definição explícita.
+Visual: fundo claro, fotos grandes, tipografia elegante, detalhes dourados e contraste escuro. Logo manuscrito e fotos anteriores do Wix usados no protótipo; ajustes podem seguir os testes do usuário.
 
-## 4. Referência anterior e identidade visual
-- Site Wix informado pelo usuário: https://alejoiasninafiori.wixsite.com/alejoias
-- O Wix será referência de identidade e conteúdo, sem impor a arquitetura do novo site.
-- Logos locais do Wix localizados e amostras inspecionadas. Versões de referência copiadas para public/images/brand; seleção visual final pendente.
-- Podem ser aproveitados ícones e pontos visuais do aplicativo AleJoias Vendas, adaptados à experiência web.
-- Direção visual inicial aceita: fundo claro, detalhes discretos em dourado, fotos grandes, tipografia elegante e legível, navegação simples e prioridade ao celular.
-- O visual poderá ser ajustado após avaliação do protótipo.
-- Página inicial do Wix lida por HTTP em 11/09/2026 após falha do navegador. Conteúdo textual confirmado: categorias Anéis, Brincos, Colares e Pulseiras, links Sobre e Contato, produtos com preços e indicação de esgotado. Layout completo não inspecionado. Referência salva em docs/wix-reference.html.
-- Informações comerciais antigas, incluindo materiais, garantia e consignação, precisam de validação antes de publicação.
+Categorias: Brincos, Pulseiras, Anéis, Colares, Conjuntos e Tornozeleiras. Coleções: Novidades e Presentes. Categorias sem produtos mostram estado vazio.
 
-## 5. Escopo inicial definido
-- Catálogo de produtos com fotos, preços e detalhes.
-- Seleção de peças e sacola para organizar o pedido.
-- Envio do resumo do pedido pelo WhatsApp.
-- Categorias iniciais informadas pelo usuário: brincos, pulseiras, anéis e colares.
-- Categorias adicionais aprovadas: Conjuntos e Tornozeleiras. Coleções aprovadas: Novidades e Presentes. Não presumir produtos disponíveis nessas categorias.
-- Compra e pagamento diretamente no site ficam para uma fase posterior.
+## Implementado
+- Início, catálogo com busca/filtros/ordenação, detalhes de produto, sacola, sobre e atendimento.
+- Sacola persiste IDs, opções e quantidades no navegador. Nome/telefone não são armazenados no localStorage.
+- Nome e telefone obrigatórios para registrar solicitação. Backend valida preços, opções e disponibilidade; salva cópia dos itens e valores antes de abrir WhatsApp.
+- WhatsApp confirmado: 5519988038395. Cliente revisa e envia a mensagem. Registro não comprova envio, compra, pagamento ou reserva.
+- Mensagem e resumo copiável usam itens numerados com nomes/códigos/opções completos e tabela monoespaçada Item/Qtd/Unit./Total em reais. Subtotal e identificação são preservados. Formatação comum em src/data/order-message.ts.
+- Painel /admin autenticado: cadastro/edição, fotos, descrição, preços, promoções com período, tags, opções, coleções e situações.
+- Habilitado controla publicação; disponível controla solicitação. Desativar não apaga e permite reativar. Histórico registra antes/depois, data, origem e responsável administrativo.
+- Importação CSV/JSON até 500 registros/1 MB com prévia, validação, transação e conciliação por código. Existentes preservados por padrão; atualização explícita sobrescreve apenas campos fornecidos. Campos vazios não apagam. Modelo em public/modelo-produtos.csv.
+- Painel de solicitações com nome, telefone, itens, valores e situação (nova, em atendimento, concluída, cancelada).
+- Upload JPEG/PNG/WebP até 5 MB. Exportação JSON do catálogo; não inclui fotos, contatos ou histórico.
+- Rascunho de descrição pelo nome é recurso determinístico; não há serviço de IA integrado ao painel. Codex auxilia descrições/importações pelas skills.
 
-## 6. Propostas de experiência ainda sujeitas a detalhamento
-- Fluxo: início → catálogo → detalhes do produto → sacola → WhatsApp.
-- Páginas: início, catálogo, produto, sacola, sobre e atendimento.
-- Mensagem de WhatsApp com códigos dos produtos, variações, quantidades e resumo dos valores.
-- Novidades e Presentes foram aprovadas como coleções transversais.
-- Conjuntos e Tornozeleiras foram aprovadas para a estrutura do catálogo; popular conforme produtos reais.
-- Abrir o WhatsApp não comprova envio da mensagem nem confirmação de venda. Definir o tratamento de pedidos antes de qualquer integração ou baixa de estoque.
+## Tecnologia e dados
+- Astro + TypeScript, pnpm com lockfile. React aprovado quando necessário, mas ainda não utilizado.
+- Ambiente validado com Node 24.19.0 e TypeScript 6. TypeScript 7 apresentou incompatibilidade com astro check.
+- Adapter Node e SQLite local em src/server/store.ts. Build atual é de servidor, não estático e não diretamente publicável em Workers.
+- Banco: .data/alejoias-site.sqlite. Uploads: .data/uploads. Sementes em src/data/products.ts só alimentam banco novo.
+- .data e backups são ignorados pelo Git. Contatos, banco e credenciais não são sincronizados com GitHub.
+- Senha inicial privada em .data/acesso-admin.txt. Troca pelo painel encerra sessões e remove o arquivo da senha inicial.
+- Para backup local completo: parar o servidor e copiar .data inteira. Exportação do catálogo não substitui esse backup.
 
-## 7. Decisões pendentes
-- Origem e organização dos produtos, códigos, fotos, preços e disponibilidade.
-- Forma de cadastrar e atualizar o catálogo: rotina do usuário e necessidade de painel administrativo.
-- Arquivos dos logos do Wix e seleção dos ícones/elementos do aplicativo.
-- Variações, tamanhos, quantidades e regras de disponibilidade.
-- Número de WhatsApp e formato final do resumo do pedido.
-- Entrega, retirada, frete e confirmação de pedidos.
-- Navegação final, filtros e conteúdo institucional atualizado.
-- Detalhamento de banco/CMS e deploy; Astro + TypeScript e Cloudflare já aprovados.
-- SEO, analytics e políticas de privacidade aplicáveis.
-- Checkout e integração com o aplicativo em etapas futuras.
+## Uso local
+Dois cliques em iniciar-dev.bat: configura Node/pnpm do runtime Codex na sessão, confere dependências e abre navegador. Detecta servidor AleJoias já ativo. Não muda PATH permanentemente. Manter janela aberta; Ctrl+C encerra. iniciar-site.ps1 usa o mesmo bootstrap.
 
-## 8. Princípios e próximos passos
-Preferir baixo custo, desempenho, acessibilidade, segurança e manutenção simples. Não superdimensionar a solução nem escolher a tecnologia antes dos requisitos.
+Loja: http://localhost:4321/ — painel: http://localhost:4321/admin. A porta efetiva é exibida no terminal. Detalhes em docs/DESENVOLVIMENTO.md.
+
+## Referências e dados demonstrativos
+- Wix: https://alejoiasninafiori.wixsite.com/alejoias. Página inicial lida por HTTP; layout completo não inspecionado naquele acesso.
+- Originais: C:\Pessoal\AleJoias\Site, 45 imagens inventariadas. Amostras copiadas para public/images.
+- Três sementes: anel entrelaçado, pulseira coração, colares em camadas. Usuário pediu R$ 0,10 para visualizar preços; não usar esse valor como padrão para produtos reais.
+- Materiais, preços antigos, garantias e condições comerciais do Wix não foram confirmados para publicação.
+- Registro histórico de domínio em 08/09/2026: expiração exibida 08/09/2027, renovação automática ativa, preço então mostrado US$ 10,46/ano; não revalidado e não é orçamento atual de hospedagem.
+
+## Validação concluída e próximos passos
+Checagem Astro/TypeScript e build passaram. Testes em banco isolado cobriram autenticação, origem de requisições, revisão concorrente, promoções, inativos, histórico, importação, upload, edição, solicitação idempotente e snapshot. WhatsApp interceptado nos testes; nenhuma mensagem real enviada. Capturas de painel revisadas; mobile sem overflow no teste. BAT testado com servidor já ativo. Formatação da tabela validada; aparência no aplicativo WhatsApp será avaliada pelo usuário.
 
 Próximos passos:
-1. Localizar e revisar os ativos visuais do Wix e do aplicativo.
-2. Definir a origem do catálogo e como será atualizado.
-3. Fechar a navegação e preparar um protótipo visual com peças representativas.
-4. Escolher tecnologia e hospedagem com base nas necessidades definidas.
-5. Implementar, testar e preparar o repositório para GitHub.
-6. Conectar o domínio somente na etapa de publicação, após definição do deploy.
+1. Usuário testar loja/painel/BAT e trazer ajustes (docs/ROTEIRO_TESTES.md).
+2. Receber a lista e fotos reais, importar e revisar dados comerciais.
+3. Preparar hospedagem Cloudflare, adapter compatível e migração de armazenamento (D1/R2 ou alternativa definida). Nenhuma configuração hospedada existe ainda.
+4. Definir conteúdo comercial, entrega, políticas e requisitos de produção antes do lançamento.
+5. Pagamento online e integração com Android são futuras decisões, sem implementação atual.
 
-Não alterar DNS ou publicar automaticamente. Não colocar credenciais no repositório.
-
-## 9. Ativos locais e análise da referência — 11/09/2026
-- Usuário forneceu `C:\Pessoal\AleJoias\Site` e autorizou usar suas imagens como exemplos.
-- Inventário de 45 imagens nas pastas Inicio, Coleção, Looks, Natal, Sobre e raiz.
-- Inspeção visual realizada de Inicio/logos.png (diamante coral em círculo e nome preto), Inicio/teste_logo1.jpg (assinatura manuscrita preta Ale Joias), Inicio/8688.jpg (colares em uso) e Inicio/8748.jpg (pulseira em fundo branco).
-- Sugestão, ainda sem escolha final: logo manuscrito no cabeçalho e símbolo de diamante em espaços compactos. Preservar as versões originais.
-- Fotos de produto e uso podem compor o protótipo. Muitas possuem 400–500 pixels; evitar ampliação em banners de largura total.
-- Preços, disponibilidade e contatos do Wix são referências antigas, não dados comerciais aprovados para publicação.
-- Fotografias autorizadas como exemplos não significam confirmação de estoque atual. Identificar dados demonstrativos no protótipo.
-- Detalhes da análise em docs/REFERENCIAS_VISUAIS.md.
-
-## 10. Discussão técnica — 11/09/2026
-Proposta registrada em docs/PROPOSTA_TECNICA.md: Astro + TypeScript, interações com React quando justificadas, possível hospedagem Cloudflare e evolução de catálogo demonstrativo para painel/API/banco. A direção técnica foi posteriormente aprovada; a estrutura inicial foi criada. Próxima definição: rotina de cadastro e atualização dos produtos.
-
-## 11. Decisões vigentes — GitHub e desenvolvimento
-Em 11/09/2026, o usuário aprovou a direção técnica descrita em PROPOSTA_TECNICA.md (Astro + TypeScript, React quando necessário e Cloudflare). Esta aprovação substitui o status anterior de recomendação em discussão. O detalhamento do painel e infraestrutura permanece aberto.
-
-Repositório oficial: https://github.com/rg-carraro/alejoiassite.git. Branch solicitada: master. Pasta permanente: C:\Users\rgcar\git\alejoiassite. Commit e push iniciais autorizados. Domínio alejoias.com confirmado pelo usuário na Cloudflare; nenhum deploy do novo site ou alteração de DNS foi realizado nesta sessão.
-
-## Estado após preparação da estrutura
-- Clone ativo em C:\Users\rgcar\git\alejoiassite; pasta antiga alejoiassite_old mantida para recuperação, sem alterações.
-- Base Astro + TypeScript com páginas, layouts, componentes, estilos, dados e tipos.
-- React será acrescentado quando houver componente interativo que o justifique.
-- Logos e duas fotos de exemplo copiados para o repositório, com origem documentada.
-- Página inicial apenas de verificação da estrutura, com noindex; não é o protótipo visual completo.
-- Sem deploy, alteração de DNS, checkout, painel ou integração com o app.
-- Próximo trabalho: catálogo demonstrativo, detalhes do produto, sacola e fluxo WhatsApp, com revisão visual mobile.
-
-## Protótipo navegável — 11/09/2026
-- Implementados início, catálogo com busca/filtros/ordenação, três páginas de produto, sacola persistente, sobre e atendimento.
-- Categorias e coleções aprovadas disponíveis; categorias sem amostras mostram estado vazio.
-- Fotos de exemplo: anel entrelaçado, pulseira coração e composição de colares. Sem preços ou estoque inventados; valores sob consulta.
-- Usuário confirmou WhatsApp 5519988038395. Link abre mensagem para revisão/envio manual; nenhum pedido foi enviado nos testes.
-- Sacola: quantidade, remoção, persistência no navegador, resumo copiável e link WhatsApp.
-- Implementação usa Astro e TypeScript; não houve necessidade de React nesta etapa.
-- Painel, banco, pagamento online, integração com o aplicativo e deploy permanecem fora desta etapa de protótipo.
-- Testes de navegador aprovados: filtros, estado vazio, detalhes, quantidades, persistência após recarga, remoção, resumo WhatsApp e seis rotas no celular sem rolagem horizontal ou erros JavaScript.
-- WebMCP opcional de leitura da sacola com detecção de suporte; validação em contexto WebMCP real indisponível.
-- Criado iniciar-site.ps1 para configurar Node/pnpm do runtime local na sessão e iniciar o servidor.
-
-## Preços demonstrativos — 11/09/2026
-Usuário solicitou R$ 0,10 nas peças para visualizar valores. Três produtos agora têm priceInCents=10; catálogo, detalhes, sacola e resumo WhatsApp exibem preços demonstrativos. Subtotal calculado em centavos conforme quantidades; preços reais seguem pendentes.
-
-## Skills e gestão de catálogo — 11/09/2026
-Skills locais de manutenção técnica e catálogo salvas em .agents/skills e referenciadas por AGENTS.md. Usuário definiu importação automática de lista, campos editáveis, promoções, disponibilidade, habilitar/desabilitar sem excluir e histórico. Requisitos em docs/CATALOGO_E_ATENDIMENTO.md; painel/banco/importador ainda pendentes. Sacola agora exige nome e telefone para abrir WhatsApp e inclui identificação no resumo, sem armazenar esses dados em cadastro central.
-
-## Painel local e inicializador — atualização vigente
-- Painel /admin concluído: cadastro/edição, fotos, preços e promoções com período, tags, disponibilidade e habilitar/desabilitar.
-- SQLite exclusivo do site em .data; histórico de alterações preservado. Arquivo de senha inicial privado em .data/acesso-admin.txt; troca disponível no painel.
-- Catálogo público lê o banco e oculta desativados. Importação CSV/JSON tem prévia, transação, conciliação por código e preservação padrão dos registros existentes.
-- Sacola registra nome, telefone e snapshot da seleção antes de abrir WhatsApp, com validação de preço/disponibilidade no servidor e prevenção de repetição. Solicitações acessíveis no painel.
-- Script iniciar-dev.bat solicitado pelo usuário permite iniciar o ambiente com dois cliques. iniciar-site.ps1 compartilha o mesmo bootstrap.
-- Runtime local Node + SQLite implementado para testes. Deploy Cloudflare/D1 e checkout seguem pendentes; não há alteração do domínio nem do aplicativo Android.
-- Testes de integração passaram em banco isolado; checagem TypeScript e build de servidor concluídos. Documentação operacional em docs/DESENVOLVIMENTO.md e docs/CATALOGO_E_ATENDIMENTO.md.
-
-## Resumo WhatsApp em tabela
-A pedido do usuário, itens numerados com nome, código e opção são acompanhados de tabela monoespaçada com Item, Qtd, Unit. e Total em reais. Formatação compartilhada entre resumo copiável e mensagem gerada no servidor; nomes não são truncados. Solicitações antigas preservam o snapshot original.
+Documentar resultados e decisões de novos testes; não recriar a base nem tratar recursos concluídos como pendências.

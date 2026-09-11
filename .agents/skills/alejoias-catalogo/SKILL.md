@@ -1,6 +1,6 @@
 ---
 name: alejoias-catalogo
-description: Preparar importações de listas de produtos AleJoias, escrever descrições fiéis, manter preços, promoções e disponibilidade editáveis e planejar histórico sem apagar produtos.
+description: Preparar importações de listas de produtos AleJoias, escrever descrições fiéis, manter preços, promoções e disponibilidade editáveis e preservar histórico sem apagar produtos.
 ---
 # Gestão do catálogo AleJoias
 
@@ -19,8 +19,15 @@ Leia docs/CATALOGO_E_ATENDIMENTO.md e a implementação atual. Não alegar que h
 - Habilitado/publicado e disponível para venda são conceitos separados. Desativar oculta do catálogo público sem excluir o cadastro.
 - Histórico deve registrar antes/depois, data, origem e responsável quando identificado. Inclua reativação e importações. Git do código não substitui histórico operacional do catálogo.
 - Produtos em pedidos antigos usam cópia dos dados no momento do pedido; alterações futuras não reescrevem o passado.
-- Produto desativado ou indisponível não pode permanecer comprável por uma sacola antiga. Revalidar no servidor quando houver backend.
+- Produto desativado ou indisponível não pode permanecer comprável por uma sacola antiga. Preservar a revalidação já implementada no servidor.
 
 Antes de concluir uma importação implementada, reporte novos/atualizados/ignorados/pendentes e valide duplicidades, valores e exposição de produtos inativos. Não publicar dados comerciais antigos ou fictícios como reais.
 
 Implementação atual: painel autenticado e importador CSV/JSON em src/server/importer.ts, SQLite em src/server/store.ts. Origem e política de campos documentadas em docs/CATALOGO_E_ATENDIMENTO.md. Não editar seeds para alterar produtos já existentes no banco.
+
+## Operação atual
+- Importação aceita CSV/JSON até 500 produtos e 1 MB, com prévia obrigatória e aplicação transacional. XLSX não é formato nativo do painel; converter de maneira revisável quando recebido.
+- Novos importados são desativados por padrão. Campos vazios não apagam valores; limpar campos pelo editor. Metadados de histórico/revisão do banco não devem ser sobrescritos por arquivo.
+- Upload aceita JPEG/PNG/WebP até 5 MB. Não associar foto a produto por mera semelhança sem evidência de código ou confirmação.
+- Texto sugerido no painel é rascunho determinístico; não descrevê-lo como IA integrada. Codex pode redigir versões melhores com os dados fornecidos.
+- Solicitações de atendimento preservam nome/telefone e snapshot dos itens; não são pagamentos. A tabela WhatsApp é compartilhada com o resumo copiável e deve conservar a identificação de cada peça.

@@ -25,3 +25,6 @@ Dados destinam-se a retorno sobre a solicitação, sem marketing automático. Co
 
 ## Ainda pendente
 Lista real de produtos do usuário; publicação e banco hospedado na Cloudflare; integração futura com pagamento e aplicativo. O ambiente atual é local Node/SQLite. Não há checkout financeiro.
+
+## Formatação do WhatsApp
+Resumo copiável e mensagem do servidor compartilham src/data/order-message.ts. Nomes/códigos/opções completos ficam numerados acima de tabela monoespaçada Item/Qtd/Unit./Total (em R$); isso evita truncar nomes longos. Subtotal continua fora da tabela. Solicitações anteriores mantêm a mensagem histórica original. O alinhamento no WhatsApp real será avaliado nos testes do usuário.
