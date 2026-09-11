@@ -14,7 +14,10 @@ export function formatOrderTable(items: OrderTableItem[]): string {
   const clean = (value: string) => value.normalize('NFC').replace(/[\r\n\t`|]/g, ' ').trim();
   const rows = items.map(item => {
     const quantity = item.quantity > 1 ? `${item.quantity}x ` : '';
-    const variant = item.variant && item.variant !== 'Única' ? ` (${clean(item.variant)})` : '';
+    const option = clean(item.variant);
+    const normalizedOption = option.toLocaleLowerCase('pt-BR');
+    const isPlaceholder = normalizedOption === 'única' || normalizedOption.includes('a confirmar');
+    const variant = option && !isPlaceholder ? ` (${option})` : '';
     return [quantity + clean(item.name) + variant, money(item.quantity * item.priceInCents)];
   });
   const valueWidth = Math.max(5, ...rows.map(row => row[1].length));
