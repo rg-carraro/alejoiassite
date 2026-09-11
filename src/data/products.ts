@@ -1,0 +1,6 @@
+export const products = [
+ {id:'DEMO-01',slug:'anel-entrelacado',name:'Anel entrelaçado',category:'aneis',image:'/images/products/anel-exemplo.jpg',alt:'Anel de aparência dourada com aros entrelaçados e detalhes brilhantes',description:'Linhas que se encontram em uma composição marcante. Uma referência para quem gosta de destacar as mãos.',collections:['novidades','presentes'],variants:['Tamanho a confirmar']},
+ {id:'DEMO-02',slug:'pulseira-coracao',name:'Pulseira coração',category:'pulseiras',image:'/images/products/pulseira-exemplo.jpg',alt:'Pulseira de aparência prateada com elos e pingente de coração',description:'Elos e um coração cheio de detalhes. Uma peça de inspiração delicada para acompanhar diferentes momentos.',collections:['presentes'],variants:['Medida a confirmar']},
+ {id:'DEMO-03',slug:'colares-em-camadas',name:'Colares em camadas',category:'colares',image:'/images/products/colares-exemplo.jpg',alt:'Referência de colares em diferentes comprimentos usados juntos',description:'Uma inspiração de composição em camadas. Consulte quais peças fazem parte da seleção e podem ser pedidas individualmente.',collections:['novidades'],variants:['Composição a confirmar']},
+];
+export const whatsapp = '5519988038395';

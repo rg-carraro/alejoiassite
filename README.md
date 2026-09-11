@@ -8,7 +8,7 @@ Novo site oficial da AleJoias para catálogo de joias, sacola e pedidos pelo Wha
 - Branch inicial: `master`.
 - Direção técnica aprovada: Astro + TypeScript, React onde necessário e Cloudflare como plataforma de hospedagem.
 - Domínio: `alejoias.com`, já administrado na Cloudflare segundo o usuário. Deploy do novo site ainda não configurado.
-- Estado: estrutura inicial Astro + TypeScript criada; protótipo completo em próxima etapa.
+- Estado: protótipo navegável com catálogo, detalhes, sacola e resumo WhatsApp implementado; dados demonstrativos.
 
 ## Documentação
 - [Contexto atual](docs/PROJECT_CONTEXT.md)

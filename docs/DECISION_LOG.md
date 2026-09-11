@@ -53,3 +53,10 @@
 - Copiados dois logos e duas fotos locais autorizadas para que as referências acompanhem o clone.
 - React adiado até haver necessidade de interação. Nenhum deploy realizado.
 - Validação da estrutura: astro check sem erros ou avisos; astro build concluído. Revisão visual do protótipo completo permanece para a próxima etapa.
+
+## 11/09/2026 — Protótipo completo de navegação e pedido
+- Usuário pediu substituir a página provisória pelo fluxo discutido e confirmou WhatsApp (19) 98803-8395.
+- Implementadas oito rotas com identidade visual, três referências de produtos, filtros e sacola persistente.
+- Valores sob consulta até fornecimento do catálogo real; envio pelo WhatsApp depende de ação manual da cliente.
+- Testes funcionais em Edge e revisão de captura desktop realizados; layout mobile sem overflow nas rotas verificadas.
+- Checkout, administração e publicação continuam como etapas futuras.

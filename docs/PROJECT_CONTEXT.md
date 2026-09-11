@@ -1,7 +1,7 @@
 # PROJECT_CONTEXT.md — Novo Site AleJoias
 
 **Atualizado em:** 11/09/2026
-**Status:** estrutura inicial Astro criada; protótipo visual completo ainda pendente
+**Status:** protótipo navegável implementado e validado; dados reais e publicação pendentes
 
 ## 1. Visão
 Criar o novo site oficial da AleJoias: moderno, elegante, intuitivo e com excelente experiência no celular. A primeira versão será um catálogo com seleção de produtos, sacola e envio do pedido pelo WhatsApp. Pagamento diretamente no site é uma evolução futura.
@@ -97,3 +97,15 @@ Repositório oficial: https://github.com/rg-carraro/alejoiassite.git. Branch sol
 - Página inicial apenas de verificação da estrutura, com noindex; não é o protótipo visual completo.
 - Sem deploy, alteração de DNS, checkout, painel ou integração com o app.
 - Próximo trabalho: catálogo demonstrativo, detalhes do produto, sacola e fluxo WhatsApp, com revisão visual mobile.
+
+## Protótipo navegável — 11/09/2026
+- Implementados início, catálogo com busca/filtros/ordenação, três páginas de produto, sacola persistente, sobre e atendimento.
+- Categorias e coleções aprovadas disponíveis; categorias sem amostras mostram estado vazio.
+- Fotos de exemplo: anel entrelaçado, pulseira coração e composição de colares. Sem preços ou estoque inventados; valores sob consulta.
+- Usuário confirmou WhatsApp 5519988038395. Link abre mensagem para revisão/envio manual; nenhum pedido foi enviado nos testes.
+- Sacola: quantidade, remoção, persistência no navegador, resumo copiável e link WhatsApp.
+- Implementação usa Astro e TypeScript; não houve necessidade de React nesta etapa.
+- Painel, banco, pagamento online, integração com o aplicativo e deploy permanecem fora desta etapa de protótipo.
+- Testes de navegador aprovados: filtros, estado vazio, detalhes, quantidades, persistência após recarga, remoção, resumo WhatsApp e seis rotas no celular sem rolagem horizontal ou erros JavaScript.
+- WebMCP opcional de leitura da sacola com detecção de suporte; validação em contexto WebMCP real indisponível.
+- Criado iniciar-site.ps1 para configurar Node/pnpm do runtime local na sessão e iniciar o servidor.

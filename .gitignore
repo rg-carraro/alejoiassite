@@ -9,3 +9,5 @@ dist/
 *.log
 # Captura bruta de consulta; análise útil está em docs/REFERENCIAS_VISUAIS.md.
 docs/wix-reference.html
+qa-*.png
+qa-browser.cjs

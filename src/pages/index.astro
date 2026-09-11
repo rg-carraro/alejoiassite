@@ -1,14 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CategoryList from '../components/CategoryList.astro';
+import ProductCard from '../components/ProductCard.astro';
+import {products} from '../data/products';
+import {categories} from '../data/categories';
 ---
-<BaseLayout title="AleJoias | Protótipo em desenvolvimento">
-  <main>
-    <img class="brand" src="/images/brand/alejoias.jpg" alt="Ale Joias" width="1000" height="500" />
-    <p class="eyebrow">PRÉVIA LOCAL</p>
-    <h1>O novo catálogo AleJoias começa aqui.</h1>
-    <p>Estamos preparando uma nova forma de descobrir suas peças favoritas.</p>
-    <CategoryList />
-    <p class="notice">Estrutura inicial de desenvolvimento. Catálogo e pedidos ainda não disponíveis.</p>
-  </main>
+<BaseLayout title="Pequenos detalhes, sua essência">
+<section class="hero"><div class="hero-copy"><p class="eyebrow">O SEU JEITO DE BRILHAR</p><h1>Pequenos detalhes.<br/><em>Muito de você.</em></h1><p>Encontre peças para compor seu estilo, celebrar momentos e presentear com carinho.</p><a class="button" href="/catalogo">Explore a coleção <span>↗</span></a><a class="text-link" href="/catalogo?colecao=presentes">Um carinho em forma de presente →</a></div><div class="hero-picture"><img src="/images/products/colares-exemplo.jpg" alt="Inspiração de colares em camadas" width="400" height="602" fetchpriority="high"/><span>Inspiração para o seu dia a dia</span></div><div class="hero-side">ALEJOIAS · ESCOLHAS COM PERSONALIDADE</div></section>
+<section class="category-strip" aria-label="Categorias">{categories.map(c=><a href={'/catalogo?categoria='+c.slug}>{c.name}<span>↗</span></a>)}</section>
+<section class="section"><div class="section-heading"><div><p class="eyebrow">DESCUBRA A COLEÇÃO</p><h2>Seu próximo detalhe favorito</h2></div><a href="/catalogo" class="text-link">Ver todas as peças →</a></div><div class="product-grid">{products.map(p=><ProductCard product={p}/>)}</div></section>
+<section class="gift-section"><div class="gift-image"><img src="/images/products/pulseira-exemplo.jpg" alt="Pulseira com pingente de coração" width="500" height="500" loading="lazy"/></div><div><p class="eyebrow">PARA ALGUÉM ESPECIAL. INCLUSIVE VOCÊ.</p><h2>Tem carinho<br/>nos detalhes.</h2><p>Uma seleção para transformar pequenos gestos em boas lembranças. Escolha suas favoritas e fale com a gente para encontrar o presente.</p><a class="button" href="/catalogo?colecao=presentes">Encontre um presente ↗</a></div></section>
+<section class="how section"><p class="eyebrow">ESCOLHER É SIMPLES</p><h2>Da sua seleção à nossa conversa</h2><div class="steps"><div><span>01</span><h3>Encontre suas peças</h3><p>Explore categorias e veja cada detalhe.</p></div><div><span>02</span><h3>Monte sua sacola</h3><p>Reúna as favoritas e ajuste as quantidades.</p></div><div><span>03</span><h3>Converse pelo WhatsApp</h3><p>Envie a seleção para confirmar valores, disponibilidade e entrega.</p></div></div></section>
 </BaseLayout>
