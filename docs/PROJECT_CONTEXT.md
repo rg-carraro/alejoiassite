@@ -83,3 +83,9 @@ Mensagem WhatsApp: opções provisórias contendo 'a confirmar' (como Composiç�
 - Novas solicitações preservam o caminho da imagem junto aos itens. Manter os arquivos originais: trocar foto no painel cria outro arquivo. O PDF não é arquivado como arquivo separado, e fotos removidas fisicamente deixam de aparecer.
 - Editar a sacola ou os dados invalida o arquivo preparado. Se a geração falhar, registro permanece e pode ser reutilizado por idempotência; conversa continua disponível.
 - Ainda depende de Node local. A migração futura para Cloudflare deverá considerar também a geração de PDF e conversão de imagens.
+
+## 11/09/2026 — WhatsApp somente com link
+Decisão vigente: novas mensagens do WhatsApp contêm somente o link individual do PDF, sem tabela, nome, telefone ou subtotal no texto. Esses dados permanecem no documento e no registro interno. Mensagens já registradas são preservadas.
+A rota /pedido/pdf recebe ID e token no fragmento (#) do link, que não é enviado na requisição da página; o navegador consulta o PDF por POST. Quem possui o link completo pode baixar o documento, sem login administrativo. Página sem indexação e sem envio de referência; não adicionar analytics nela.
+A URL usa a origem real do site que registrou a solicitação. Links localhost funcionam somente no computador do servidor; links de rede local exigem acesso à mesma rede/servidor. Para compartilhar pela internet, publicar o site e criar a solicitação no endereço público. Não substituir localhost pelo domínio antes de existir hospedagem com acesso ao mesmo banco.
+Sacola exibe o link no resumo após preparar e permite copiá-lo. Download e compartilhamento do arquivo continuam opcionais.

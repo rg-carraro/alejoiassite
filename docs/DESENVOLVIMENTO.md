@@ -48,3 +48,6 @@ Geração em src/server/order-pdf.ts, API POST /api/request-pdf, integração em
 A API exige sessão admin ou token retornado na criação da solicitação; respostas no-store. Fotos são lidas exclusivamente das pastas public/images e .data/uploads, sem acesso remoto. Manter cwd na raiz do projeto.
 Testes: node tests/admin-integration.cjs, node tests/order-pdf.cjs e node tests/share-pdf.cjs, com servidor isolado em 127.0.0.1:4322 e ALEJOIAS_DATA_DIR=.data/qa-admin. Compartilhamento é simulado; nenhum envio real. PDF de teste e capturas ficam no banco de QA ignorado pelo Git.
 Compartilhamento exige suporte do navegador e gesto da pessoa, conforme [Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share). Download e abertura da conversa continuam disponíveis como alternativa.
+
+### Link compartilhável
+/pedido/pdf usa ID/token no fragmento e solicita o arquivo por POST /api/request-pdf. A origem é a URL da solicitação, não o domínio configurado em astro.config.mjs; manter compatível com ambiente local e futura hospedagem. Link confere acesso a quem o possui; não registrar fragmento/token em telemetria. Dados e textos antigos permanecem intactos no SQLite.

@@ -98,3 +98,6 @@ Mensagem WhatsApp: opções provisórias contendo 'a confirmar' (como Composiç�
 
 ## 11/09/2026 — PDF para separar as peças
 Usuário aprovou PDF anexo como alternativa à foto dentro da tabela textual do WhatsApp. Implementados documento com fotos e dados da seleção, download administrativo e fluxo de preparo/compartilhamento na sacola. Não existe anexo automático via link wa.me; cliente escolhe destino no compartilhamento nativo ou anexa o arquivo baixado. Registro continua independente do envio. Check/build e testes de integração passaram; revisão visual incluiu documento de três páginas.
+
+## 11/09/2026 — Link no lugar da tabela
+A pedido do usuário, novas mensagens passam a conter apenas o link para obter o PDF. Criada página de download para o destinatário, com token privado no fragmento e consulta POST, preservando a proteção da API. Não houve publicação: acesso remoto aos links depende de hospedagem acessível. Testes cobrem mensagem exata, prévia, abertura sem login, download e link inválido.

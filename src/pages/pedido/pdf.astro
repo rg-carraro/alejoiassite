@@ -1,0 +1,33 @@
+---
+Astro.response.headers.set('Cache-Control','no-store');
+Astro.response.headers.set('Referrer-Policy','no-referrer');
+Astro.response.headers.set('X-Robots-Tag','noindex, nofollow, noarchive');
+---
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="referrer" content="no-referrer"/><meta name="robots" content="noindex,nofollow"/><title>PDF da seleção | AleJoias</title></head>
+<body><main><h1>AleJoias</h1><h2>Sua seleção em PDF</h2><p id="pdf-status" role="status">Preparando o documento…</p><a id="pdf-download" hidden>Baixar PDF com fotos</a><button id="pdf-retry" hidden>Tentar novamente</button><p>O documento contém os dados e as peças da solicitação. Compartilhe este link apenas com quem deve ter acesso.</p></main></body></html>
+<style>body{margin:0;background:#faf8f4;color:#302b28;font:16px/1.6 system-ui}main{max-width:540px;margin:10vh auto;padding:24px}h1{font-size:36px}a,button{display:inline-block;background:#354237;color:white;padding:14px 22px;border:0;font:inherit;border-radius:4px;cursor:pointer;text-decoration:none}[hidden]{display:none}</style>
+<script>
+const status=document.querySelector<HTMLElement>('#pdf-status')!;
+const download=document.querySelector<HTMLAnchorElement>('#pdf-download')!;
+const retry=document.querySelector<HTMLButtonElement>('#pdf-retry')!;
+
+let objectUrl='';
+async function prepare(){
+ const fragment=location.hash;const [id,token]=fragment.slice(1).split('/');
+ download.hidden=true;if(objectUrl){URL.revokeObjectURL(objectUrl);objectUrl='';}
+ retry.hidden=true;
+ if(!/^[a-f0-9-]{36}$/.test(id||'')||!/^[a-f0-9]{64}$/.test(token||'')){status.textContent='Link incompleto ou inválido. Peça o link completo à pessoa que enviou a seleção.';return;}
+ status.textContent='Preparando o documento…';
+ try{
+  const response=await fetch('/api/request-pdf',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,token})});
+  if(!response.ok)throw Error('Não foi possível abrir o PDF. Confira o link ou tente novamente.');
+  const blob=await response.blob();if(location.hash!==fragment)return;objectUrl=URL.createObjectURL(blob);download.href=objectUrl;download.download='alejoias-'+id+'.pdf';download.hidden=false;
+  status.textContent='PDF pronto para baixar.';
+ }catch(error){status.textContent=(error as Error).message;retry.hidden=false;}
+}
+retry.addEventListener('click',prepare);
+window.addEventListener('hashchange',prepare);
+window.addEventListener('pagehide',()=>{if(objectUrl)URL.revokeObjectURL(objectUrl);});
+void prepare();
+</script>

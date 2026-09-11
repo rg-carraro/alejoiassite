@@ -41,3 +41,6 @@ Usuário solicitou alinhar as barras verticais como bordas. Mantidas duas coluna
 3. Também é possível usar **Baixar PDF com fotos**, abrir a conversa e anexar o arquivo como Documento.
 4. No painel, abra uma solicitação e use **Baixar PDF com fotos** para separar as peças.
 Alterar dados ou itens exige preparar novamente. A solicitação fica registrada mesmo que o compartilhamento seja cancelado.
+
+### Atualização: envio por link
+Após preparar, “Abrir conversa no WhatsApp” agora envia somente o link do PDF; “Copiar link do PDF” copia esse mesmo endereço. Não é necessário anexar o arquivo quando o site estiver publicado e acessível. Durante testes localhost, o destinatário em outro aparelho não consegue abrir o servidor do seu computador por esse endereço; use o arquivo baixado como alternativa.

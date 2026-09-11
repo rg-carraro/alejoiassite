@@ -49,3 +49,6 @@ Confira menu, categorias, fotos, campos e sacola com a tela estreita e ao girar 
 - Alterar quantidade, remover peça ou editar nome após preparar: botões do PDF anterior devem desaparecer.
 - Cancelar compartilhamento: registro permanece, mas não significa envio.
 - Validação automatizada: integração do painel/sacola, token privado, documento multipágina, compartilhamento simulado e falha de geração. Revisão visual em três páginas e sacola 360px; teste no WhatsApp real cabe ao usuário.
+
+### Link do PDF
+Conferir que WhatsApp, prévia e cópia contêm o mesmo link, sem tabela. Abrir o link em navegador sem login e baixar o PDF. Link incompleto deve mostrar erro legível. O teste tests/share-pdf.cjs cobre esse fluxo sem enviar mensagens reais. Para teste pelo WhatsApp fora do ambiente local é necessária hospedagem acessível.

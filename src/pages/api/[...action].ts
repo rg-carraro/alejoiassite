@@ -29,7 +29,7 @@ export const ALL:APIRoute=async({request,params,cookies,url})=>{
  if(Number(request.headers.get('content-length'))>1500000)throw Error('Conteúdo muito grande.');
  const text=await request.text();if(text.length>1500000)throw Error('Conteúdo muito grande.');const data=JSON.parse(text||'{}');
  if(action==='login'){rateLimit('login',15,15*60000);const session=login(data.password);cookies.set('alejoias_admin',session,{path:'/',httpOnly:true,sameSite:'strict',secure:url.protocol==='https:',maxAge:8*3600});return json({ok:true});}
- if(action==='request'){rateLimit('requests',100,60000);return json(createRequest(data));}
+ if(action==='request'){rateLimit('requests',100,60000);return json(createRequest(data,url.origin));}
  if(action==='request-pdf'){
   rateLimit('request-pdf',60,60000);
   const order=requestForPdf(data.id,data.token,authorized(token));

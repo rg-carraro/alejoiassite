@@ -1,4 +1,4 @@
-import {formatOrderTable} from '../data/order-message';
+
 import {formatPrice,type CatalogProduct} from '../data/catalog';
 const products:CatalogProduct[]=await fetch('/api/catalog').then(r=>{if(!r.ok)throw Error('Catálogo indisponível');return r.json();});
 type Item = {id:string; variant:string; quantity:number};
@@ -31,12 +31,12 @@ if(filter){
  filter.addEventListener('input',apply);filter.addEventListener('submit',e=>{e.preventDefault();apply();});filter.addEventListener('reset',()=>setTimeout(apply,0));$('#clear-filters')?.addEventListener('click',()=>filter.reset());apply();
 }
 function subtotal(){return bag.reduce((sum,i)=>sum+products.find(p=>p.id===i.id)!.priceInCents*i.quantity,0);}
-function message(){const note=$<HTMLTextAreaElement>('#order-note')?.value.trim();return ['Olá, AleJoias! Esta é minha seleção.','Nome: '+($<HTMLInputElement>('#customer-name')?.value.trim()||'não informado'),'Telefone: '+($<HTMLInputElement>('#customer-phone')?.value.trim()||'não informado'),formatOrderTable(bag.map(i=>{const p=products.find(p=>p.id===i.id)!;return {...i,name:p.name,priceInCents:p.priceInCents};})),'Subtotal: '+formatPrice(subtotal())+'. Entrega a confirmar.',...(note?['Observação: '+note]:[])].join('\n');}
+function message(){return prepared?.message||'Prepare o pedido para gerar o link do PDF.';}
 function updateMessage(){invalidatePdf();const subtotalEl=$("#cart-subtotal");if(subtotalEl)subtotalEl.textContent=formatPrice(subtotal());const text=message();const preview=$<HTMLTextAreaElement>('#order-preview');if(preview)preview.value=text;}
 function renderCart(){const list=$('#cart-items');if(!list)return;list.replaceChildren();const empty=$('#cart-empty'),content=$('#cart-content');if(empty)empty.hidden=bag.length>0;if(content)content.hidden=bag.length===0;
  bag.forEach((item,index)=>{const p=products.find(p=>p.id===item.id)!;const row=document.createElement('article');row.className='cart-row';const img=document.createElement('img');img.src=p.image;img.alt=p.alt;const body=document.createElement('div');const title=document.createElement('h2');const link=document.createElement('a');link.href='/produto/'+p.slug;link.textContent=p.name;title.append(link);const detail=document.createElement('p');detail.textContent=item.variant+' · '+formatPrice(p.priceInCents)+' por unidade';const label=document.createElement('label');label.textContent='Quantidade';const input=document.createElement('input');input.type='number';input.min='1';input.max='99';input.step='1';input.value=String(item.quantity);input.setAttribute('aria-label','Quantidade de '+p.name);input.addEventListener('change',()=>{if(!input.reportValidity()){input.value=String(item.quantity);return;}bag[index].quantity=Number(input.value);save();updateMessage();const total=$('#cart-total');if(total)total.textContent=bag.reduce((s,i)=>s+i.quantity,0)+' peça(s) selecionada(s)';});label.append(input);const remove=document.createElement('button');remove.textContent='Remover';remove.setAttribute('aria-label','Remover '+p.name);remove.addEventListener('click',()=>{bag.splice(index,1);save();renderCart();toast('Peça removida da sacola.');});body.append(title,detail,label,remove);row.append(img,body);list.append(row);});const total=$('#cart-total');if(total)total.textContent=bag.reduce((s,i)=>s+i.quantity,0)+' peça(s) selecionada(s)';updateMessage();}
 renderCart();$('#order-note')?.addEventListener('input',updateMessage);
-$('#copy-order')?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(message());toast('Resumo copiado.');}catch{const preview=$<HTMLTextAreaElement>('#order-preview');preview?.closest('details')?.setAttribute('open','');preview?.focus();preview?.select();toast('Selecione e copie o resumo exibido.');}});
+$('#copy-order')?.addEventListener('click',async()=>{try{if(!prepared){toast('Prepare o pedido primeiro para gerar o link.');return;}await navigator.clipboard.writeText(message());toast('Link copiado.');}catch{const preview=$<HTMLTextAreaElement>('#order-preview');preview?.closest('details')?.setAttribute('open','');preview?.focus();preview?.select();toast('Selecione e copie o resumo exibido.');}});
 window.addEventListener('storage',event=>{if(event.key===key){read();badge();renderCart();}});
 
 // Integração opcional: leitura da seleção, sem enviar mensagens ou confirmar pedidos.
@@ -74,6 +74,7 @@ $('#whatsapp-order')?.addEventListener('click',async event=>{
  const response=await fetch('/api/request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...values,key:requestKey})});const result=await response.json();if(!response.ok)throw Error(result.error||'Não foi possível registrar.');
  if(serialized!==JSON.stringify(payload()))throw Error('A seleção mudou. Prepare o PDF novamente.');
  prepared={message:result.message,whatsappUrl:result.whatsappUrl,payload:serialized};
+ const preview=$<HTMLTextAreaElement>('#order-preview');if(preview)preview.value=result.message;
  const controls=$('#prepared-order')!,download=$<HTMLAnchorElement>('#download-order-pdf')!,share=$<HTMLButtonElement>('#share-order-pdf')!;
  controls.hidden=false;download.hidden=true;share.hidden=true;
  $<HTMLAnchorElement>('#open-order-whatsapp')!.href=result.whatsappUrl;
@@ -85,7 +86,7 @@ $('#whatsapp-order')?.addEventListener('click',async event=>{
  prepared.file=file;prepared.url=URL.createObjectURL(file);
  download.href=prepared.url;download.download=file.name;download.hidden=false;
  share.hidden=!(navigator.canShare?.({files:[file]}));
- if(feedback)feedback.textContent='PDF pronto! Compartilhe o arquivo ou baixe e anexe na conversa do WhatsApp.';
+ if(feedback)feedback.textContent='PDF pronto! Abra o WhatsApp para enviar o link. Você também pode baixar o arquivo.';
  }catch(error){if(feedback)feedback.textContent=(error as Error).message;}finally{button.disabled=false;}
 });
 $('#share-order-pdf')?.addEventListener('click',async()=>{
