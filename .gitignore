@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.sites-runtime/
+.wrangler/
+*.log
+# Captura bruta de consulta; análise útil está em docs/REFERENCIAS_VISUAIS.md.
+docs/wix-reference.html
