@@ -41,3 +41,4 @@ fieldset { min-width: 0; }
   .product-grid { gap: 20px 12px; }
   .section { padding-inline: 16px; }
 }
+#order-preview{font-family:ui-monospace,Consolas,monospace;white-space:pre;overflow-x:auto}
