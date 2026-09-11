@@ -1,10 +1,12 @@
 ---
-import {products,formatPrice} from '../data/products';
-interface Props { product: (typeof products)[number] }
+import type {CatalogProduct} from '../data/catalog';
+import {formatPrice,effectivePrice} from '../data/catalog';
+interface Props {product:CatalogProduct}
 const {product:p}=Astro.props;
+const price=effectivePrice(p);
+const onSale=price < p.priceInCents;
 ---
 <article class="product-card" data-product-card data-category={p.category} data-collections={p.collections.join(' ')} data-name={p.name}>
-<a class="product-photo" href={'/produto/'+p.slug}><img src={p.image} alt={p.alt} width="500" height="500" loading="lazy"/><span class="photo-label">Peça de exemplo</span></a>
-<div class="product-info"><div><a href={'/produto/'+p.slug}><h3>{p.name}</h3></a><p>{formatPrice(p.priceInCents)}</p></div><button class="add-small" data-add={p.id} data-variant={p.variants[0]} aria-label={'Adicionar '+p.name+' à sacola'}>+</button></div>
+<a class="product-photo" href={'/produto/'+p.slug}>{p.image?<img src={p.image} alt={p.alt||p.name} width="500" height="500" loading="lazy"/>:<span class="missing-image">Imagem em breve</span>}<span class="photo-label">{!p.available?'Indisponível':onSale?'Promoção':p.demo?'Peça de exemplo':''}</span></a>
+<div class="product-info"><div><a href={'/produto/'+p.slug}><h3>{p.name}</h3></a><p>{onSale&&<del>{formatPrice(p.priceInCents)} </del>}<strong>{formatPrice(price)}</strong></p><div class="product-tags">{p.tags.map(tag=><span>{tag}</span>)}</div></div><button disabled={!p.available} class="add-small" data-add={p.id} data-variant={p.variants[0]} aria-label={'Adicionar '+p.name+' à sacola'}>+</button></div>
 </article>
-

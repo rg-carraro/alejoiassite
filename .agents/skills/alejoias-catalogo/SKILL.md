@@ -13,12 +13,14 @@ Leia docs/CATALOGO_E_ATENDIMENTO.md e a implementação atual. Não alegar que h
 - Converta valores brasileiros em centavos; diferencie preço ausente de zero. Não substituir preços reais por R$ 0,10: esse valor foi autorizado apenas para as amostras iniciais.
 - Escreva em português claro e elegante, com informação útil sobre a peça. Não inventar material, banho, pedra, medidas, origem, garantia ou qualidades hipoalergênicas a partir de foto. Sinalize dados faltantes.
 - Sugira preços quando solicitado, usando custo, margem e regras fornecidos; não aplicar sugestão comercial como preço confirmado sem autorização.
-- Promoções precisam de preço anterior verdadeiro, preço promocional e período quando aplicável. Não fabricar desconto, escassez ou selo promocional. Descrição, preços, tags e disponibilidade devem ser editáveis no painel futuro.
+- Promoções precisam de preço anterior verdadeiro, preço promocional e período quando aplicável. Não fabricar desconto, escassez ou selo promocional. Descrição, preços, tags e disponibilidade devem ser editáveis no painel.
 
 ## Preservar histórico
 - Habilitado/publicado e disponível para venda são conceitos separados. Desativar oculta do catálogo público sem excluir o cadastro.
-- Histórico futuro deve registrar antes/depois, data, origem e responsável quando identificado. Inclua reativação e importações. Git do código não substitui histórico operacional do catálogo.
+- Histórico deve registrar antes/depois, data, origem e responsável quando identificado. Inclua reativação e importações. Git do código não substitui histórico operacional do catálogo.
 - Produtos em pedidos antigos usam cópia dos dados no momento do pedido; alterações futuras não reescrevem o passado.
 - Produto desativado ou indisponível não pode permanecer comprável por uma sacola antiga. Revalidar no servidor quando houver backend.
 
 Antes de concluir uma importação implementada, reporte novos/atualizados/ignorados/pendentes e valide duplicidades, valores e exposição de produtos inativos. Não publicar dados comerciais antigos ou fictícios como reais.
+
+Implementação atual: painel autenticado e importador CSV/JSON em src/server/importer.ts, SQLite em src/server/store.ts. Origem e política de campos documentadas em docs/CATALOGO_E_ATENDIMENTO.md. Não editar seeds para alterar produtos já existentes no banco.

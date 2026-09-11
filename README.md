@@ -22,3 +22,6 @@ O aplicativo AleJoias Vendas SQLite Sync v2 é um projeto separado e deve perman
 Consultar [estrutura e comandos](docs/DESENVOLVIMENTO.md).
 
 A pasta anterior alejoiassite_old é apenas uma cópia de recuperação; desenvolver sempre no clone alejoiassite.
+
+## Painel e execução local
+Inicie com dois cliques em iniciar-dev.bat. Painel em /admin; senha inicial em .data/acesso-admin.txt. Cadastro, importação CSV/JSON, histórico e solicitações usam SQLite local. Consulte docs/DESENVOLVIMENTO.md para dados e cópias de segurança. Deploy Cloudflare segue pendente.

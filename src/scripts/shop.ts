@@ -1,9 +1,10 @@
-import { products, whatsapp, formatPrice } from '../data/products';
+import {formatPrice,type CatalogProduct} from '../data/catalog';
+const products:CatalogProduct[]=await fetch('/api/catalog').then(r=>{if(!r.ok)throw Error('Catálogo indisponível');return r.json();});
 type Item = {id:string; variant:string; quantity:number};
 const key='alejoias-bag-v1';
 const $ = <T extends HTMLElement>(selector:string) => document.querySelector<T>(selector);
 let bag:Item[]=[];
-function read(){try{const raw=JSON.parse(localStorage.getItem(key)||'[]');bag=Array.isArray(raw)?raw.filter((i:Item)=>products.some(p=>p.id===i.id&&p.variants.includes(i.variant))&&Number.isInteger(i.quantity)&&i.quantity>0&&i.quantity<=99).slice(0,50):[];}catch{bag=[];}}
+function read(){try{const raw=JSON.parse(localStorage.getItem(key)||'[]');bag=Array.isArray(raw)?raw.filter((i:Item)=>products.some(p=>p.id===i.id&&p.available&&p.variants.includes(i.variant))&&Number.isInteger(i.quantity)&&i.quantity>0&&i.quantity<=99).slice(0,50):[];}catch{bag=[];}}
 read();
 let timer:ReturnType<typeof setTimeout>;
 function toast(message:string){const el=$('#toast');if(!el)return;el.textContent=message;el.classList.add('visible');clearTimeout(timer);timer=setTimeout(()=>el.classList.remove('visible'),3500);}
@@ -11,7 +12,7 @@ function badge(){document.querySelectorAll('[data-bag-count]').forEach(el=>el.te
 function save(){try{localStorage.setItem(key,JSON.stringify(bag));}catch{toast('Seu navegador não permitiu salvar a sacola. Mantenha esta página aberta.');}badge();}
 badge();
 document.querySelectorAll<HTMLButtonElement>('[data-add]').forEach(button=>button.addEventListener('click',()=>{
- const p=products.find(p=>p.id===button.dataset.add);if(!p)return;
+ const p=products.find(p=>p.id===button.dataset.add);if(!p||!p.available)return;
  const input=$<HTMLInputElement>('#product-quantity');
  if(button.hasAttribute('data-detail')&&input&&!input.reportValidity())return;
  const quantity=button.hasAttribute('data-detail')?Number(input?.value||1):1;
@@ -25,12 +26,12 @@ if(filter){
  const params=new URLSearchParams(location.search);
  ['busca','categoria','colecao','ordem'].forEach(name=>{const el=filter.elements.namedItem(name) as HTMLInputElement|HTMLSelectElement;el.value=params.get(name)||'';});
  const normalize=(s:string)=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
- function apply(){if(!filter)return;const data=new FormData(filter);const query=normalize(String(data.get('busca')||'')).trim();let count=0;const cards=Array.from(document.querySelectorAll<HTMLElement>('[data-product-card]'));if(data.get('ordem')==='nome')cards.sort((a,b)=>(a.dataset.name||'').localeCompare(b.dataset.name||'','pt-BR'));else cards.sort((a,b)=>products.findIndex(p=>p.name===a.dataset.name)-products.findIndex(p=>p.name===b.dataset.name));cards.forEach(card=>{const visible=normalize(card.dataset.name||'').includes(query)&&(!data.get('categoria')||card.dataset.category===data.get('categoria'))&&(!data.get('colecao')||(card.dataset.collections||'').split(' ').includes(String(data.get('colecao'))));card.hidden=!visible;if(visible)count++;$('#catalog-grid')?.append(card);});const result=$('#result-count');if(result)result.textContent=count+' peça(s) de exemplo';const empty=$('#no-results');if(empty)empty.hidden=count>0;const next=new URLSearchParams();data.forEach((value,key)=>{if(value)next.set(key,String(value));});history.replaceState(null,'',location.pathname+(next.size?'?'+next:''));}
+ function apply(){if(!filter)return;const data=new FormData(filter);const query=normalize(String(data.get('busca')||'')).trim();let count=0;const cards=Array.from(document.querySelectorAll<HTMLElement>('[data-product-card]'));if(data.get('ordem')==='nome')cards.sort((a,b)=>(a.dataset.name||'').localeCompare(b.dataset.name||'','pt-BR'));else cards.sort((a,b)=>products.findIndex(p=>p.name===a.dataset.name)-products.findIndex(p=>p.name===b.dataset.name));cards.forEach(card=>{const visible=normalize(card.dataset.name||'').includes(query)&&(!data.get('categoria')||card.dataset.category===data.get('categoria'))&&(!data.get('colecao')||(card.dataset.collections||'').split(' ').includes(String(data.get('colecao'))));card.hidden=!visible;if(visible)count++;$('#catalog-grid')?.append(card);});const result=$('#result-count');if(result)result.textContent=count+' peça(s)';const empty=$('#no-results');if(empty)empty.hidden=count>0;const next=new URLSearchParams();data.forEach((value,key)=>{if(value)next.set(key,String(value));});history.replaceState(null,'',location.pathname+(next.size?'?'+next:''));}
  filter.addEventListener('input',apply);filter.addEventListener('submit',e=>{e.preventDefault();apply();});filter.addEventListener('reset',()=>setTimeout(apply,0));$('#clear-filters')?.addEventListener('click',()=>filter.reset());apply();
 }
 function subtotal(){return bag.reduce((sum,i)=>sum+products.find(p=>p.id===i.id)!.priceInCents*i.quantity,0);}
-function message(){const note=$<HTMLTextAreaElement>('#order-note')?.value.trim();return ['Olá, AleJoias! Gostaria de consultar esta seleção do protótipo:','Nome: '+($<HTMLInputElement>('#customer-name')?.value.trim()||'não informado'),'Telefone: '+($<HTMLInputElement>('#customer-phone')?.value.trim()||'não informado'),...bag.map(i=>{const p=products.find(p=>p.id===i.id)!;return `• ${p.name} (${p.id}) — ${i.variant} — quantidade: ${i.quantity} — unitário: ${formatPrice(p.priceInCents)} — total: ${formatPrice(p.priceInCents*i.quantity)}`;}),'Subtotal demonstrativo: '+formatPrice(subtotal())+'. Entrega a confirmar.','São peças e preços demonstrativos; por favor, confirme disponibilidade, medidas e valores.',...(note?['Observação: '+note]:[])].join('\n');}
-function updateMessage(){const subtotalEl=$("#cart-subtotal");if(subtotalEl)subtotalEl.textContent=formatPrice(subtotal());const text=message();const preview=$<HTMLTextAreaElement>('#order-preview');if(preview)preview.value=text;const link=$<HTMLAnchorElement>('#whatsapp-order');if(link)link.href='https://wa.me/'+whatsapp+'?text='+encodeURIComponent(text);}
+function message(){const note=$<HTMLTextAreaElement>('#order-note')?.value.trim();return ['Olá, AleJoias! Gostaria de consultar esta seleção do protótipo:','Nome: '+($<HTMLInputElement>('#customer-name')?.value.trim()||'não informado'),'Telefone: '+($<HTMLInputElement>('#customer-phone')?.value.trim()||'não informado'),...bag.map(i=>{const p=products.find(p=>p.id===i.id)!;return `• ${p.name} (${p.id}) — ${i.variant} — quantidade: ${i.quantity} — unitário: ${formatPrice(p.priceInCents)} — total: ${formatPrice(p.priceInCents*i.quantity)}`;}),'Subtotal: '+formatPrice(subtotal())+'. Entrega a confirmar.',...(bag.some(i=>products.find(p=>p.id===i.id)?.demo)?['Contém peças e preços demonstrativos; confirme os valores reais.']:[]),...(note?['Observação: '+note]:[])].join('\n');}
+function updateMessage(){const subtotalEl=$("#cart-subtotal");if(subtotalEl)subtotalEl.textContent=formatPrice(subtotal());const text=message();const preview=$<HTMLTextAreaElement>('#order-preview');if(preview)preview.value=text;}
 function renderCart(){const list=$('#cart-items');if(!list)return;list.replaceChildren();const empty=$('#cart-empty'),content=$('#cart-content');if(empty)empty.hidden=bag.length>0;if(content)content.hidden=bag.length===0;
  bag.forEach((item,index)=>{const p=products.find(p=>p.id===item.id)!;const row=document.createElement('article');row.className='cart-row';const img=document.createElement('img');img.src=p.image;img.alt=p.alt;const body=document.createElement('div');const title=document.createElement('h2');const link=document.createElement('a');link.href='/produto/'+p.slug;link.textContent=p.name;title.append(link);const detail=document.createElement('p');detail.textContent=item.variant+' · '+formatPrice(p.priceInCents)+' por unidade';const label=document.createElement('label');label.textContent='Quantidade';const input=document.createElement('input');input.type='number';input.min='1';input.max='99';input.step='1';input.value=String(item.quantity);input.setAttribute('aria-label','Quantidade de '+p.name);input.addEventListener('change',()=>{if(!input.reportValidity()){input.value=String(item.quantity);return;}bag[index].quantity=Number(input.value);save();updateMessage();const total=$('#cart-total');if(total)total.textContent=bag.reduce((s,i)=>s+i.quantity,0)+' peça(s) selecionada(s)';});label.append(input);const remove=document.createElement('button');remove.textContent='Remover';remove.setAttribute('aria-label','Remover '+p.name);remove.addEventListener('click',()=>{bag.splice(index,1);save();renderCart();toast('Peça removida da sacola.');});body.append(title,detail,label,remove);row.append(img,body);list.append(row);});const total=$('#cart-total');if(total)total.textContent=bag.reduce((s,i)=>s+i.quantity,0)+' peça(s) selecionada(s)';updateMessage();}
 renderCart();$('#order-note')?.addEventListener('input',updateMessage);
@@ -51,4 +52,16 @@ function validCustomer(){
  return name.reportValidity()&&phone.reportValidity();
 }
 ['#customer-name','#customer-phone'].forEach(selector=>$(selector)?.addEventListener('input',()=>{($<HTMLInputElement>(selector))?.setCustomValidity('');updateMessage();}));
-$('#whatsapp-order')?.addEventListener('click',event=>{if(!bag.length||!validCustomer()){event.preventDefault();return;}updateMessage();});
+let requestKey=crypto.randomUUID();
+let lastPayload='';
+$('#whatsapp-order')?.addEventListener('click',async event=>{
+ event.preventDefault();if(!bag.length||!validCustomer())return;
+ const button=$<HTMLButtonElement>('#whatsapp-order'),feedback=$('#request-feedback');if(!button)return;button.disabled=true;
+ try{
+ const payload={name:$<HTMLInputElement>('#customer-name')!.value.trim(),phone:$<HTMLInputElement>('#customer-phone')!.value.trim(),note:$<HTMLTextAreaElement>('#order-note')?.value.trim()||'',items:bag,expectedSubtotalInCents:subtotal()};
+ const serialized=JSON.stringify(payload);if(serialized!==lastPayload){requestKey=crypto.randomUUID();lastPayload=serialized;}
+ const response=await fetch('/api/request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...payload,key:requestKey})});const result=await response.json();if(!response.ok)throw Error(result.error||'Não foi possível registrar.');
+ if(feedback)feedback.textContent='Solicitação registrada. Abrindo o WhatsApp para você revisar e enviar.';
+ window.location.assign(result.whatsappUrl);
+ }catch(error){if(feedback)feedback.textContent=(error as Error).message;}finally{button.disabled=false;}
+});

@@ -1,45 +1,44 @@
-# Estrutura de desenvolvimento
+# Desenvolvimento e uso local
 
-- `src/pages`: rotas do site; index.astro é uma página provisória de verificação.
-- `src/layouts`: estrutura HTML compartilhada.
-- `src/components`: componentes reutilizáveis.
-- `src/styles`: identidade visual e estilos globais.
-- `src/data`: categorias e futuros dados demonstrativos.
-- `src/types`: contratos TypeScript do catálogo.
-- `public/images/brand`: referências locais dos logos.
-- `public/images/products`: fotos demonstrativas.
-- `docs`: contexto, decisões e referências.
+## Iniciar com dois cliques
+Abra `iniciar-dev.bat` na raiz do projeto. Ele configura Node/pnpm do runtime Codex na sessão, confere as dependências pelo lockfile e abre o navegador. Se AleJoias já estiver na porta 4321, apenas abre o site existente.
 
-## Executar
-Usar Node compatível com a versão instalada de Astro e pnpm. O lockfile deve ser versionado.
+Mantenha a janela aberta enquanto usa o ambiente. Ctrl+C encerra o servidor. O script não altera o PATH nem a política de execução de forma permanente. `iniciar-site.ps1` continua disponível e chama o mesmo inicializador.
+
+- Loja: http://localhost:4321/
+- Painel: http://localhost:4321/admin
+- Senha inicial: arquivo privado `.data/acesso-admin.txt`, criado no primeiro acesso ao servidor.
+- Troque a senha na seção Senha do painel; isso encerra as sessões e remove o arquivo da senha inicial.
+
+## Ambiente atual
+Astro + TypeScript com adapter Node para execução local e banco SQLite exclusivo do site. Usar Node 24 LTS e pnpm 11.19.0. O runtime do Codex é localizado automaticamente pelo inicializador; fora dele, instalar Node/pnpm.
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm dev
 pnpm check
 pnpm build
-pnpm preview
 ```
 
-`dev` inicia desenvolvimento local; `preview` serve o resultado após o build. Nenhum comando acima publica o site.
+O build atual é de servidor, não exportação estática. Para executá-lo: `node dist/server/entry.mjs` (HOST/PORT opcionais). Não publicar esse build diretamente em Cloudflare Workers: a etapa de publicação requer adapter Cloudflare, banco D1 e armazenamento de imagens apropriado, ainda não configurados. Domínio e aplicativo Android permanecem inalterados.
 
-## Origem dos ativos
-Arquivos copiados sem edição de C:\Pessoal\AleJoias\Site\Inicio:
-- teste_logo1.jpg → public/images/brand/alejoias.jpg
-- logos.png → public/images/brand/diamante.png (logo completo original)
-- 8688.jpg → public/images/products/colares-exemplo.jpg
-- 8748.jpg → public/images/products/pulseira-exemplo.jpg
+## Organização
+- src/server/store.ts: SQLite, produtos, revisões, sessões e solicitações.
+- src/server/importer.ts: CSV/JSON com prévia, conciliação por código e transação.
+- src/pages/api: APIs; escrita administrativa exige sessão e origem válida.
+- src/pages/admin e src/scripts/admin.ts: painel.
+- src/data/products.ts: apenas sementes demonstrativas para banco vazio.
+- src/data/catalog.ts: contrato do produto e cálculo de promoção.
+- src/scripts/shop.ts: sacola e fluxo de atendimento.
+- public/images: referências estáticas; uploads novos ficam em .data/uploads e são servidos por /media.
 
-Imagens autorizadas como exemplos; não indicam estoque, preço ou material confirmado.
+## Dados e histórico
+O banco ativo é `.data/alejoias-site.sqlite` (com arquivos WAL/SHM durante uso). Produtos e histórico ficam nele; não ficam no Git. `.data` e `backups` são ignorados. `ALEJOIAS_DATA_DIR` permite um banco separado, usado nos testes.
 
-## Limites desta entrega
-Estrutura executável, não catálogo final. Página provisória com noindex; remover essa restrição apenas quando o conteúdo de produção estiver pronto. Não há painel, banco, sacola ou integração WhatsApp implementados ainda.
+Para cópia local completa, pare o servidor e copie a pasta `.data` inteira para um local seguro. A exportação JSON no painel contém os produtos, mas não substitui cópia do banco e das imagens: não inclui histórico nem contatos. Não enviar cópias com contatos ou senhas ao GitHub.
 
-Versões iniciais: Astro 7.3.2, TypeScript 6.0.3 e pnpm 11.19.0, com lockfile versionado. TypeScript 7 não foi usado porque ainda não expõe a API exigida pelo astro check. Ambiente validado com Node 24.19.0.
+## Testes
+`tests/admin-integration.cjs` valida um servidor isolado na porta 4322 e banco `.data/qa-admin`. Nunca executar esses testes contra o banco da loja. O teste usa Playwright do runtime Codex e Microsoft Edge. Valida autenticação, CSRF, revisão concorrente, promoção, desativação, histórico, importação, upload, edição e solicitação com WhatsApp interceptado. Não envia mensagem real.
 
-## Executar o protótipo atual no Windows
-Na pasta do projeto, execute `powershell -ExecutionPolicy Bypass -File .\iniciar-site.ps1`. A alteração de execução se limita a esse processo. O script prepara Node/pnpm do Codex no PATH da sessão; não altera configurações globais.
-
-O protótipo agora contém início, catálogo, detalhes, sacola, sobre e atendimento. Produtos de exemplo ficam em src/data/products.ts; WhatsApp confirmado no mesmo arquivo. Não há preços atuais, painel ou banco. A sacola fica somente no navegador e os valores permanecem sob consulta.
-
-A foto de anel foi copiada sem edição de C:\Pessoal\AleJoias\Site\0362-7990-aro14.jpg para public/images/products/anel-exemplo.jpg.
+## Imagens de referência
+Amostras originais em C:\Pessoal\AleJoias\Site. Imagens já copiadas para public/images acompanham o repositório. Dados reais devem substituir as amostras pelo painel ou importação.

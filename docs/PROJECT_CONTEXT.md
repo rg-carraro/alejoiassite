@@ -115,3 +115,12 @@ Usuário solicitou R$ 0,10 nas peças para visualizar valores. Três produtos ag
 
 ## Skills e gestão de catálogo — 11/09/2026
 Skills locais de manutenção técnica e catálogo salvas em .agents/skills e referenciadas por AGENTS.md. Usuário definiu importação automática de lista, campos editáveis, promoções, disponibilidade, habilitar/desabilitar sem excluir e histórico. Requisitos em docs/CATALOGO_E_ATENDIMENTO.md; painel/banco/importador ainda pendentes. Sacola agora exige nome e telefone para abrir WhatsApp e inclui identificação no resumo, sem armazenar esses dados em cadastro central.
+
+## Painel local e inicializador — atualização vigente
+- Painel /admin concluído: cadastro/edição, fotos, preços e promoções com período, tags, disponibilidade e habilitar/desabilitar.
+- SQLite exclusivo do site em .data; histórico de alterações preservado. Arquivo de senha inicial privado em .data/acesso-admin.txt; troca disponível no painel.
+- Catálogo público lê o banco e oculta desativados. Importação CSV/JSON tem prévia, transação, conciliação por código e preservação padrão dos registros existentes.
+- Sacola registra nome, telefone e snapshot da seleção antes de abrir WhatsApp, com validação de preço/disponibilidade no servidor e prevenção de repetição. Solicitações acessíveis no painel.
+- Script iniciar-dev.bat solicitado pelo usuário permite iniciar o ambiente com dois cliques. iniciar-site.ps1 compartilha o mesmo bootstrap.
+- Runtime local Node + SQLite implementado para testes. Deploy Cloudflare/D1 e checkout seguem pendentes; não há alteração do domínio nem do aplicativo Android.
+- Testes de integração passaram em banco isolado; checagem TypeScript e build de servidor concluídos. Documentação operacional em docs/DESENVOLVIMENTO.md e docs/CATALOGO_E_ATENDIMENTO.md.

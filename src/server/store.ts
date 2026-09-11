@@ -1,5 +1,5 @@
 import { DatabaseSync } from 'node:sqlite';
-import { mkdirSync,existsSync,writeFileSync } from 'node:fs';
+import { mkdirSync,existsSync,writeFileSync,unlinkSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { randomBytes,randomUUID,scryptSync,timingSafeEqual,createHash } from 'node:crypto';
 import { products as seeds } from '../data/products';
@@ -23,7 +23,7 @@ function setting(key:string){return (db.prepare('SELECT value FROM settings WHER
 function credential(password:string){const salt=randomBytes(16).toString('hex');return JSON.stringify({salt,hash:scryptSync(password,salt,64).toString('hex')});}
 if(!setting('admin')){const password=randomBytes(18).toString('base64url');db.prepare('INSERT INTO settings VALUES(?,?)').run('admin',credential(password));const file=resolve(dataDir,'acesso-admin.txt');if(!existsSync(file))writeFileSync(file,'Painel local: http://localhost:4321/admin\nSenha inicial: '+password+'\nTroque a senha no painel. Este arquivo é privado e não entra no Git.\n',{mode:0o600});}
 export function checkPassword(password:string){if(typeof password!=='string'||password.length>200)return false;const c=JSON.parse(setting('admin')!);return timingSafeEqual(Buffer.from(c.hash,'hex'),scryptSync(password,c.salt,64));}
-export function changePassword(old:string,next:string){if(!checkPassword(old))throw Error('Senha atual incorreta.');if(typeof next!=='string'||next.length<12||next.length>200)throw Error('Use uma senha de 12 a 200 caracteres.');db.prepare('UPDATE settings SET value=? WHERE key=?').run(credential(next),'admin');db.exec('DELETE FROM sessions');}
+export function changePassword(old:string,next:string){if(!checkPassword(old))throw Error('Senha atual incorreta.');if(typeof next!=='string'||next.length<12||next.length>200)throw Error('Use uma senha de 12 a 200 caracteres.');db.prepare('UPDATE settings SET value=? WHERE key=?').run(credential(next),'admin');db.exec('DELETE FROM sessions');const accessFile=resolve(dataDir,'acesso-admin.txt');if(existsSync(accessFile))unlinkSync(accessFile);}
 export function rateLimit(key:string,max:number,period:number){const now=Date.now();const row=db.prepare('SELECT count,until FROM limits WHERE key=?').get(key) as {count:number;until:number}|undefined;if(row&&row.until>now&&row.count>=max)throw Error('Muitas tentativas. Aguarde alguns minutos.');db.prepare('INSERT OR REPLACE INTO limits VALUES(?,?,?)').run(key,row&&row.until>now?row.count+1:1,row&&row.until>now?row.until:now+period);}
 export function login(password:string){if(!checkPassword(password))throw Error('Senha incorreta.');const token=randomBytes(32).toString('hex');db.prepare('INSERT INTO sessions VALUES(?,?)').run(digest(token),Date.now()+8*3600000);return token;}
 export function authorized(token?:string){if(!token)return false;return !!db.prepare('SELECT token FROM sessions WHERE token=? AND expires>?').get(digest(token),Date.now());}

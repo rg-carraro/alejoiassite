@@ -1,21 +1,27 @@
-# Catálogo e atendimento — requisitos aprovados
+# Catálogo e atendimento — implementação local
 
-## Cadastro futuro
-O usuário fornecerá uma lista para cadastrar produtos automaticamente e deseja poder editar nome, descrição, preço, tags de promoção, disponibilidade e demais campos depois. Formato da lista ainda não fornecido. Painel autenticado, banco e importador ainda não implementados.
+## Painel disponível
+Em /admin, com senha, é possível cadastrar e editar código/SKU, nome, endereço, descrição, categoria, imagem, texto alternativo, opções, tags, coleções, preço em centavos, preço promocional, início/fim da promoção e situações.
 
-Modelo proposto: ID estável, código/SKU, nome, descrição, categoria, imagens, variações, preço em centavos, preço promocional opcional, tags, disponibilidade e habilitado/publicado. Datas de criação/atualização e origem de importação. Campos finais dependem da lista real.
+Habilitar/desabilitar controla exposição no catálogo e páginas públicas. Disponível/indisponível controla solicitação. Desativar não apaga; pode reativar. Histórico registra antes/depois, data, origem e responsável administrativo. Revisão evita sobrescrever edição mais recente de outra aba.
 
-Habilitar/desabilitar sem apagar cadastro. Manter histórico de alterações e possibilidade de reativação. Separar visibilidade de disponibilidade. Importações precisam conciliar códigos, não duplicar e preservar edições manuais. Histórico operacional persistente não é substituído por commits Git.
+Produtos sem foto exibem estado de imagem pendente. Upload aceita JPEG, PNG e WebP até 5 MB. Promoção válida usa preço menor que o normal, respeitando datas; catálogo e pedido calculam o preço efetivo.
 
-Fluxo de implementação futuro: banco e painel com autenticação → cadastro/edição e histórico → importação com prévia de conflitos e resultado → catálogo público ligado aos registros habilitados. Não expor funções administrativas ao público. O banco do aplicativo Android permanece separado.
+## Importação automática
+CSV ou JSON, até 500 linhas e 1 MB, com prévia antes da confirmação. Código é a chave de conciliação; duplicatas e dados inválidos bloqueiam a gravação do lote. A transação impede aplicação parcial.
 
-## Descrições e valores
-Codex auxilia na escrita e propõe melhorias sem inventar especificações. Valores fornecidos são preservados; sugestões de preços devem indicar premissas. Preço promocional e tags são campos editáveis, sem descontos fictícios. Os R$ 0,10 atuais são somente demonstração.
+Por padrão, produtos existentes são ignorados para preservar edição manual. A opção de atualizar permite sobrescrever somente os campos fornecidos. Campo vazio não apaga valor. Para limpar promoção/descrição, editar pelo painel. Exportação JSON pode ser reimportada; metadados de revisão/datas não substituem os do banco.
 
-## Atendimento implementado nesta etapa
-Sacola solicita nome e telefone antes de abrir o WhatsApp. Resumo inclui identificação, itens, códigos, opções, quantidades, valores e subtotal. Cliente revisa e envia manualmente para 5519988038395.
+Novos registros são desativados por padrão, exceto habilitado=sim. O modelo está em public/modelo-produtos.csv. CSV usa nomes como codigo, nome, categoria, preco, descricao, imagem, texto_imagem, preco_promocional, inicio_promocao, fim_promocao, tags, opcoes, colecoes, habilitado, disponivel, demonstrativo. Listas usam |; categorias usam slugs (aneis, brincos etc.). preco é em reais; JSON também aceita priceInCents em centavos.
 
-Nome e telefone ficam nos campos da página e na mensagem, sem cadastro central nem persistência em localStorage. O atendimento terá esses dados quando a cliente enviar a mensagem. Histórico de clientes/pedidos no site exige backend posterior. Dados destinam-se ao retorno sobre a solicitação, não a marketing automático.
+A prévia se torna inválida se os produtos ou a lista mudarem. Descrições ausentes recebem apenas um texto neutro pelo nome; o botão de rascunho no painel é determinístico, não uma integração de IA. Descrições elaboradas e sugestões comerciais podem ser trabalhadas com Codex pelas skills salvas.
 
-## Próximos insumos
-Lista de produtos com códigos, valores e fotos/referências. Após conhecer o formato, especificar importação e iniciar o painel. Não é necessário recadastrar manualmente tudo antes de fornecer a lista.
+## Solicitações de atendimento
+Ao clicar em Registrar e abrir WhatsApp, nome e telefone são validados. O servidor confere disponibilidade, opções, quantidade e preço atual, grava cópia dos itens/valores e gera a mensagem. Mudança de preço ou indisponibilidade exige atualizar a sacola antes de prosseguir.
+
+Cada clique lógico usa identificador para evitar duplicação em repetição de rede. Nome/telefone não são persistidos no localStorage. Solicitações ficam no banco local e aparecem apenas no painel; situação: nova, em atendimento, concluída ou cancelada. O registro NÃO comprova envio no WhatsApp, compra, pagamento ou reserva. A mensagem é revisada/enviada pela cliente para 5519988038395.
+
+Dados destinam-se a retorno sobre a solicitação, sem marketing automático. Contatos, banco, imagens enviadas e senha não entram no Git.
+
+## Ainda pendente
+Lista real de produtos do usuário; publicação e banco hospedado na Cloudflare; integração futura com pagamento e aplicativo. O ambiente atual é local Node/SQLite. Não há checkout financeiro.
