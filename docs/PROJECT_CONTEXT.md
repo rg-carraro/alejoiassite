@@ -1,7 +1,7 @@
 # PROJECT_CONTEXT.md — Novo Site AleJoias
 
 **Atualizado em:** 11/09/2026
-**Status:** definição da primeira versão / pré-desenvolvimento
+**Status:** estrutura inicial Astro criada; protótipo visual completo ainda pendente
 
 ## 1. Visão
 Criar o novo site oficial da AleJoias: moderno, elegante, intuitivo e com excelente experiência no celular. A primeira versão será um catálogo com seleção de produtos, sacola e envio do pedido pelo WhatsApp. Pagamento diretamente no site é uma evolução futura.
@@ -9,21 +9,21 @@ Criar o novo site oficial da AleJoias: moderno, elegante, intuitivo e com excele
 ## 2. Localização e continuidade
 - Pasta atual confirmada pelo usuário: `C:\Users\rgcar\git\alejoiassite`.
 - Nome anterior: `alejoias_site`. Não usar o caminho incorreto `alejoias\_site`.
-- O usuário pretende colocar o projeto no GitHub após existir uma base inicial. Publicação ainda não realizada nesta conversa.
+- Repositório GitHub criado e sincronizado na master. O usuário clonou o repositório nesta pasta e preservou a pasta anterior como alejoiassite_old.
 - Registrar decisões neste documento e manter o histórico em `docs/DECISION_LOG.md`.
 
 ## 3. Ecossistema e domínio
 - AleJoias é a marca/negócio principal.
 - Domínio escolhido: `alejoias.com`, mantido na Cloudflare.
 - Registro documentado em 08/09/2026: ativo, expiração em 08/09/2027, renovação automática ativa e preço de renovação então exibido de US$ 10,46/ano. Dados históricos, não verificados novamente nesta sessão.
-- Hospedagem e configuração definitiva de DNS ainda não escolhidas.
+- Cloudflare aprovada como direção de hospedagem. Deploy e configuração definitiva de DNS ainda pendentes.
 - AleJoias Vendas é um aplicativo auxiliar separado, cuja base oficial estável é SQLite Sync v2. Não alterar seu backend, schema, IDs ou funcionalidades para desenvolver o site.
 - Reaproveitamento visual do aplicativo foi autorizado; integração de dados permanece pendente de definição explícita.
 
 ## 4. Referência anterior e identidade visual
 - Site Wix informado pelo usuário: https://alejoiasninafiori.wixsite.com/alejoias
 - O Wix será referência de identidade e conteúdo, sem impor a arquitetura do novo site.
-- Usar os logos anteriormente utilizados no Wix. Os arquivos e suas versões ainda precisam ser localizados e inspecionados.
+- Logos locais do Wix localizados e amostras inspecionadas. Versões de referência copiadas para public/images/brand; seleção visual final pendente.
 - Podem ser aproveitados ícones e pontos visuais do aplicativo AleJoias Vendas, adaptados à experiência web.
 - Direção visual inicial aceita: fundo claro, detalhes discretos em dourado, fotos grandes, tipografia elegante e legível, navegação simples e prioridade ao celular.
 - O visual poderá ser ajustado após avaliação do protótipo.
@@ -54,7 +54,7 @@ Criar o novo site oficial da AleJoias: moderno, elegante, intuitivo e com excele
 - Número de WhatsApp e formato final do resumo do pedido.
 - Entrega, retirada, frete e confirmação de pedidos.
 - Navegação final, filtros e conteúdo institucional atualizado.
-- Stack/framework, banco ou CMS e hospedagem, após requisitos.
+- Detalhamento de banco/CMS e deploy; Astro + TypeScript e Cloudflare já aprovados.
 - SEO, analytics e políticas de privacidade aplicáveis.
 - Checkout e integração com o aplicativo em etapas futuras.
 
@@ -82,9 +82,18 @@ Não alterar DNS ou publicar automaticamente. Não colocar credenciais no reposi
 - Detalhes da análise em docs/REFERENCIAS_VISUAIS.md.
 
 ## 10. Discussão técnica — 11/09/2026
-Proposta registrada em docs/PROPOSTA_TECNICA.md: Astro + TypeScript, interações com React quando justificadas, possível hospedagem Cloudflare e evolução de catálogo demonstrativo para painel/API/banco. São recomendações em discussão; não houve escolha final ou implementação. Próxima definição: rotina de cadastro e atualização dos produtos.
+Proposta registrada em docs/PROPOSTA_TECNICA.md: Astro + TypeScript, interações com React quando justificadas, possível hospedagem Cloudflare e evolução de catálogo demonstrativo para painel/API/banco. A direção técnica foi posteriormente aprovada; a estrutura inicial foi criada. Próxima definição: rotina de cadastro e atualização dos produtos.
 
 ## 11. Decisões vigentes — GitHub e desenvolvimento
 Em 11/09/2026, o usuário aprovou a direção técnica descrita em PROPOSTA_TECNICA.md (Astro + TypeScript, React quando necessário e Cloudflare). Esta aprovação substitui o status anterior de recomendação em discussão. O detalhamento do painel e infraestrutura permanece aberto.
 
 Repositório oficial: https://github.com/rg-carraro/alejoiassite.git. Branch solicitada: master. Pasta permanente: C:\Users\rgcar\git\alejoiassite. Commit e push iniciais autorizados. Domínio alejoias.com confirmado pelo usuário na Cloudflare; nenhum deploy do novo site ou alteração de DNS foi realizado nesta sessão.
+
+## Estado após preparação da estrutura
+- Clone ativo em C:\Users\rgcar\git\alejoiassite; pasta antiga alejoiassite_old mantida para recuperação, sem alterações.
+- Base Astro + TypeScript com páginas, layouts, componentes, estilos, dados e tipos.
+- React será acrescentado quando houver componente interativo que o justifique.
+- Logos e duas fotos de exemplo copiados para o repositório, com origem documentada.
+- Página inicial apenas de verificação da estrutura, com noindex; não é o protótipo visual completo.
+- Sem deploy, alteração de DNS, checkout, painel ou integração com o app.
+- Próximo trabalho: catálogo demonstrativo, detalhes do produto, sacola e fluxo WhatsApp, com revisão visual mobile.

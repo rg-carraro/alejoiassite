@@ -8,7 +8,7 @@ Novo site oficial da AleJoias para catálogo de joias, sacola e pedidos pelo Wha
 - Branch inicial: `master`.
 - Direção técnica aprovada: Astro + TypeScript, React onde necessário e Cloudflare como plataforma de hospedagem.
 - Domínio: `alejoias.com`, já administrado na Cloudflare segundo o usuário. Deploy do novo site ainda não configurado.
-- Estado: planejamento documentado; implementação ainda não iniciada.
+- Estado: estrutura inicial Astro + TypeScript criada; protótipo completo em próxima etapa.
 
 ## Documentação
 - [Contexto atual](docs/PROJECT_CONTEXT.md)
@@ -17,3 +17,8 @@ Novo site oficial da AleJoias para catálogo de joias, sacola e pedidos pelo Wha
 - [Referências visuais](docs/REFERENCIAS_VISUAIS.md)
 
 O aplicativo AleJoias Vendas SQLite Sync v2 é um projeto separado e deve permanecer preservado.
+
+## Iniciar localmente
+Consultar [estrutura e comandos](docs/DESENVOLVIMENTO.md).
+
+A pasta anterior alejoiassite_old é apenas uma cópia de recuperação; desenvolver sempre no clone alejoiassite.

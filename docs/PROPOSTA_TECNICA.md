@@ -1,6 +1,6 @@
 # Proposta técnica — AleJoias Site
 
-Data: 11/09/2026. Status: direção técnica aprovada pelo usuário em 11/09/2026; implementação ainda não iniciada. Detalhes de painel, banco e infraestrutura serão fechados durante o desenvolvimento.
+Data: 11/09/2026. Status: direção técnica aprovada pelo usuário em 11/09/2026; estrutura inicial implementada; protótipo completo pendente. Detalhes de painel, banco e infraestrutura serão fechados durante o desenvolvimento.
 
 ## Caminho recomendado
 - Site próprio com Astro e TypeScript; React somente nos componentes interativos que justificarem seu uso, como sacola e filtros.
@@ -33,4 +33,3 @@ O usuário quer cadastrar fotos, preços e disponibilidade por um painel própri
 - https://developers.cloudflare.com/d1/
 - https://developers.cloudflare.com/use-cases/web-apps/store-data/
 - https://www.shopify.com/buy-button
-

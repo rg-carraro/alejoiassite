@@ -1,0 +1,10 @@
+:root { font-family: system-ui, sans-serif; color: #27231f; background: #fff; --gold: #88692e; }
+* { box-sizing: border-box; }
+body { margin: 0; font-size: 1rem; line-height: 1.6; }
+main { max-width: 64rem; margin: auto; padding: 3rem 1.5rem; text-align: center; }
+.brand { display: block; width: min(22rem, 100%); height: auto; margin: 0 auto 2rem; }
+h1 { font-family: Georgia, serif; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; font-weight: 400; }
+.eyebrow { color: var(--gold); letter-spacing: .15em; font-size: .875rem; }
+.categories { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; padding: 1.5rem 0; list-style: none; }
+.categories li { border-bottom: 1px solid var(--gold); padding: .5rem; }
+.notice { color: #655e57; font-size: .875rem; }

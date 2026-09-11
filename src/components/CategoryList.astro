@@ -1,0 +1,6 @@
+---
+import { categories } from '../data/categories';
+---
+<ul class="categories" aria-label="Categorias previstas">
+  {categories.map(({ name }) => <li>{name}</li>)}
+</ul>

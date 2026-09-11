@@ -45,3 +45,11 @@
 - Criou https://github.com/rg-carraro/alejoiassite.git e autorizou commit e push na master.
 - Fixou C:\Users\rgcar\git\alejoiassite como pasta oficial de desenvolvimento.
 - Momento de inclusão do painel administrativo e detalhes de infraestrutura continuam sujeitos ao detalhamento da implementação.
+
+## 11/09/2026 — Clone e estrutura inicial
+- Usuário confirmou clone na pasta oficial e renomeou a pasta anterior com sufixo _old.
+- Solicitou atualizar documentação, sincronizar Git e iniciar a estrutura do primeiro protótipo.
+- Criada base Astro + TypeScript, catálogo de categorias tipado e página inicial de verificação.
+- Copiados dois logos e duas fotos locais autorizadas para que as referências acompanhem o clone.
+- React adiado até haver necessidade de interação. Nenhum deploy realizado.
+- Validação da estrutura: astro check sem erros ou avisos; astro build concluído. Revisão visual do protótipo completo permanece para a próxima etapa.
