@@ -124,3 +124,6 @@ Skills locais de manutenção técnica e catálogo salvas em .agents/skills e re
 - Script iniciar-dev.bat solicitado pelo usuário permite iniciar o ambiente com dois cliques. iniciar-site.ps1 compartilha o mesmo bootstrap.
 - Runtime local Node + SQLite implementado para testes. Deploy Cloudflare/D1 e checkout seguem pendentes; não há alteração do domínio nem do aplicativo Android.
 - Testes de integração passaram em banco isolado; checagem TypeScript e build de servidor concluídos. Documentação operacional em docs/DESENVOLVIMENTO.md e docs/CATALOGO_E_ATENDIMENTO.md.
+
+## Resumo WhatsApp em tabela
+A pedido do usuário, itens numerados com nome, código e opção são acompanhados de tabela monoespaçada com Item, Qtd, Unit. e Total em reais. Formatação compartilhada entre resumo copiável e mensagem gerada no servidor; nomes não são truncados. Solicitações antigas preservam o snapshot original.

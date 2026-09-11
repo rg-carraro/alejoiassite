@@ -73,3 +73,6 @@ Skills locais de manutenção técnica e catálogo salvas em .agents/skills e re
 - Implementado iniciar-dev.bat após pedido adicional do usuário; configura ambiente da sessão e abre navegador.
 - Testes passaram em banco isolado, sem mensagem real enviada e sem misturar dados fictícios com o banco principal.
 - Publicação Cloudflare e pagamento online não executados.
+
+## Resumo WhatsApp em tabela
+A pedido do usuário, itens numerados com nome, código e opção são acompanhados de tabela monoespaçada com Item, Qtd, Unit. e Total em reais. Formatação compartilhada entre resumo copiável e mensagem gerada no servidor; nomes não são truncados. Solicitações antigas preservam o snapshot original.
