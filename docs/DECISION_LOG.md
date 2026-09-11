@@ -60,3 +60,6 @@
 - Valores sob consulta até fornecimento do catálogo real; envio pelo WhatsApp depende de ação manual da cliente.
 - Testes funcionais em Edge e revisão de captura desktop realizados; layout mobile sem overflow nas rotas verificadas.
 - Checkout, administração e publicação continuam como etapas futuras.
+
+## Preços demonstrativos — 11/09/2026
+Usuário solicitou R$ 0,10 nas peças para visualizar valores. Três produtos agora têm priceInCents=10; catálogo, detalhes, sacola e resumo WhatsApp exibem preços demonstrativos. Subtotal calculado em centavos conforme quantidades; preços reais seguem pendentes.

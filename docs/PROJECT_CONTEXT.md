@@ -109,3 +109,6 @@ Repositório oficial: https://github.com/rg-carraro/alejoiassite.git. Branch sol
 - Testes de navegador aprovados: filtros, estado vazio, detalhes, quantidades, persistência após recarga, remoção, resumo WhatsApp e seis rotas no celular sem rolagem horizontal ou erros JavaScript.
 - WebMCP opcional de leitura da sacola com detecção de suporte; validação em contexto WebMCP real indisponível.
 - Criado iniciar-site.ps1 para configurar Node/pnpm do runtime local na sessão e iniciar o servidor.
+
+## Preços demonstrativos — 11/09/2026
+Usuário solicitou R$ 0,10 nas peças para visualizar valores. Três produtos agora têm priceInCents=10; catálogo, detalhes, sacola e resumo WhatsApp exibem preços demonstrativos. Subtotal calculado em centavos conforme quantidades; preços reais seguem pendentes.

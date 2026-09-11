@@ -1,9 +1,10 @@
 ---
-import {products} from '../data/products';
+import {products,formatPrice} from '../data/products';
 interface Props { product: (typeof products)[number] }
 const {product:p}=Astro.props;
 ---
 <article class="product-card" data-product-card data-category={p.category} data-collections={p.collections.join(' ')} data-name={p.name}>
 <a class="product-photo" href={'/produto/'+p.slug}><img src={p.image} alt={p.alt} width="500" height="500" loading="lazy"/><span class="photo-label">Peça de exemplo</span></a>
-<div class="product-info"><div><a href={'/produto/'+p.slug}><h3>{p.name}</h3></a><p>Valor sob consulta</p></div><button class="add-small" data-add={p.id} data-variant={p.variants[0]} aria-label={'Adicionar '+p.name+' à sacola'}>+</button></div>
+<div class="product-info"><div><a href={'/produto/'+p.slug}><h3>{p.name}</h3></a><p>{formatPrice(p.priceInCents)}</p></div><button class="add-small" data-add={p.id} data-variant={p.variants[0]} aria-label={'Adicionar '+p.name+' à sacola'}>+</button></div>
 </article>
+
