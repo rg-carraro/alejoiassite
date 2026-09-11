@@ -42,3 +42,9 @@ Para cópia local completa, pare o servidor e copie a pasta `.data` inteira para
 
 ## Imagens de referência
 Amostras originais em C:\Pessoal\AleJoias\Site. Imagens já copiadas para public/images acompanham o repositório. Dados reais devem substituir as amostras pelo painel ou importação.
+
+## PDF e compartilhamento
+Geração em src/server/order-pdf.ts, API POST /api/request-pdf, integração em shop.ts e admin.ts. PDFKit gera o documento; Sharp normaliza JPEG/PNG/WebP locais. Instalar dependências com pnpm install após atualizar. Nenhum Python é necessário para rodar o site.
+A API exige sessão admin ou token retornado na criação da solicitação; respostas no-store. Fotos são lidas exclusivamente das pastas public/images e .data/uploads, sem acesso remoto. Manter cwd na raiz do projeto.
+Testes: node tests/admin-integration.cjs, node tests/order-pdf.cjs e node tests/share-pdf.cjs, com servidor isolado em 127.0.0.1:4322 e ALEJOIAS_DATA_DIR=.data/qa-admin. Compartilhamento é simulado; nenhum envio real. PDF de teste e capturas ficam no banco de QA ignorado pelo Git.
+Compartilhamento exige suporte do navegador e gesto da pessoa, conforme [Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share). Download e abertura da conversa continuam disponíveis como alternativa.

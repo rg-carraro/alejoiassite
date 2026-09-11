@@ -73,3 +73,13 @@ Usuário pediu somente Produto | Valor. A tabela agora usa texto simples, sem bl
 Usuário solicitou alinhar as barras verticais como bordas. Mantidas duas colunas Produto e Valor, agora preenchidas com espaços e envolvidas em bloco monoespaçado do WhatsApp. Nomes longos continuam na linha seguinte sem truncamento; valores ficam à direita. Prévia na sacola também usa fonte monoespaçada. Substitui a decisão anterior de usar texto sem bloco. Teste verificou posições idênticas das barras em todas as linhas.
 
 Mensagem WhatsApp: opções provisórias contendo 'a confirmar' (como Composição, Tamanho ou Medida a confirmar) não são mais exibidas na tabela, a pedido do usuário. Opções reais permanecem; cadastro e snapshot interno não são alterados.
+
+## PDF da seleção com fotos — 11/09/2026
+- Na sacola, “Preparar pedido com PDF” registra a solicitação validada e prepara o documento. Depois aparecem download, abertura da conversa e, em navegadores compatíveis, compartilhamento do arquivo.
+- PDF contém foto, produto/código/opção real/quantidade, valor total da linha, subtotal, nome, telefone, data e observação. Opções provisórias “a confirmar” são omitidas na apresentação. Tabela de texto do WhatsApp permanece Produto | Valor.
+- Abrir wa.me não anexa arquivos. Compartilhamento nativo permite escolher WhatsApp e contato; alguns destinos podem omitir o texto, então “Copiar resumo” permanece disponível. Alternativa universal: baixar PDF, abrir conversa e anexar como Documento.
+- Painel de solicitações permite baixar o mesmo resumo por registro. PDFs antigos sem referência de foto mostram “Foto não disponível”, sem buscar uma imagem atual que possa pertencer a outra versão do produto.
+- PDF gerado sob demanda com PDFKit e Sharp; acesso exige sessão administrativa ou token aleatório privado da solicitação, enviado no corpo POST. Não publicar tokens, PDFs de clientes nem banco no Git.
+- Novas solicitações preservam o caminho da imagem junto aos itens. Manter os arquivos originais: trocar foto no painel cria outro arquivo. O PDF não é arquivado como arquivo separado, e fotos removidas fisicamente deixam de aparecer.
+- Editar a sacola ou os dados invalida o arquivo preparado. Se a geração falhar, registro permanece e pode ser reutilizado por idempotência; conversa continua disponível.
+- Ainda depende de Node local. A migração futura para Cloudflare deverá considerar também a geração de PDF e conversão de imagens.

@@ -34,3 +34,10 @@ Usuário pediu somente Produto | Valor. A tabela agora usa texto simples, sem bl
 
 ## Bordas alinhadas da tabela WhatsApp
 Usuário solicitou alinhar as barras verticais como bordas. Mantidas duas colunas Produto e Valor, agora preenchidas com espaços e envolvidas em bloco monoespaçado do WhatsApp. Nomes longos continuam na linha seguinte sem truncamento; valores ficam à direita. Prévia na sacola também usa fonte monoespaçada. Substitui a decisão anterior de usar texto sem bloco. Teste verificou posições idênticas das barras em todas as linhas.
+
+## Enviar seleção com fotos
+1. Preencha nome e telefone na sacola e clique em **Preparar pedido com PDF**.
+2. Se aparecer **Compartilhar PDF**, escolha o WhatsApp e o contato AleJoias, (19) 98803-8395. Confira arquivo e mensagem antes de enviar.
+3. Também é possível usar **Baixar PDF com fotos**, abrir a conversa e anexar o arquivo como Documento.
+4. No painel, abra uma solicitação e use **Baixar PDF com fotos** para separar as peças.
+Alterar dados ou itens exige preparar novamente. A solicitação fica registrada mesmo que o compartilhamento seja cancelado.

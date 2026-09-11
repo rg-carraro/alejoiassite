@@ -42,3 +42,5 @@ fieldset { min-width: 0; }
   .section { padding-inline: 16px; }
 }
 #order-preview{font-family:ui-monospace,Consolas,monospace;white-space:pre;overflow-x:auto}
+#prepared-order .button, #prepared-order .secondary { display:block; width:100%; margin:10px 0; text-align:center; }
+#prepared-order [hidden] { display:none; }

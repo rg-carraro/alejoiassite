@@ -95,3 +95,6 @@ Usuário pediu somente Produto | Valor. A tabela agora usa texto simples, sem bl
 Usuário solicitou alinhar as barras verticais como bordas. Mantidas duas colunas Produto e Valor, agora preenchidas com espaços e envolvidas em bloco monoespaçado do WhatsApp. Nomes longos continuam na linha seguinte sem truncamento; valores ficam à direita. Prévia na sacola também usa fonte monoespaçada. Substitui a decisão anterior de usar texto sem bloco. Teste verificou posições idênticas das barras em todas as linhas.
 
 Mensagem WhatsApp: opções provisórias contendo 'a confirmar' (como Composição, Tamanho ou Medida a confirmar) não são mais exibidas na tabela, a pedido do usuário. Opções reais permanecem; cadastro e snapshot interno não são alterados.
+
+## 11/09/2026 — PDF para separar as peças
+Usuário aprovou PDF anexo como alternativa à foto dentro da tabela textual do WhatsApp. Implementados documento com fotos e dados da seleção, download administrativo e fluxo de preparo/compartilhamento na sacola. Não existe anexo automático via link wa.me; cliente escolhe destino no compartilhamento nativo ou anexa o arquivo baixado. Registro continua independente do envio. Check/build e testes de integração passaram; revisão visual incluiu documento de três páginas.

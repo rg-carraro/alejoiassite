@@ -1,5 +1,6 @@
+import {selectionPdf} from '../../server/order-pdf';
 import type { APIRoute } from 'astro';
-import {authorized,login,logout,rateLimit,saveProduct,publicProducts,listProducts,productHistory,requests,requestStatus,createRequest,changePassword,dataDir,randomUUID} from '../../server/store';
+import {requestForPdf,authorized,login,logout,rateLimit,saveProduct,publicProducts,listProducts,productHistory,requests,requestStatus,createRequest,changePassword,dataDir,randomUUID} from '../../server/store';
 import { previewImport,commitImport } from '../../server/importer';
 import { mkdirSync,writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -11,7 +12,7 @@ export const ALL:APIRoute=async({request,params,cookies,url})=>{
  if(method==='GET'&&action==='catalog')return json(publicProducts());
  if(!['GET','POST'].includes(method))return json({error:'Método inválido'},405);
  if(method==='POST'&&request.headers.get('origin')!==url.origin)return json({error:'Origem inválida'},403);
- const publicAction=['login','request'].includes(action);
+ const publicAction=['login','request','request-pdf'].includes(action);
  if(!publicAction&&!authorized(token))return json({error:'Entre no painel.'},401);
  if(method==='GET'){
   if(action==='products')return json(listProducts(true));
@@ -29,6 +30,13 @@ export const ALL:APIRoute=async({request,params,cookies,url})=>{
  const text=await request.text();if(text.length>1500000)throw Error('Conteúdo muito grande.');const data=JSON.parse(text||'{}');
  if(action==='login'){rateLimit('login',15,15*60000);const session=login(data.password);cookies.set('alejoias_admin',session,{path:'/',httpOnly:true,sameSite:'strict',secure:url.protocol==='https:',maxAge:8*3600});return json({ok:true});}
  if(action==='request'){rateLimit('requests',100,60000);return json(createRequest(data));}
+ if(action==='request-pdf'){
+  rateLimit('request-pdf',60,60000);
+  const order=requestForPdf(data.id,data.token,authorized(token));
+  if(!order)return json({error:'Solicitação não disponível.'},404);
+  const pdf=await selectionPdf(order);
+  return new Response(new Uint8Array(pdf),{headers:{'Content-Type':'application/pdf','Content-Disposition':'attachment; filename="alejoias-'+order.id+'.pdf"','Cache-Control':'no-store'}});
+ }
  if(action==='logout'){logout(token!);cookies.delete('alejoias_admin',{path:'/'});return json({ok:true});}
  if(action==='password'){changePassword(data.current,data.password);cookies.delete('alejoias_admin',{path:'/'});return json({ok:true});}
  if(action==='products')return json(saveProduct(data));

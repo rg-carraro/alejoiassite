@@ -65,11 +65,19 @@ export function createRequest(raw:any){return transaction(()=>{
  if(!Array.isArray(raw.items)||!raw.items.length||raw.items.length>50)throw Error('Sacola inválida.');
  const hash=digest(JSON.stringify({name,phone,note,items:raw.items,expected:raw.expectedSubtotalInCents}));
  const prior=db.prepare('SELECT hash,data FROM requests WHERE request_key=?').get(raw.key) as {hash:string;data:string}|undefined;if(prior){if(prior.hash!==hash)throw Error('Solicitação já usada. Recarregue a página.');return JSON.parse(prior.data);}
- const seen=new Set();const items=raw.items.map((i:any)=>{if(!i||typeof i.id!=='string'||typeof i.variant!=='string'||!Number.isInteger(i.quantity)||i.quantity<1||i.quantity>99)throw Error('Item inválido.');const p=getProduct(i.id);if(!p||!p.enabled||!p.available||!p.variants.includes(i.variant))throw Error('Uma peça não está mais disponível. Atualize a sacola.');const key=i.id+'|'+i.variant;if(seen.has(key))throw Error('Item duplicado.');seen.add(key);return {id:p.id,name:p.name,variant:i.variant,quantity:i.quantity,priceInCents:effectivePrice(p),demo:p.demo};});
+ const seen=new Set();const items=raw.items.map((i:any)=>{if(!i||typeof i.id!=='string'||typeof i.variant!=='string'||!Number.isInteger(i.quantity)||i.quantity<1||i.quantity>99)throw Error('Item inválido.');const p=getProduct(i.id);if(!p||!p.enabled||!p.available||!p.variants.includes(i.variant))throw Error('Uma peça não está mais disponível. Atualize a sacola.');const key=i.id+'|'+i.variant;if(seen.has(key))throw Error('Item duplicado.');seen.add(key);return {id:p.id,name:p.name,variant:i.variant,quantity:i.quantity,priceInCents:effectivePrice(p),demo:p.demo,image:p.image};});
  const subtotalInCents=items.reduce((s:number,i:any)=>s+i.quantity*i.priceInCents,0);if(raw.expectedSubtotalInCents!==subtotalInCents)throw Error('Os preços mudaram. Atualize a sacola e confira antes de enviar.');
  const id=randomUUID(),createdAt=new Date().toISOString();const message=['Olá, AleJoias! Esta é minha seleção.','Solicitação: '+id,'Nome: '+name,'Telefone: '+phone,'',formatOrderTable(items),'Subtotal: '+formatPrice(subtotalInCents)+' (entrega a confirmar).',...(note?['Observação: '+note]:[])].join('\n');
- const data={id,name,phone,note,items,subtotalInCents,createdAt,message,whatsappUrl:'https://wa.me/5519988038395?text='+encodeURIComponent(message)};
+ const data={id,name,phone,note,items,subtotalInCents,createdAt,message,pdfToken:randomBytes(32).toString('hex'),whatsappUrl:'https://wa.me/5519988038395?text='+encodeURIComponent(message)};
  db.prepare('INSERT INTO requests VALUES(?,?,?,?,?,?)').run(id,raw.key,hash,JSON.stringify(data),'nova',createdAt);db.prepare('INSERT INTO request_history(request_id,status,at,actor) VALUES(?,?,?,?)').run(id,'nova',createdAt,'cliente');return data;
 });}
 export function applyProducts(raws:any[],source:string){return transaction(()=>raws.map(raw=>{const before=getProduct(raw.id);return writeProduct(validateProduct(raw,before),before,source);}));}
 export { randomUUID };
+export function requestForPdf(id:unknown,token:unknown,admin:boolean){
+ if(typeof id!=='string'||!/^[a-f0-9-]{36}$/.test(id))return null;
+ const row=db.prepare('SELECT data FROM requests WHERE id=?').get(id) as {data:string}|undefined;
+ if(!row)return null;
+ const order=JSON.parse(row.data);
+ if(!admin&&(typeof token!=='string'||!order.pdfToken||digest(token)!==digest(order.pdfToken)))return null;
+ return order;
+}

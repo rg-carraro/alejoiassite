@@ -29,3 +29,9 @@ Runtime atual: adapter Node + SQLite para execução local; migrar adapter/stora
 - Antes de afirmar conclusão, atualizar documentação vigente e registrar o que foi testado; a aparência da tabela no WhatsApp real depende do teste do usuário.
 
 - Responsividade usa largura da tela e pointer:coarse, não identificação por user-agent. Preservar campos mobile com fonte de pelo menos 16px, alvos de toque confortáveis e painel em cartões. Validar 320/360/390px, tablet e desktop ao alterar layout; tests/responsive.cjs usa servidor isolado na porta 4322.
+
+## PDF da seleção
+- src/server/order-pdf.ts usa PDFKit/Sharp e snapshot da solicitação. Manter valores/fotos do registro, nunca substituir pelos dados atuais do produto ao reemitir; fotos antigas ausentes têm indicação explícita.
+- POST /api/request-pdf exige sessão admin ou token privado da solicitação. Preservar proteção e no-store; não adicionar URL pública com dados pessoais.
+- wa.me não anexa PDF. Preservar compartilhamento nativo por clique após preparar arquivo e alternativa baixar/abrir conversa; não afirmar envio confirmado.
+- Alterações nos dados/itens invalidam PDF preparado. Testes tests/order-pdf.cjs e tests/share-pdf.cjs usam banco QA e compartilhamento simulado.
