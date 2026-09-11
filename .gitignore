@@ -11,3 +11,5 @@ dist/
 docs/wix-reference.html
 qa-*.png
 qa-browser.cjs
+.data/
+backups/
