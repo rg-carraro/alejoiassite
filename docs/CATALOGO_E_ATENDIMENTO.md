@@ -28,3 +28,6 @@ Lista real de produtos do usuário; publicação e banco hospedado na Cloudflare
 
 ## Formatação do WhatsApp
 Resumo copiável e mensagem do servidor compartilham src/data/order-message.ts. Nomes/códigos/opções completos ficam numerados acima de tabela monoespaçada Item/Qtd/Unit./Total (em R$); isso evita truncar nomes longos. Subtotal continua fora da tabela. Solicitações anteriores mantêm a mensagem histórica original. O alinhamento no WhatsApp real será avaliado nos testes do usuário.
+
+## Mensagem simplificada — decisão mais recente
+Usuário pediu somente Produto | Valor. A tabela agora usa texto simples, sem bloco de crases ou títulos com asteriscos; quantidade (quando maior que um) e opção ficam na coluna Produto, e Valor é o total da linha. Removidas da nova mensagem as frases sobre peças/preços demonstrativos e sobre não ser compra/reserva, conforme solicitado. Nome, telefone, identificador da solicitação, subtotal e observação permanecem. Regras do backend e avisos no site não mudam; solicitações antigas preservam seu texto original.

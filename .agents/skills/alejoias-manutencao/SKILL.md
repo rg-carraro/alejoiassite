@@ -22,7 +22,7 @@ Runtime atual: adapter Node + SQLite para execução local; migrar adapter/stora
 
 ## Retomada e validação
 - iniciar-dev.bat é a entrada de dois cliques; scripts/dev-windows.ps1 configura somente a sessão. Preservar compatibilidade Windows e não duplicar o servidor ativo.
-- src/data/order-message.ts centraliza tabela monoespaçada do WhatsApp e resumo copiável. Preservar nomes/códigos/opções completos, valores em centavos e snapshot das solicitações antigas.
+- src/data/order-message.ts centraliza tabela de texto Produto | Valor do WhatsApp e resumo copiável. Preservar nomes/opções completos e quantidade na coluna Produto; manter códigos no snapshot interno, valores em centavos e snapshot das solicitações antigas.
 - Testes administrativos usam ALEJOIAS_DATA_DIR separado (.data/qa-admin) e interceptam WhatsApp. Nunca apontar testes que alteram produtos ao banco do usuário.
 - Backend revalida preço, publicação, disponibilidade e opções; preserve revisão concorrente e idempotência das solicitações.
 - Exportação JSON é catálogo, não backup completo. Para cópia completa local, parar o servidor e copiar .data inteira, sem versionar dados privados.
