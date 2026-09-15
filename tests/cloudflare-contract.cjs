@@ -8,6 +8,7 @@ const base='http://127.0.0.1:4322';
   async function post(action,data,origin=base){const r=await fetch(base+'/api/'+action,{method:'POST',headers:{Origin:origin,'Content-Type':'application/json',Cookie:cookie},body:JSON.stringify(data)});return {status:r.status,body:await r.json(),headers:r.headers};}
   const login=await post('login',await loginPayload(base,{password}));assert.equal(login.status,200);cookie=login.headers.get('set-cookie').split(';')[0];
   const product=(await (await fetch(base+'/api/products',{headers:{Cookie:cookie}})).json()).find(p=>p.id==='DEMO-01');
+  const image=await fetch(base+product.image);assert.equal(image.status,200);assert.equal(image.headers.get('content-type'),'image/jpeg');assert.ok((await image.arrayBuffer()).byteLength>1000,'Foto migrada preservada');
   const [one,two]=await Promise.all([post('products',{...product,description:'Edição A'}),post('products',{...product,description:'Edição B'})]);
   assert.deepEqual([one.status,two.status].sort(),[200,400],'Somente uma edição concorrente é aceita');
   const raw={key:crypto.randomUUID(),name:'Cliente Fictícia PDF',phone:'19999990000',note:'Observação para testar a paginação. '.repeat(15),items:[{id:product.id,variant:product.variants[0],quantity:2}],expectedSubtotalInCents:20};
@@ -20,7 +21,7 @@ const base='http://127.0.0.1:4322';
   const browser=await chromium.launch({channel:'msedge',headless:true});
   try{
     const page=await browser.newPage({viewport:{width:390,height:844}});
-    await page.goto(order.pdfUrl);await page.locator('#pdf-download').waitFor({state:'visible'});
+    const privatePage=await page.goto(order.pdfUrl);assert.match(privatePage.headers()['content-security-policy'],/script-src 'self'/);await page.locator('#pdf-download').waitFor({state:'visible'});
     const pending=page.waitForEvent('download');await page.locator('#pdf-download').click();const download=await pending;await download.saveAs(path.join(process.env.QA_DATA_DIR,'cloudflare-selection.pdf'));
     // O mesmo renderizador precisa paginar listas longas e não buscar produto atual.
     const fake={...snapshot.body.order,items:Array.from({length:12},(_,i)=>({...snapshot.body.order.items[0],id:'QA-'+i,name:'Colar com detalhes delicados e acabamento especial para conferir a quebra de nomes longos',variant:'Opção '+i})),subtotalInCents:240};

@@ -1,5 +1,9 @@
 # Publicação no domínio AleJoias
 
+## 15/09/2026 — Versão gratuita preparada
+
+O usuário escolheu custo mensal zero. A migração para Workers Free + D1 foi implementada e testada localmente, com fotos no D1 e PDFs gerados no navegador. Procedimentos, limites, backup e pendências estão em [PUBLICACAO_GRATUITA.md](PUBLICACAO_GRATUITA.md). O ID D1 remoto ainda é um placeholder e não houve troca de domínio. A publicação que continua ativa é o Tunnel descrito abaixo.
+
 ## Decisão atual: publicar a loja local pelo Tunnel
 
 O usuário mudou a preferência: quer a loja e o painel atuais no domínio com o menor custo de serviço. A aplicação continua em Node/SQLite neste computador. `scripts/start-live.ps1` inicia o build de produção em `127.0.0.1:4323`, separado do servidor de desenvolvimento. O Cloudflare Tunnel `alejoias-local` encaminha `alejoias.com` para essa porta. Não usar `astro dev` como origem pública. A disponibilidade depende de computador, servidor e conector ligados; banco e uploads continuam em `.data` local. O backup anterior à publicação está em `backups/pre-publicacao-2026-09-14`, fora do Git.

@@ -117,3 +117,15 @@ Criado iniciador na pasta Inicializar do usuário Windows; funcionará após log
 
 ## 15/09/2026 — Correção de origem no pedido público
 Usuário relatou “Origem inválida” na sacola. Reproduzido 403 no domínio com consulta de PDF sem ID. Configurado `security.allowedDomains` para `alejoias.com`, permitindo ao Astro reconstruir HTTPS encaminhado pelo Tunnel sem desabilitar CSRF. Check/build e regressão `tests/proxy-origin.cjs` passaram, incluindo pedido/PDF em banco exclusivo, origem externa bloqueada, cookie Secure e compartilhamento no navegador. Build anterior copiado para `backups/pre-correcao-origem-*`; produção reiniciada. Verificação pública final: sacola 200, consulta de PDF sem ID 404 com origem legítima e 403 com origem externa. Sem pedidos fictícios no banco real e sem envio de WhatsApp.
+
+## 15/09/2026 — Preparação para publicação gratuita
+
+Usuário definiu orçamento mensal zero e pediu preparar tudo. Implementado modo Cloudflare com build separado e D1, mantendo a execução Node/SQLite. Fotos são otimizadas para até 300 KB / 1.000 px e armazenadas no D1, com capacidade inicial de 100 MB. Evitados R2, KV e serviços de PDF com cobrança por uso. PDF e derivação PBKDF2 da senha passam a ocorrer no navegador na alternativa gratuita; o servidor mantém autorização, validação, snapshots, histórico, sessões e proteção de origem.
+
+Preparado exportador local de SQLite/fotos para SQL D1 em diretório privado, com acesso administrativo novo e preservação de IDs, pedidos e histórico. Configuração remota permanece sem ID real e sem rotas do domínio. Documentados ativação, cotas, backup, restauração e corte sem perda de pedidos em `docs/PUBLICACAO_GRATUITA.md`.
+
+Testes passaram em Node e workerd/D1 local: painel, upload, importação, promoções, desativação, revisão concorrente, pedidos idempotentes, links/PDF, compartilhamento simulado, troca de senha e revogação. PDF de três páginas revisado visualmente. Acrescentados CSP/no-transform à página privada para bloquear scripts externos e redirecionamento canônico de GET/HEAD de www. A configuração DNS de www ainda depende da ativação remota. A medição de CPU no plano gratuito e o teste com PC desligado ficam para a publicação real.
+
+Usuário solicitou documentação e commit de todas as alterações. Encontrado commit `c4a1e3d` com a preparação inicial; preservado para receber a continuação em novo commit. Não houve envio real de WhatsApp, publicação do Worker, importação de clientes na nuvem, troca de DNS nem alteração do aplicativo Android.
+
+Conclusão da revisão: teste final também cobriu foto migrada, exportação SQL do D1 local e restauração com integridade preservada. Simulação de deploy aprovada, aproximadamente 168 KB gzip e somente bindings DB/ASSETS. Check: 50 arquivos, zero erros, avisos ou hints. Documentação de contexto, arquitetura, desenvolvimento, catálogo, testes e publicação atualizada.

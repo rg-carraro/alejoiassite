@@ -10,7 +10,8 @@
     "check": "astro check",
     "build:cloudflare": "node scripts/cloudflare.mjs build",
     "dev:cloudflare": "node scripts/cloudflare.mjs dev",
-    "preview:cloudflare": "node scripts/cloudflare.mjs preview"
+    "preview:cloudflare": "node scripts/cloudflare.mjs preview",
+    "test:cloudflare": "node tests/cloudflare.cjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.1",

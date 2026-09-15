@@ -20,7 +20,16 @@ pnpm check
 pnpm build
 ```
 
-O build atual é de servidor, não exportação estática. Para executá-lo: `node dist/server/entry.mjs` (HOST/PORT opcionais). Não publicar esse build diretamente em Cloudflare Workers: a etapa de publicação requer adapter Cloudflare, banco D1 e armazenamento de imagens apropriado, ainda não configurados. Domínio e aplicativo Android permanecem inalterados.
+O build padrão é de servidor Node: `node dist/server/entry.mjs` (HOST/PORT opcionais). A alternativa `pnpm build:cloudflare` seleciona o adapter Cloudflare e gera `dist-cloudflare/`, sem substituir `dist/`. Banco D1, fotos e PDFs da alternativa estão implementados; a ativação remota permanece pendente. Consulte [PUBLICACAO_GRATUITA.md](PUBLICACAO_GRATUITA.md). O aplicativo Android permanece independente.
+
+Para verificar a versão gratuita: `pnpm check`, `pnpm build:cloudflare` e `pnpm test:cloudflare`. O teste cria seus próprios dados fictícios e exige a porta 4322 livre. Para regressão Node: `pnpm build --outDir .data/qa-origin-build` e `node tests/proxy-origin.cjs`. Ambos encerram os servidores de teste que iniciam.
+
+Em terminal PowerShell sem o runtime no PATH, configurar apenas a sessão:
+
+```powershell
+$runtime = Join-Path $env:USERPROFILE '.cache\codex-runtimes\codex-primary-runtime\dependencies'
+$env:Path = "$runtime\node\bin;$runtime\bin\fallback;$env:Path"
+```
 
 ## Organização
 - src/server/store.ts: SQLite, produtos, revisões, sessões e solicitações.

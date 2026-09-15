@@ -1,8 +1,20 @@
 # Arquitetura técnica — AleJoias Site
 
-Atualizado em 11/09/2026. Substitui a proposta preliminar; o histórico permanece em DECISION_LOG.md.
+Atualizado em 15/09/2026. Substitui a proposta preliminar; o histórico permanece em DECISION_LOG.md.
 
-## Implementação atual
+## Dois modos de execução
+
+O modo padrão mantém Node/SQLite e o build `dist/`, atualmente atendido pelo Tunnel. `scripts/cloudflare.mjs` define `ALEJOIAS_TARGET=cloudflare` somente no processo filho e gera `dist-cloudflare/`. O adaptador Cloudflare usa Workers + D1, sem R2/KV/Images. Esse modo foi testado localmente e ainda não está publicado.
+
+`astro.config.mjs` seleciona os módulos de servidor por aliases: páginas usam `view-store` assíncrono; as rotas de API e fotos delegam aos handlers Node ou Cloudflare. Os módulos Node de filesystem, SQLite, PDFKit e Sharp não são necessários no Worker. `product-validation.ts` centraliza as regras comuns de cadastro. A importação Cloudflare mantém a mesma política de campos e usa operações D1 assíncronas.
+
+No D1, uma revisão global do catálogo e uma verificação dentro de `DB.batch` impedem gravar lotes ou pedidos calculados sobre estado antigo. O lote reúne a validação da revisão, a gravação e o histórico em uma transação. A chave única do pedido permite recuperar a solicitação anterior quando duas requisições idênticas chegam juntas. A imagem fica no snapshot de cada item.
+
+`pdf-client.ts` aceita PDF binário do Node ou snapshot JSON privado da nuvem. `pdf-render.ts` gera o documento com pdf-lib no navegador, preservando fotos e dados do registro. `auth-client.ts` deriva a senha com PBKDF2-SHA256/600 mil iterações para o modo Cloudflare; o servidor verifica SHA256 dessa prova e cria sessão D1. No modo Node a autenticação scrypt anterior é mantida. A prova derivada é credencial e não deve ser logada ou persistida no navegador.
+
+`migrations/0001_store.sql` define tabelas, índices, controle de revisão e limite de fotos. `prepare-cloudflare-data.mjs` produz uma importação privada a partir de leitura consistente do SQLite. Procedimentos e limites: [PUBLICACAO_GRATUITA.md](PUBLICACAO_GRATUITA.md).
+
+## Implementação Node preservada
 Astro + TypeScript com adapter Node para execução local. Páginas são renderizadas no servidor e leem SQLite. Interações usam TypeScript no navegador; React ainda não foi necessário.
 
 Fluxo do catálogo: painel autenticado → API → SQLite + histórico → páginas públicas.

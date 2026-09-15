@@ -66,9 +66,11 @@ async function post(action, data, origin = publicOrigin, headers = proxy) {
     const login = await post('login', {password});
     assert.equal(login.status, 200);
     assert.match(login.headers.get('set-cookie'), /; Secure/i);
-    const browserTest = spawn(process.execPath, ['tests/share-pdf.cjs'], {stdio: 'inherit', windowsHide: true});
-    const [code] = await once(browserTest, 'exit');
-    assert.equal(code, 0, 'Fluxo da sacola e recebimento do PDF no navegador');
+    for (const file of ['tests/admin-integration.cjs', 'tests/share-pdf.cjs']) {
+      const browserTest = spawn(process.execPath, [file], {stdio: 'inherit', windowsHide: true, env: {...process.env, QA_DATA_DIR: dataDir}});
+      const [code] = await once(browserTest, 'exit');
+      assert.equal(code, 0, 'Regressão local: ' + file);
+    }
     console.log('PASS: origem HTTPS pelo proxy, origem local, CSRF, host não autorizado, pedido/PDF isolado e cookie Secure.');
   } finally {
     server.kill();

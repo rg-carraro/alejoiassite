@@ -1,6 +1,19 @@
 # Contexto atual — AleJoias Site
 
-Atualizado em 11/09/2026. Estado: protótipo local funcional, com painel e persistência, pronto para testes do usuário.
+Atualizado em 15/09/2026. Estado: loja publicada pelo PC via Tunnel; alternativa gratuita Workers/D1 preparada e validada localmente, ainda sem ativação remota.
+
+## Decisão vigente de hospedagem
+
+- Usuário escolheu orçamento mensal zero e pediu preparar a publicação gratuita. Implementados dois modos de execução, preservando Astro + TypeScript e a loja atual.
+- `pnpm build` continua gerando Node em `dist/`. `pnpm build:cloudflare` gera Workers em `dist-cloudflare/`, com D1 para catálogo, solicitações, histórico, sessões e fotos. Não usa R2, KV ou serviços pagos de PDF.
+- Fotos novas são otimizadas no navegador para JPEG de até 300 KB / 1.000 px. O D1 limita fotos a 100 MB inicialmente, sem apagar arquivos automaticamente. Originais locais permanecem no PC.
+- Na nuvem, PDF é montado por pdf-lib no navegador a partir de snapshot autorizado. No Node, continua PDFKit/Sharp. A autenticação remota usa PBKDF2-SHA256/600 mil iterações no navegador, com outro hash no servidor; sessões e controle de origem continuam protegidos.
+- Migração é preparada por `scripts/prepare-cloudflare-data.mjs`, com origem SQLite somente leitura, IDs/histórico/tokens preservados, fotos otimizadas e nova senha administrativa privada. Não migra sessões nem reescreve links antigos.
+- Procedimento completo: [PUBLICACAO_GRATUITA.md](PUBLICACAO_GRATUITA.md). O ID do banco em `wrangler.jsonc` ainda é um placeholder. Nenhum Worker/D1 real foi criado nesta preparação e o domínio não foi trocado.
+- Check, builds, fluxos Node/Cloudflare, concorrência, senha, PDF e compartilhamento foram testados em bancos fictícios. O PDF de três páginas foi revisado visualmente. CPU/cotas do plano gratuito precisam ser verificadas no serviço remoto antes do corte definitivo.
+- Usuário pediu documentar e commitar tudo. O commit `c4a1e3d` já contém a preparação inicial; a revisão final e a documentação são uma continuação, sem reescrever esse commit.
+
+As seções cronológicas abaixo preservam decisões anteriores; esta seção e as decisões mais recentes prevalecem sobre menções antigas à hospedagem e ao formato da mensagem.
 
 ## Projeto e continuidade
 - Pasta oficial: C:\Users\rgcar\git\alejoiassite.
@@ -34,7 +47,7 @@ Categorias: Brincos, Pulseiras, Anéis, Colares, Conjuntos e Tornozeleiras. Cole
 ## Tecnologia e dados
 - Astro + TypeScript, pnpm com lockfile. React aprovado quando necessário, mas ainda não utilizado.
 - Ambiente validado com Node 24.19.0 e TypeScript 6. TypeScript 7 apresentou incompatibilidade com astro check.
-- Adapter Node e SQLite local em src/server/store.ts. Build atual é de servidor, não estático e não diretamente publicável em Workers.
+- Adapter Node e SQLite local em src/server/store.ts; alternativa Cloudflare/D1 em src/server/cloudflare. Ambos usam validação comum de produtos. Cada modo possui build separado.
 - Banco: .data/alejoias-site.sqlite. Uploads: .data/uploads. Sementes em src/data/products.ts só alimentam banco novo.
 - .data e backups são ignorados pelo Git. Contatos, banco e credenciais não são sincronizados com GitHub.
 - Senha inicial privada em .data/acesso-admin.txt. Troca pelo painel encerra sessões e remove o arquivo da senha inicial.
@@ -58,7 +71,7 @@ Checagem Astro/TypeScript e build passaram. Testes em banco isolado cobriram aut
 Próximos passos:
 1. Usuário testar loja/painel/BAT e trazer ajustes (docs/ROTEIRO_TESTES.md).
 2. Receber a lista e fotos reais, importar e revisar dados comerciais.
-3. Planejar hospedagem independente deste computador e migração do SQLite/uploads; a publicação atual usa o túnel local.
+3. Ativar e validar a alternativa gratuita Workers/D1, importar a cópia final dos dados e trocar o domínio. A publicação atual ainda usa o túnel local.
 4. Definir conteúdo comercial, entrega, políticas e requisitos de produção antes do lançamento.
 5. Pagamento online e integração com Android são futuras decisões, sem implementação atual.
 

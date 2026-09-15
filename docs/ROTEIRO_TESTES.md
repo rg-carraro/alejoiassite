@@ -10,10 +10,10 @@
 - Navegue por categorias, Novidades e Presentes; teste busca e limpeza de filtros.
 - Abra uma peça e adicione quantidades/opções à sacola.
 - Altere quantidade, remova e recarregue para conferir persistência e subtotal.
-- Confira mensagem e copie o resumo: nomes e opções completos, tabela Item/Qtd/Unit./Total em R$, identificação e subtotal.
-- Nome/telefone vazios ou inválidos devem bloquear Registrar e abrir WhatsApp.
+- Confira o PDF: fotos, nomes, opções reais, quantidades, valores, identificação e subtotal. WhatsApp e cópia devem conter somente o link privado do documento.
+- Nome/telefone vazios ou inválidos devem bloquear Preparar pedido com PDF.
 - Se quiser testar a abertura, use seus próprios dados. A solicitação será registrada antes do WhatsApp; envie a mensagem somente se desejar.
-- Confira a tabela no seu WhatsApp, especialmente alinhamento e leitura no celular, e relate diferenças.
+- Confira se o destinatário abre o link e baixa o PDF no celular.
 
 ## Painel
 - Entre com senha inicial (.data/acesso-admin.txt); salve a nova senha em lugar seguro ao trocá-la.

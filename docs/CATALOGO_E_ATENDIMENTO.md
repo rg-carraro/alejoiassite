@@ -44,3 +44,7 @@ Alterar dados ou itens exige preparar novamente. A solicitação fica registrada
 
 ### Atualização: envio por link
 Após preparar, “Abrir conversa no WhatsApp” agora envia somente o link do PDF; “Copiar link do PDF” copia esse mesmo endereço. Não é necessário anexar o arquivo quando o site estiver publicado e acessível. Durante testes localhost, o destinatário em outro aparelho não consegue abrir o servidor do seu computador por esse endereço; use o arquivo baixado como alternativa.
+
+### 15/09/2026 — Preparação da hospedagem gratuita
+
+O painel otimiza novos uploads JPEG/PNG/WebP de até 5 MB para JPEG de até 300 KB e maior dimensão de até 1.000 px. Na versão Cloudflare, fotos ficam no D1, com capacidade inicial de 100 MB e sem exclusão automática. Na versão Node continuam em arquivos locais. O PDF da nuvem é montado no navegador com o snapshot autorizado. Regras de preços, conciliação, revisões, idempotência e histórico continuam preservadas. Ver [PUBLICACAO_GRATUITA.md](PUBLICACAO_GRATUITA.md); a alternativa gratuita ainda não substituiu a publicação via PC.

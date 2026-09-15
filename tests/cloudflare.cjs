@@ -1,7 +1,7 @@
 const {spawn,spawnSync}=require('node:child_process');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {DatabaseSync}=require('node:sqlite');
-const root=path.resolve('.data/qa-cloudflare-'+Date.now()),source=path.join(root,'source'),persist=path.join(root,'runtime');
+const root=path.resolve('.data/qa-cloudflare-'+Date.now()),source=path.join(root,'source'),persist=path.join(root,'.wrangler','state');
 const env={...process.env,WRANGLER_LOG_PATH:path.join(root,'logs'),CI:'true'};
 const wrangler='node_modules/wrangler/bin/wrangler.js';
 function run(args,extra={}){
@@ -14,7 +14,9 @@ function run(args,extra={}){
   fs.mkdirSync(source,{recursive:true});const db=new DatabaseSync(path.join(source,'alejoias-site.sqlite'));
   db.exec(fs.readFileSync('migrations/0001_store.sql','utf8'));
   const seeds=(await import('../src/data/products.ts')).products;
-  for(const seed of seeds){const product={...seed,tags:[],promoPriceInCents:null,promoStart:'',promoEnd:'',enabled:true,available:true,demo:true,revision:1,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};db.prepare('INSERT INTO products VALUES(?,?,?)').run(product.id,product.slug,JSON.stringify(product));}
+  const imageName=crypto.randomUUID()+'.jpg';fs.mkdirSync(path.join(source,'uploads'));
+  fs.copyFileSync('public/images/products/anel-exemplo.jpg',path.join(source,'uploads',imageName));
+  for(const seed of seeds){const product={...seed,...(seed.id==='DEMO-01'?{image:'/media/'+imageName}:{}),tags:[],promoPriceInCents:null,promoStart:'',promoEnd:'',enabled:true,available:true,demo:true,revision:1,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};db.prepare('INSERT INTO products VALUES(?,?,?)').run(product.id,product.slug,JSON.stringify(product));}
   db.close();
   const prepared=run(['scripts/prepare-cloudflare-data.mjs',source]);
   const migration=prepared.match(/Preparação local concluída: (.+)/)[1].trim();
@@ -27,6 +29,16 @@ function run(args,extra={}){
     assert.ok(ready,'Emulador iniciou');
     const testEnv={QA_DATA_DIR:migration,QA_CLOUDFLARE:'1'};
     for(const file of ['admin-integration.cjs','share-pdf.cjs','cloudflare-contract.cjs'])console.log(run(['tests/'+file],testEnv).trim());
+    const backup=path.join(root,'backup.sql');
+    // d1 export não aceita --persist-to; usa .wrangler/state relativo ao config.
+    const exportConfig=path.join(root,'wrangler.json');
+    fs.writeFileSync(exportConfig,JSON.stringify({name:'alejoias-qa',d1_databases:[{binding:'DB',database_name:'alejoias-loja',database_id:'00000000-0000-0000-0000-000000000000'}]}));
+    run([wrangler,'d1','export','alejoias-loja','--local','--config',exportConfig,'--output',backup]);
+    const restored=new DatabaseSync(path.join(root,'restored.sqlite'));restored.exec(fs.readFileSync(backup,'utf8'));
+    assert.ok(restored.prepare('SELECT COUNT(*) AS count FROM requests').get().count>0);
+    assert.ok(restored.prepare('SELECT COUNT(*) AS count FROM media WHERE length(content)=size').get().count>0);
+    assert.equal(restored.prepare('PRAGMA integrity_check').get().integrity_check,'ok');restored.close();
+    console.log('PASS: backup SQL exportado e restaurado, incluindo pedidos e fotos.');
     console.log('PASS: Cloudflare local e migração isolada. Artefatos: '+migration);
   }finally{
     if(process.platform==='win32')spawnSync('taskkill',['/PID',String(server.pid),'/T','/F'],{stdio:'ignore',windowsHide:true});else server.kill();

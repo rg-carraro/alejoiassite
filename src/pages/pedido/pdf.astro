@@ -1,7 +1,10 @@
 ---
-Astro.response.headers.set('Cache-Control','no-store');
+Astro.response.headers.set('Cache-Control','no-store, no-transform');
 Astro.response.headers.set('Referrer-Policy','no-referrer');
 Astro.response.headers.set('X-Robots-Tag','noindex, nofollow, noarchive');
+// A página recebe um token privado no fragmento. Bloqueia scripts e conexões
+// externos, inclusive métricas que um proxy possa tentar injetar.
+Astro.response.headers.set('Content-Security-Policy',"default-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'");
 ---
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="referrer" content="no-referrer"/><meta name="robots" content="noindex,nofollow"/><title>PDF da seleção | AleJoias</title></head>
