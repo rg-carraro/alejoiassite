@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
-import {listProducts} from '../server/store';
-const products=listProducts();
+import {listProducts} from '../server/view-store';
+const products=await listProducts();
 import {categories,collections} from '../data/categories';
 ---
 <BaseLayout title="Coleção"><section class="section catalogue"><p class="eyebrow">ESCOLHAS QUE COMBINAM COM VOCÊ</p><h1>Nossa coleção</h1><p>Explore, descubra e escolha os seus detalhes favoritos.</p>

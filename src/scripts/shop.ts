@@ -1,3 +1,4 @@
+import {pdfBlob} from './pdf-client';
 
 import {formatPrice,type CatalogProduct} from '../data/catalog';
 const products:CatalogProduct[]=await fetch('/api/catalog').then(r=>{if(!r.ok)throw Error('Catálogo indisponível');return r.json();});
@@ -81,7 +82,7 @@ $('#whatsapp-order')?.addEventListener('click',async event=>{
  if(feedback)feedback.textContent='Solicitação registrada. Preparando o PDF com as fotos…';
  const pdfResponse=await fetch('/api/request-pdf',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:result.id,token:result.pdfToken})});
  if(!pdfResponse.ok)throw Error('A seleção foi registrada, mas o PDF não ficou pronto. Tente preparar novamente ou abra o WhatsApp abaixo.');
- const file=new File([await pdfResponse.blob()],'alejoias-'+result.id+'.pdf',{type:'application/pdf'});
+ const file=new File([await pdfBlob(pdfResponse)],'alejoias-'+result.id+'.pdf',{type:'application/pdf'});
  if(!prepared||serialized!==JSON.stringify(payload()))throw Error('A seleção mudou. Prepare o PDF novamente.');
  prepared.file=file;prepared.url=URL.createObjectURL(file);
  download.href=prepared.url;download.download=file.name;download.hidden=false;

@@ -1,12 +1,13 @@
+const {loginPayload}=require('./auth.cjs');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');const path=require('node:path');
 const {chromium}=require(path.join(process.env.USERPROFILE,'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'));
 const base=process.env.QA_BASE_URL||'http://127.0.0.1:4322';
 const dataDir=process.env.QA_DATA_DIR||path.resolve('.data/qa-admin');
 const id='QA-'+Date.now();let cookie='';
-async function api(action,data,authenticated=true,origin=base){const response=await fetch(base+'/api/'+action,{method:data===undefined?'GET':'POST',headers:{...(data===undefined?{}:{'Content-Type':'application/json',Origin:origin}),...(authenticated&&cookie?{Cookie:cookie}:{})},body:data===undefined?undefined:JSON.stringify(data)});const result=await response.json();return {response,result};}
+async function api(action,data,authenticated=true,origin=base){if(action==='login')data=await loginPayload(base,data);const response=await fetch(base+'/api/'+action,{method:data===undefined?'GET':'POST',headers:{Connection:'close',...(data===undefined?{}:{'Content-Type':'application/json',Origin:origin}),...(authenticated&&cookie?{Cookie:cookie}:{})},body:data===undefined?undefined:JSON.stringify(data)});const result=await response.json();return {response,result};}
 (async()=>{
- await fetch(base+'/admin/login');const password=fs.readFileSync(path.join(dataDir,'acesso-admin.txt'),'utf8').match(/Senha inicial: (.+)/)[1].trim();
+ await (await fetch(base+'/admin/login')).text();const password=fs.readFileSync(path.join(dataDir,'acesso-admin.txt'),'utf8').match(/Senha inicial: (.+)/)[1].trim();
  assert.equal((await api('products',undefined,false)).response.status,401);
  assert.equal((await api('products',{},false)).response.status,401);
  const logged=await api('login',{password},false);assert.equal(logged.response.status,200);cookie=logged.response.headers.get('set-cookie').split(';')[0];

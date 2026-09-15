@@ -50,4 +50,6 @@ Testes: node tests/admin-integration.cjs, node tests/order-pdf.cjs e node tests/
 Compartilhamento exige suporte do navegador e gesto da pessoa, conforme [Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share). Download e abertura da conversa continuam disponíveis como alternativa.
 
 ### Link compartilhável
+
+Regressão do Tunnel: `pnpm build --outDir .data/qa-origin-build` seguido de `node tests/proxy-origin.cjs`. O teste exige porta 4322 livre, inicia e encerra seu próprio servidor e cria banco exclusivo em `.data/qa-origin-*`. Confere HTTPS encaminhado, origem local, CSRF, link/PDF, cookie Secure e fluxo de compartilhamento no navegador. A configuração `security.allowedDomains` reconhece somente `alejoias.com`; manter a checagem estrita de Origin da API.
 /pedido/pdf usa ID/token no fragmento e solicita o arquivo por POST /api/request-pdf. A origem é a URL da solicitação, não o domínio configurado em astro.config.mjs; manter compatível com ambiente local e futura hospedagem. Link confere acesso a quem o possui; não registrar fragmento/token em telemetria. Dados e textos antigos permanecem intactos no SQLite.

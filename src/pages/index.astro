@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
-import {listProducts} from '../server/store';
-const products=listProducts();
+import {listProducts} from '../server/view-store';
+const products=await listProducts();
 import {categories} from '../data/categories';
 ---
 <BaseLayout title="Pequenos detalhes, sua essência">

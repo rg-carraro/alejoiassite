@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductCard from '../../components/ProductCard.astro';
-import {listProducts} from '../../server/store';
+import {listProducts} from '../../server/view-store';
 import {formatPrice,effectivePrice} from '../../data/catalog';
-const products=listProducts();
+const products=await listProducts();
 const p=products.find(product=>product.slug===Astro.params.slug);
 if(!p) return new Response('Produto não encontrado ou desativado.',{status:404});
 const price=effectivePrice(p);

@@ -8,6 +8,7 @@ Astro.response.headers.set('X-Robots-Tag','noindex, nofollow, noarchive');
 <body><main><h1>AleJoias</h1><h2>Sua seleção em PDF</h2><p id="pdf-status" role="status">Preparando o documento…</p><a id="pdf-download" hidden>Baixar PDF com fotos</a><button id="pdf-retry" hidden>Tentar novamente</button><p>O documento contém os dados e as peças da solicitação. Compartilhe este link apenas com quem deve ter acesso.</p></main></body></html>
 <style>body{margin:0;background:#faf8f4;color:#302b28;font:16px/1.6 system-ui}main{max-width:540px;margin:10vh auto;padding:24px}h1{font-size:36px}a,button{display:inline-block;background:#354237;color:white;padding:14px 22px;border:0;font:inherit;border-radius:4px;cursor:pointer;text-decoration:none}[hidden]{display:none}</style>
 <script>
+import {pdfBlob} from '../../scripts/pdf-client';
 const status=document.querySelector<HTMLElement>('#pdf-status')!;
 const download=document.querySelector<HTMLAnchorElement>('#pdf-download')!;
 const retry=document.querySelector<HTMLButtonElement>('#pdf-retry')!;
@@ -22,7 +23,7 @@ async function prepare(){
  try{
   const response=await fetch('/api/request-pdf',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,token})});
   if(!response.ok)throw Error('Não foi possível abrir o PDF. Confira o link ou tente novamente.');
-  const blob=await response.blob();if(location.hash!==fragment)return;objectUrl=URL.createObjectURL(blob);download.href=objectUrl;download.download='alejoias-'+id+'.pdf';download.hidden=false;
+  const blob=await pdfBlob(response);if(location.hash!==fragment)return;objectUrl=URL.createObjectURL(blob);download.href=objectUrl;download.download='alejoias-'+id+'.pdf';download.hidden=false;
   status.textContent='PDF pronto para baixar.';
  }catch(error){status.textContent=(error as Error).message;retry.hidden=false;}
 }

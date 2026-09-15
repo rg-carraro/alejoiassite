@@ -4,7 +4,8 @@ import { mkdirSync,existsSync,writeFileSync,unlinkSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { randomBytes,randomUUID,scryptSync,timingSafeEqual,createHash } from 'node:crypto';
 import { products as seeds } from '../data/products';
-import { categories } from '../data/categories';
+import {validateProduct,text} from './product-validation';
+export {validateProduct} from './product-validation';
 import { type CatalogProduct, effectivePrice } from '../data/catalog';
 export const dataDir=resolve(process.env.ALEJOIAS_DATA_DIR||'.data');
 mkdirSync(dataDir,{recursive:true});
@@ -32,25 +33,6 @@ export function logout(token:string){db.prepare('DELETE FROM sessions WHERE toke
 export function listProducts(all=false):CatalogProduct[]{return (db.prepare('SELECT data FROM products ORDER BY rowid').all() as {data:string}[]).map(r=>JSON.parse(r.data)).filter(p=>all||p.enabled);}
 export function getProduct(id:string):CatalogProduct|undefined{const r=db.prepare('SELECT data FROM products WHERE id=?').get(id) as {data:string}|undefined;return r?JSON.parse(r.data):undefined;}
 export function publicProducts(){return listProducts().map(p=>({...p,priceInCents:effectivePrice(p),regularPriceInCents:p.priceInCents}));}
-function text(value:unknown,name:string,max:number,required=false){if(typeof value!=='string'||value.length>max||(required&&!value.trim()))throw Error('Campo inválido: '+name);return value.trim();}
-function array(value:unknown,name:string){if(!Array.isArray(value)||value.length>30||value.some(v=>typeof v!=='string'||!v.trim()||v.length>100))throw Error('Lista inválida: '+name);return [...new Set(value.map(v=>v.trim()))];}
-export function validateProduct(raw:any,existing?:CatalogProduct):CatalogProduct{
- if(!raw||typeof raw!=='object'||Array.isArray(raw))throw Error('Produto inválido.');
- const now=new Date().toISOString();const id=text(raw.id,'código',80,true);if(!/^[a-zA-Z0-9._-]+$/.test(id))throw Error('Código: use letras, números, ponto, hífen ou sublinhado.');
- const slug=text(raw.slug,'endereço',100,true);if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug))throw Error('Endereço inválido.');
- if(existing&&(id!==existing.id||raw.revision!==existing.revision))throw Error('Cadastro mudou. Recarregue antes de salvar.');
- if(!categories.some(c=>c.slug===raw.category))throw Error('Categoria inválida.');
- const money=(n:any)=>Number.isSafeInteger(n)&&n>=0&&n<=100000000;
- if(!money(raw.priceInCents))throw Error('Preço inválido.');
- const promo=raw.promoPriceInCents??null;if(promo!==null&&(!money(promo)||promo>=raw.priceInCents))throw Error('Preço promocional deve ser menor que o preço normal.');
- const date=(v:any)=>{if(!v)return '';if(typeof v!=='string'||!Number.isFinite(Date.parse(v)))throw Error('Data promocional inválida.');return new Date(v).toISOString();};
- const promoStart=date(raw.promoStart),promoEnd=date(raw.promoEnd);if(promoStart&&promoEnd&&promoEnd<=promoStart)throw Error('Fim da promoção deve ser após o início.');
- const image=text(raw.image,'imagem',250);if(image&&!/^\/(?:images|media)\/[a-zA-Z0-9/_\-.]+$/.test(image))throw Error('Use uma imagem enviada pelo painel ou um caminho local /images/.');
- const variants=array(raw.variants,'opções');if(!variants.length)throw Error('Informe pelo menos uma opção.');
- const collections=array(raw.collections,'coleções');if(collections.some(c=>!['novidades','presentes'].includes(c)))throw Error('Coleção inválida.');
- for(const key of ['enabled','available','demo'])if(typeof raw[key]!=='boolean')throw Error('Situação inválida: '+key);
- return {id,slug,name:text(raw.name,'nome',150,true),category:raw.category,image,alt:text(raw.alt,'texto da imagem',250),description:text(raw.description,'descrição',5000),collections,variants,tags:array(raw.tags,'tags'),priceInCents:raw.priceInCents,promoPriceInCents:promo,promoStart,promoEnd,enabled:raw.enabled,available:raw.available,demo:raw.demo,revision:(existing?.revision||0)+1,createdAt:existing?.createdAt||now,updatedAt:now};
-}
 function writeProduct(p:CatalogProduct,before:CatalogProduct|undefined,source:string){const other=db.prepare('SELECT id FROM products WHERE slug=? AND id<>?').get(p.slug,p.id);if(other)throw Error('Endereço já usado por outro produto.');db.prepare('INSERT INTO products VALUES(?,?,?) ON CONFLICT(id) DO UPDATE SET slug=excluded.slug,data=excluded.data').run(p.id,p.slug,JSON.stringify(p));db.prepare('INSERT INTO history(product_id,at,actor,source,before_json,after_json) VALUES(?,?,?,?,?,?)').run(p.id,p.updatedAt,'administrador',source,before?JSON.stringify(before):null,JSON.stringify(p));return p;}
 export function saveProduct(raw:any,source='edição manual'){return transaction(()=>{const before=getProduct(raw.id);return writeProduct(validateProduct(raw,before),before,source);});}
 if(!setting('seeded'))transaction(()=>{for(const seed of seeds){if(!getProduct(seed.id))writeProduct(validateProduct({...seed,tags:[],promoPriceInCents:null,promoStart:'',promoEnd:'',enabled:true,available:true,demo:true}),undefined,'amostra inicial');}db.prepare('INSERT INTO settings VALUES(?,?)').run('seeded','1');});

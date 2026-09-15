@@ -13,3 +13,8 @@ qa-*.png
 qa-browser.cjs
 .data/
 backups/
+
+dist-cloudflare/
+.dev.vars
+.dev.vars.*
+.pnpm-store/
