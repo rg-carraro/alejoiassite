@@ -4,6 +4,8 @@ Atualizado em 15/09/2026. Estado: loja publicada pelo PC via Tunnel; alternativa
 
 ## Decisão vigente de hospedagem
 
+Produtos com uma única opção padrão não exibem seletor de medida/opção na página nem repetem essa opção na sacola. Produtos com alternativas reais mantêm o seletor. O valor interno, a validação do servidor e os pedidos antigos são preservados (15/09/2026).
+
 - Usuário escolheu orçamento mensal zero e pediu preparar a publicação gratuita. Implementados dois modos de execução, preservando Astro + TypeScript e a loja atual.
 - `pnpm build` continua gerando Node em `dist/`. `pnpm build:cloudflare` gera Workers em `dist-cloudflare/`, com D1 para catálogo, solicitações, histórico, sessões e fotos. Não usa R2, KV ou serviços pagos de PDF.
 - Fotos novas são otimizadas no navegador para JPEG de até 300 KB / 1.000 px. O D1 limita fotos a 100 MB inicialmente, sem apagar arquivos automaticamente. Originais locais permanecem no PC.

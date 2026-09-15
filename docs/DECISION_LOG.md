@@ -129,3 +129,7 @@ Testes passaram em Node e workerd/D1 local: painel, upload, importação, promo�
 Usuário solicitou documentação e commit de todas as alterações. Encontrado commit `c4a1e3d` com a preparação inicial; preservado para receber a continuação em novo commit. Não houve envio real de WhatsApp, publicação do Worker, importação de clientes na nuvem, troca de DNS nem alteração do aplicativo Android.
 
 Conclusão da revisão: teste final também cobriu foto migrada, exportação SQL do D1 local e restauração com integridade preservada. Simulação de deploy aprovada, aproximadamente 168 KB gzip e somente bindings DB/ASSETS. Check: 50 arquivos, zero erros, avisos ou hints. Documentação de contexto, arquitetura, desenvolvimento, catálogo, testes e publicação atualizada.
+
+## 15/09/2026 — Produtos com medida padrão
+
+Usuário informou que as medidas são padrão e o campo não faz sentido. Ocultado o seletor na página de produtos com uma única opção; a sacola também omite essa opção. Produtos com mais de uma alternativa continuam selecionáveis. Preservados cadastro, variante interna, validação e snapshots antigos. Check, builds Node/Cloudflare e regressão de painel/sacola/PDF passaram. Verificação em navegador mobile confirmou ausência do seletor, adição e sacola sem medida provisória. Build anterior guardado em backups/pre-opcao-padrao-* e servidor publicado reiniciado com o ajuste.
