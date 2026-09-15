@@ -3,6 +3,12 @@
 /* Formulários e listagem legíveis em telas pequenas, sem depender do user-agent. */
 html { -webkit-text-size-adjust: 100%; }
 .admin-main, .admin-main section, .controls label, .form-grid label { min-width: 0; }
+.admin-product { display: flex; align-items: center; gap: 12px; min-width: 180px; }
+.admin-product-photo { display: grid; place-items: center; flex: 0 0 60px; width: 60px; height: 60px; overflow: hidden; background: #f5f6f3; color: #697067; font-size: .7rem; text-align: center; }
+.admin-product-photo img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.admin-product-identity { min-width: 0; overflow-wrap: anywhere; }
+.admin-image-preview { display: flex; align-items: center; gap: 12px; margin: 12px 0; color: #586653; font-size: .875rem; }
+.admin-image-preview .admin-product-photo { flex-basis: 60px; }
 .admin-header, .heading, td { overflow-wrap: anywhere; }
 @media (max-width: 650px) {
   input, select, textarea { font-size: 16px; max-width: 100%; }

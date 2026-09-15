@@ -101,3 +101,16 @@ Usuário aprovou PDF anexo como alternativa à foto dentro da tabela textual do 
 
 ## 11/09/2026 — Link no lugar da tabela
 A pedido do usuário, novas mensagens passam a conter apenas o link para obter o PDF. Criada página de download para o destinatário, com token privado no fragmento e consulta POST, preservando a proteção da API. Não houve publicação: acesso remoto aos links depende de hospedagem acessível. Testes cobrem mensagem exata, prévia, abertura sem login, download e link inválido.
+
+## 14/09/2026 — Miniatura na gestão de produtos
+Por solicitação do usuário, a lista do painel mostra a foto cadastrada ao lado do nome e código. Sem imagem ou com imagem indisponível, mostra “Sem foto”. A mudança é apenas de apresentação; check e build passaram.
+Na sequência, o formulário de edição passou a exibir a mesma miniatura junto ao campo de imagem, atualizada ao mudar o caminho ou enviar outra foto.
+
+## 14/09/2026 — Preparação do domínio
+Usuário optou por mostrar “Em breve” em `alejoias.com` enquanto cadastra os produtos definitivos. Criada página estática isolada em `holding/`, com configuração própria de Worker. Revisão visual em 390/1440 px e simulação de deploy com Wrangler 4.131.1 passaram. Cloudflare abriu em tela de login; nenhum recurso remoto, deploy ou DNS foi alterado. A loja Astro/Node/SQLite permanece local até migração de banco, uploads e PDF.
+
+## 14/09/2026 — Mudança para publicação da loja local
+Usuário mudou a decisão para colocar a loja e o painel atuais em `alejoias.com` com o menor custo. Preparado Cloudflare Tunnel como conexão provisória ao servidor Node local em `127.0.0.1:4323`; backup SQLite consistente criado antes da abertura pública. Site de produção respondeu localmente em cinco rotas. Cloudflared foi baixado, mas túnel e DNS ainda não foram configurados. A alternativa “Em breve” não foi publicada.
+Na continuação, o túnel remoto `alejoias-local` foi criado na conta Cloudflare. Conector ainda não instalado, sem rota pública ou DNS.
+O conector `cloudflared` foi iniciado como processo local e exibiu estado íntegro. A instalação como serviço Windows falhou por falta de acesso ao gerenciador de serviços. Após confirmação específica do usuário para exposição pública, a rota `alejoias.com` foi associada à origem `http://127.0.0.1:4323`; a Cloudflare criou CNAME automaticamente. HTTPS respondeu 200 na página inicial, catálogo e login administrativo. O banco real não recebeu registros de teste nesta validação; a alternativa “Em breve” não foi publicada. A disponibilidade depende do computador ligado e do processo local.
+Criado iniciador na pasta Inicializar do usuário Windows; funcionará após login, mas ainda não foi testado por reinício. O script manual `scripts/start-public.ps1` foi testado com ambos os processos já ativos.

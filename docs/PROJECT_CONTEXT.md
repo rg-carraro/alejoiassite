@@ -6,7 +6,7 @@ Atualizado em 11/09/2026. Estado: protótipo local funcional, com painel e persi
 - Pasta oficial: C:\Users\rgcar\git\alejoiassite.
 - Repositório: https://github.com/rg-carraro/alejoiassite.git; branch master.
 - Pasta anterior alejoiassite_old é somente recuperação.
-- Domínio confirmado pelo usuário: alejoias.com, administrado na Cloudflare. Nenhum deploy ou alteração de DNS foi feito.
+- Domínio confirmado pelo usuário: alejoias.com, administrado na Cloudflare. Em 14/09, a loja local atual foi publicada pelo Cloudflare Tunnel `alejoias-local` para o servidor de produção em `127.0.0.1:4323`, com backup prévio. HTTPS respondeu 200 na loja, catálogo e login; a disponibilidade depende deste computador. Procedimento em `docs/CLOUDFLARE.md`.
 - O app AleJoias Vendas SQLite Sync v2 é separado. Preservar app, IDs e backend Apps Script.
 - Histórico cronológico em docs/DECISION_LOG.md. Este arquivo descreve o estado vigente, sem repetir pendências já resolvidas.
 
@@ -24,6 +24,7 @@ Categorias: Brincos, Pulseiras, Anéis, Colares, Conjuntos e Tornozeleiras. Cole
 - WhatsApp confirmado: 5519988038395. Cliente revisa e envia a mensagem. Registro não comprova envio, compra, pagamento ou reserva.
 - Mensagem e resumo copiável usam itens numerados com nomes/códigos/opções completos e tabela monoespaçada Item/Qtd/Unit./Total em reais. Subtotal e identificação são preservados. Formatação comum em src/data/order-message.ts.
 - Painel /admin autenticado: cadastro/edição, fotos, descrição, preços, promoções com período, tags, opções, coleções e situações.
+- A lista de produtos e o formulário de edição mostram a mesma miniatura de 60 × 60 px da foto cadastrada; produtos sem imagem mostram “Sem foto”. A prévia acompanha mudanças no caminho ou novo upload.
 - Habilitado controla publicação; disponível controla solicitação. Desativar não apaga e permite reativar. Histórico registra antes/depois, data, origem e responsável administrativo.
 - Importação CSV/JSON até 500 registros/1 MB com prévia, validação, transação e conciliação por código. Existentes preservados por padrão; atualização explícita sobrescreve apenas campos fornecidos. Campos vazios não apagam. Modelo em public/modelo-produtos.csv.
 - Painel de solicitações com nome, telefone, itens, valores e situação (nova, em atendimento, concluída, cancelada).
@@ -57,7 +58,7 @@ Checagem Astro/TypeScript e build passaram. Testes em banco isolado cobriram aut
 Próximos passos:
 1. Usuário testar loja/painel/BAT e trazer ajustes (docs/ROTEIRO_TESTES.md).
 2. Receber a lista e fotos reais, importar e revisar dados comerciais.
-3. Preparar hospedagem Cloudflare, adapter compatível e migração de armazenamento (D1/R2 ou alternativa definida). Nenhuma configuração hospedada existe ainda.
+3. Planejar hospedagem independente deste computador e migração do SQLite/uploads; a publicação atual usa o túnel local.
 4. Definir conteúdo comercial, entrega, políticas e requisitos de produção antes do lançamento.
 5. Pagamento online e integração com Android são futuras decisões, sem implementação atual.
 
