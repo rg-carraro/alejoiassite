@@ -36,7 +36,7 @@ Dados cadastrados são reais no banco local e permanecem após reiniciar. Não e
 
 Ao relatar um problema, informe a página, o passo executado, o esperado e o ocorrido. Capturas ajudam; oculte senhas e dados de outras pessoas.
 
-Ainda fora desta rodada: publicação no domínio, pagamento online, banco hospedado e integração com o app Android.
+A loja está publicada em `https://alejoias.com/` pelo Tunnel local. Ainda fora desta rodada: pagamento online, banco hospedado, integração com o app Android e rota pública das notas.
 
 ## Tela de celular
 Confira menu, categorias, fotos, campos e sacola com a tela estreita e ao girar o aparelho. No painel, produtos devem aparecer como cartões, com ações e rótulos legíveis. A adaptação é automática pela largura da tela. Testes automatizados em navegador não substituem sua avaliação no aparelho real.
@@ -52,3 +52,12 @@ Confira menu, categorias, fotos, campos e sacola com a tela estreita e ao girar 
 
 ### Link do PDF
 Conferir que WhatsApp, prévia e cópia contêm o mesmo link, sem tabela. Abrir o link em navegador sem login e baixar o PDF. Link incompleto deve mostrar erro legível. O teste tests/share-pdf.cjs cobre esse fluxo sem enviar mensagens reais. Para teste pelo WhatsApp fora do ambiente local é necessária hospedagem acessível.
+
+## Sistema de notas no mesmo computador
+
+- Abra `http://127.0.0.1:8009/entrar/`; o login é independente do painel da loja. O acesso inicial está no arquivo privado `../alejoias/.tools/notas-admin-access.txt`.
+- Em **Minha senha**, é possível definir a mesma senha usada na loja, digitando a senha atual das notas. Alterações posteriores não são sincronizadas automaticamente.
+- Cadastre uma revendedora fictícia; crie e revise um rascunho com descrição manual e outra peça escolhida nas sugestões. Confira preço e desconto, especialmente quando a origem for o cadastro legado.
+- Emita, imprima, registre devolução parcial e feche uma nota de teste. Essas ações gravam no banco web local. Consulte o histórico legado separadamente; valores de notas automáticas antigas podem refletir o cadastro atual, não o preço original.
+- O servidor de notas na porta 8008 é preparado para o Tunnel. `https://notas.alejoias.com/entrar/` ainda precisa da rota no Tunnel e validação por HTTPS; o link no admin da loja permanece oculto até então.
+- O procedimento técnico e os limites estão em `../alejoias/docs/NOTAS_WEB.md`.

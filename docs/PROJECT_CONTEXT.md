@@ -1,5 +1,9 @@
 # Contexto atual — AleJoias Site
 
+## Estado das notas em 16/09/2026
+
+O Django em `../alejoias` usa PostgreSQL 17 local com histórico importado, sugestões de peças e troca da própria senha. `scripts/start-public.ps1` inicia notas, loja e Tunnel no mesmo PC. A loja responde em `https://alejoias.com/` e o teste local das notas usa `http://127.0.0.1:8009/entrar/`. A rota pública `notas.alejoias.com` ainda não foi criada; `PUBLIC_NOTAS_URL` e o link no admin continuam inativos. Roteiro de teste em `docs/ROTEIRO_TESTES.md` e operação em `../alejoias/docs/NOTAS_WEB.md`.
+
 ## Sistema de notas independente — preparação
 
 O projeto Django de notas de consignação foi iniciado em `C:\Users\rgcar\git\alejoias`, separado do site e do aplicativo Android. O admin Astro mostra “Notas e devoluções” somente quando `PUBLIC_NOTAS_URL` estiver definido no build. A URL deve apontar para o Django publicado e testado, por exemplo `https://notas.alejoias.com/`; os dois sistemas usam logins e bancos separados. O link ainda não está ativo na publicação atual. O servidor PostgreSQL legado 9.5 não atende aos requisitos do Django 5.2; preparar banco novo e isolado antes de ativar a rota. Detalhes operacionais em `alejoias/docs/NOTAS_WEB.md`.
