@@ -30,3 +30,9 @@ Depois de confirmar a URL `*.workers.dev`, associar `alejoias.com` ao Worker em 
 O aplicativo principal usa `@astrojs/node`, `node:sqlite`, `.data/uploads` e PDFKit/Sharp com acesso a arquivos locais. O Worker estático acima não hospeda essa aplicação. Para retirar a dependência deste computador, migrar banco e dados de autenticação/solicitações/histórico para armazenamento persistente, fotos para objeto ou disco persistente, adaptar o PDF e testar painel, importação, solicitação, links privados de PDF, backup e restauração em ambiente hospedado. Dados de `.data` não devem entrar no Git.
 
 Quando a loja independente estiver validada, trocar a rota do domínio. A página “Em breve” foi preparada, mas não publicada.
+
+## Integração das notas de consignação (16/09/2026)
+
+O iniciador `scripts/start-public.ps1` inicia também `../alejoias/scripts/start-public-notes.ps1`, que sobe PostgreSQL 17 e Django/Waitress em `127.0.0.1:8008`, antes da loja e do conector. O backup das notas foi restaurado em banco isolado. A loja respondeu em `https://alejoias.com/`, mas `https://notas.alejoias.com/entrar/` ainda não respondeu: falta adicionar no Tunnel `alejoias-local` uma rota de aplicativo publicado para o hostname `notas.alejoias.com` com origem `http://127.0.0.1:8008`. Não alterar a rota existente do domínio principal.
+
+Após criar a rota na conta Cloudflare, verificar HTTPS, login, páginas estáticas, emissão e impressão das notas em celular e computador. Só depois definir `PUBLIC_NOTAS_URL=https://notas.alejoias.com/` no build de produção do site, executar `pnpm check` e `pnpm build`, e reiniciar o processo Node em 4323. O link “Notas e devoluções” aparecerá apenas no admin. Os dois sistemas mantêm logins e bancos independentes. A inicialização conjunta ainda depende de login no Windows; conferir após reiniciar o PC.
