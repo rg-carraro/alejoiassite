@@ -118,7 +118,7 @@ Três caminhos antigos de fotos ainda eram usados pelo banco migrado; adicionada
 
 O domínio alejoias.com continua no Tunnel/PC. Esta é uma cópia inicial: novas gravações no PC não são sincronizadas com D1. Antes de trocar o domínio, interromper gravações e reconciliar ou migrar uma cópia final em destino vazio; não reaplicar import.sql sobre este D1 preenchido. Evitar cadastrar pedidos ou alterar produtos no Worker de validação até definir o corte.
 
-Nenhum plano foi contratado. A consulta de assinaturas retornou 403 por permissão insuficiente; o plano vigente ainda deve ser conferido no painel. Backup remoto para arquivo local solicitado, mas bloqueado pela revisão automática por exigir autorização explícita para baixar os dados privados; autorização pendente. A cópia de migração local continua preservada.
+Nenhum plano foi contratado. A consulta de assinaturas retornou 403 por permissão insuficiente; o plano vigente ainda deve ser conferido no painel. Backup remoto autorizado explicitamente pelo usuário e concluído em 24/09/2026: .data/cloudflare-migration-1790288322003/remote-backup-20260924-192631.sql (66.990 bytes), ignorado pelo Git. Restauração em SQLite em memória aprovada com integrity_check=ok, 26 produtos, 35 históricos de produtos, 9 solicitações e 9 históricos de solicitações. A cópia de migração local continua preservada.
 
 ## Build integrado ao GitHub
 
