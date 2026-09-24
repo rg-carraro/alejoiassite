@@ -1,5 +1,7 @@
 # Roteiro para testar o site local
 
+Os testes manuais de edição abaixo gravam dados. Para validação técnica, prefira a suíte isolada descrita em DESENVOLVIMENTO.md; o catálogo real já está publicado.
+
 ## Abrir e encerrar
 - Feche o terminal anterior e abra iniciar-dev.bat com dois cliques.
 - Confira se a loja abre e se /admin mostra o login.

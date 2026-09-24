@@ -42,6 +42,17 @@ async function post(action, data, origin = publicOrigin, headers = proxy) {
       await new Promise(resolve => setTimeout(resolve, 200));
     }
     assert.ok(ready, 'Servidor QA iniciou');
+    assert.deepEqual(await (await fetch(base + '/api/catalog')).json(), [], 'Banco novo começa sem amostras');
+    await fetch(base + '/admin/login');
+    const password = readFileSync(path.join(dataDir, 'acesso-admin.txt'), 'utf8').match(/Senha inicial: (.+)/)[1].trim();
+    const login = await post('login', {password});
+    assert.equal(login.status, 200);
+    assert.match(login.headers.get('set-cookie'), /; Secure/i);
+    const cookie = login.headers.get('set-cookie').split(';')[0];
+    for (const fixture of require('./fixtures/products.cjs')) {
+      const created = await post('products', {...fixture, revision: 0}, publicOrigin, {...proxy, Cookie: cookie});
+      assert.equal(created.status, 200, await created.text());
+    }
     assert.equal((await post('request-pdf', {})).status, 404, 'HTTPS do Tunnel alcança a API');
     assert.equal((await post('request-pdf', {}, base, {})).status, 404, 'HTTP local preservado');
     assert.equal((await post('request-pdf', {}, 'https://example.org')).status, 403);
@@ -61,12 +72,7 @@ async function post(action, data, origin = publicOrigin, headers = proxy) {
     const pdf = await post('request-pdf', {id: order.id, token: order.pdfToken});
     assert.equal(pdf.status, 200);
     assert.equal(Buffer.from(await pdf.arrayBuffer()).subarray(0, 4).toString(), '%PDF');
-    await fetch(base + '/admin/login');
-    const password = readFileSync(path.join(dataDir, 'acesso-admin.txt'), 'utf8').match(/Senha inicial: (.+)/)[1].trim();
-    const login = await post('login', {password});
-    assert.equal(login.status, 200);
-    assert.match(login.headers.get('set-cookie'), /; Secure/i);
-    for (const file of ['tests/admin-integration.cjs', 'tests/share-pdf.cjs']) {
+    for (const file of ['tests/admin-integration.cjs', 'tests/order-pdf.cjs', 'tests/share-pdf.cjs', 'tests/responsive.cjs']) {
       const browserTest = spawn(process.execPath, [file], {stdio: 'inherit', windowsHide: true, env: {...process.env, QA_DATA_DIR: dataDir}});
       const [code] = await once(browserTest, 'exit');
       assert.equal(code, 0, 'Regressão local: ' + file);

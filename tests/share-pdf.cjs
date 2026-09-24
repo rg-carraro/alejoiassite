@@ -23,7 +23,7 @@ await receiver.goto('http://127.0.0.1:4322/pedido/pdf#invalid');
 await receiver.locator('#pdf-status').filter({hasText:'inválido'}).waitFor();
 await receiver.close();
 assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
-await page.screenshot({path:'.data/qa-admin/pdf-mobile.png',fullPage:true});
+await page.screenshot({path:require('node:path').join(process.env.QA_DATA_DIR||'.data/qa-admin','pdf-mobile.png'),fullPage:true});
 await page.locator('#order-note').fill('Seleção alterada');assert.equal(await page.locator('#prepared-order').isVisible(),false);
 await page.route('**/api/request-pdf',route=>route.fulfill({status:500,body:'{}'}));
 await page.locator('#whatsapp-order').click();await page.locator('#request-feedback').filter({hasText:'não ficou pronto'}).waitFor();

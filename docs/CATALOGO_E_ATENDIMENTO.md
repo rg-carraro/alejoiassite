@@ -17,16 +17,20 @@ Novos registros são desativados por padrão, exceto habilitado=sim. O modelo es
 A prévia se torna inválida se os produtos ou a lista mudarem. Descrições ausentes recebem apenas um texto neutro pelo nome; o botão de rascunho no painel é determinístico, não uma integração de IA. Descrições elaboradas e sugestões comerciais podem ser trabalhadas com Codex pelas skills salvas.
 
 ## Solicitações de atendimento
-Ao clicar em Registrar e abrir WhatsApp, nome e telefone são validados. O servidor confere disponibilidade, opções, quantidade e preço atual, grava cópia dos itens/valores e gera a mensagem. Mudança de preço ou indisponibilidade exige atualizar a sacola antes de prosseguir.
+Ao clicar em Preparar pedido com PDF, nome e telefone são validados. O servidor confere disponibilidade, opções, quantidade e preço atual, grava cópia dos itens/valores e gera a mensagem. Mudança de preço ou indisponibilidade exige atualizar a sacola antes de prosseguir.
 
 Cada clique lógico usa identificador para evitar duplicação em repetição de rede. Nome/telefone não são persistidos no localStorage. Solicitações ficam no banco local e aparecem apenas no painel; situação: nova, em atendimento, concluída ou cancelada. O registro NÃO comprova envio no WhatsApp, compra, pagamento ou reserva. A mensagem é revisada/enviada pela cliente para 5519988038395.
 
 Dados destinam-se a retorno sobre a solicitação, sem marketing automático. Contatos, banco, imagens enviadas e senha não entram no Git.
 
 ## Ainda pendente
-Lista real de produtos do usuário; publicação e banco hospedado na Cloudflare; integração futura com pagamento e aplicativo. O ambiente atual é local Node/SQLite. Não há checkout financeiro.
+O lote real de setembro já contém 23 produtos, inicialmente a R$ 59,90, e as três amostras foram desativadas. Pendem revisão comercial, curadoria de Presentes e ativação remota de Workers/D1. A loja publicada usa Node/SQLite no PC via Tunnel. Pagamento e integração com o aplicativo são decisões futuras; não há checkout financeiro.
 
-## Formatação do WhatsApp
+## Histórico da formatação do WhatsApp
+
+As etapas abaixo foram substituídas pelo envio apenas do link privado do PDF, descrito em “Atualização: envio por link”.
+
+### Tabela inicial
 Resumo copiável e mensagem do servidor compartilham src/data/order-message.ts. Nomes/códigos/opções completos ficam numerados acima de tabela monoespaçada Item/Qtd/Unit./Total (em R$); isso evita truncar nomes longos. Subtotal continua fora da tabela. Solicitações anteriores mantêm a mensagem histórica original. O alinhamento no WhatsApp real será avaliado nos testes do usuário.
 
 ## Mensagem simplificada — decisão mais recente

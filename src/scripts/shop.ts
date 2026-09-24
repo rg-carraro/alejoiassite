@@ -42,7 +42,7 @@ window.addEventListener('storage',event=>{if(event.key===key){read();badge();ren
 
 // Integração opcional: leitura da seleção, sem enviar mensagens ou confirmar pedidos.
 const context=(document as Document & {modelContext?:{registerTool:(tool:unknown,options:{signal:AbortSignal})=>unknown}}).modelContext;
-if(context?.registerTool){const lifecycle=new AbortController();try{Promise.resolve(context.registerTool({name:'read_shopping_bag',description:'Lê a seleção atual da sacola; não envia nem confirma um pedido.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute(input:unknown){if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).length)throw new Error('Use um objeto vazio.');return {items:bag.map(i=>({...i})),pricing:'demonstrativo',subtotalInCents:subtotal(),confirmed:false};}},{signal:lifecycle.signal})).catch(()=>{});}catch{}window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true});}
+if(context?.registerTool){const lifecycle=new AbortController();try{Promise.resolve(context.registerTool({name:'read_shopping_bag',description:'Lê a seleção atual da sacola; não envia nem confirma um pedido.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute(input:unknown){if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).length)throw new Error('Use um objeto vazio.');return {items:bag.map(i=>({...i})),pricing:'catalogo_atual',subtotalInCents:subtotal(),confirmed:false};}},{signal:lifecycle.signal})).catch(()=>{});}catch{}window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true});}
 
 
 function validCustomer(){

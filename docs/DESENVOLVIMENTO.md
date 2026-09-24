@@ -36,7 +36,7 @@ $env:Path = "$runtime\node\bin;$runtime\bin\fallback;$env:Path"
 - src/server/importer.ts: CSV/JSON com prévia, conciliação por código e transação.
 - src/pages/api: APIs; escrita administrativa exige sessão e origem válida.
 - src/pages/admin e src/scripts/admin.ts: painel.
-- src/data/products.ts: apenas sementes demonstrativas para banco vazio.
+- src/data/products.ts: constantes públicas e lista de sementes vazia; novos bancos começam sem produtos.
 - src/data/catalog.ts: contrato do produto e cálculo de promoção.
 - src/scripts/shop.ts: sacola e fluxo de atendimento.
 - public/images: referências estáticas; uploads novos ficam em .data/uploads e são servidos por /media.
@@ -50,7 +50,7 @@ Para cópia local completa, pare o servidor e copie a pasta `.data` inteira para
 `tests/admin-integration.cjs` valida um servidor isolado na porta 4322 e banco `.data/qa-admin`. Nunca executar esses testes contra o banco da loja. O teste usa Playwright do runtime Codex e Microsoft Edge. Valida autenticação, CSRF, revisão concorrente, promoção, desativação, histórico, importação, upload, edição e solicitação com WhatsApp interceptado. Não envia mensagem real.
 
 ## Imagens de referência
-Amostras originais em C:\Pessoal\AleJoias\Site. Imagens já copiadas para public/images acompanham o repositório. Dados reais devem substituir as amostras pelo painel ou importação.
+Amostras originais em C:\Pessoal\AleJoias\Site. Imagens já copiadas para public/images acompanham o repositório. O catálogo de setembro já substituiu as amostras na vitrine. Fotos antigas são mantidas para PDFs históricos; novos produtos são geridos pelo painel ou importação.
 
 ## PDF e compartilhamento
 Geração em src/server/order-pdf.ts, API POST /api/request-pdf, integração em shop.ts e admin.ts. PDFKit gera o documento; Sharp normaliza JPEG/PNG/WebP locais. Instalar dependências com pnpm install após atualizar. Nenhum Python é necessário para rodar o site.
@@ -62,3 +62,9 @@ Compartilhamento exige suporte do navegador e gesto da pessoa, conforme [Web Sha
 
 Regressão do Tunnel: `pnpm build --outDir .data/qa-origin-build` seguido de `node tests/proxy-origin.cjs`. O teste exige porta 4322 livre, inicia e encerra seu próprio servidor e cria banco exclusivo em `.data/qa-origin-*`. Confere HTTPS encaminhado, origem local, CSRF, link/PDF, cookie Secure e fluxo de compartilhamento no navegador. A configuração `security.allowedDomains` reconhece somente `alejoias.com`; manter a checagem estrita de Origin da API.
 /pedido/pdf usa ID/token no fragmento e solicita o arquivo por POST /api/request-pdf. A origem é a URL da solicitação, não o domínio configurado em astro.config.mjs; manter compatível com ambiente local e futura hospedagem. Link confere acesso a quem o possui; não registrar fragmento/token em telemetria. Dados e textos antigos permanecem intactos no SQLite.
+
+## Regressão após retirada das amostras
+
+`pnpm build --outDir .data/qa-origin-build` e `node tests/proxy-origin.cjs` criam banco exclusivo, confirmam catálogo inicialmente vazio, cadastram fixtures pela API e executam painel, PDF, compartilhamento e responsividade. `QA_DATA_DIR` aponta todos os artefatos para esse banco. A suíte Cloudflare usa as mesmas fixtures, sem importar produtos da aplicação. Não executar os testes individuais contra o servidor da loja.
+
+O lote de setembro já foi aplicado; não reaplicar `scripts/publish-september-catalog.mjs publish`. O script e o manifesto documentam a operação pontual. `prepare` depende dos originais locais ignorados em `produtos_cadastrar/`; as 23 imagens prontas acompanham o Git. Ajustes comerciais posteriores devem ser feitos pelo painel.

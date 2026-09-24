@@ -13,7 +13,7 @@ function run(args,extra={}){
   try{await fetch('http://127.0.0.1:4322');throw Error('Porta 4322 ocupada; encerre somente o servidor QA antes de testar.');}catch(e){if(e.message!=='fetch failed')throw e;}
   fs.mkdirSync(source,{recursive:true});const db=new DatabaseSync(path.join(source,'alejoias-site.sqlite'));
   db.exec(fs.readFileSync('migrations/0001_store.sql','utf8'));
-  const seeds=(await import('../src/data/products.ts')).products;
+  const seeds=require('./fixtures/products.cjs');
   const imageName=crypto.randomUUID()+'.jpg';fs.mkdirSync(path.join(source,'uploads'));
   fs.copyFileSync('public/images/products/anel-exemplo.jpg',path.join(source,'uploads',imageName));
   for(const seed of seeds){const product={...seed,...(seed.id==='DEMO-01'?{image:'/media/'+imageName}:{}),tags:[],promoPriceInCents:null,promoStart:'',promoEnd:'',enabled:true,available:true,demo:true,revision:1,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};db.prepare('INSERT INTO products VALUES(?,?,?)').run(product.id,product.slug,JSON.stringify(product));}

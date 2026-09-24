@@ -1,14 +1,32 @@
 # Contexto atual — AleJoias Site
 
+## Retomada — 24/09/2026
+
+Revisada a entrega de 16/09 que permanecia sem commit: catálogo de 23 produtos, fotos otimizadas e retirada da prévia. Originais e intermediários em `produtos_cadastrar/` permanecem locais e ignorados no Git. Dados comerciais ativos continuam no SQLite privado; o manifesto e as fotos no Git não substituem backup.
+
+Os testes agora usam produtos fictícios próprios em `tests/fixtures/products.cjs`, sem depender de sementes na loja. A regressão Node verifica explicitamente que banco novo começa vazio e executa painel, PDF, compartilhamento e responsividade em banco isolado.
+
+Validação em 24/09: Astro check (51 arquivos, zero erros/avisos/hints), build Node isolado e build Cloudflare aprovados. Regressões Node e Cloudflare passaram: painel, autenticação, concorrência, importação, sacola, PDF privado, compartilhamento simulado, troca de senha e backup/restauração D1 local. Responsividade aprovada em oito rotas e cinco larguras (320 a 1440 px); capturas mobile da loja e painel revisadas. Nenhuma mensagem real enviada nem pedido fictício criado no banco da loja.
+
+O domínio inicialmente retornou 530: servidor Node e conector estavam parados. Reativados os iniciadores existentes, sem alterar DNS, banco ou build publicado. Verificação HTTPS final: início, catálogo e login 200, com 23 produtos públicos. A disponibilidade ainda depende do PC ligado e dos processos ativos; a inicialização após reinício permanece a testar.
+
+## Catálogo publicado — 16/09/2026
+
+- Das 25 imagens fornecidas em `produtos_cadastrar`, duas repetem modelos. Foram cadastrados 23 produtos distintos: 20 brincos e 3 pulseiras, todos publicados e disponíveis com preço normal de R$ 59,90, sem promoção e sem marcação demonstrativa. O preço pode ser ajustado no painel.
+- Fotos sem marca otimizadas para JPEG estão em `public/images/products`. A correspondência, nomes visuais e códigos estão em `scripts/catalogo-setembro-2026.json`. Códigos legíveis nas fotos foram preservados; os demais receberam códigos internos `AJ-BR-*`. Material, banho e pedras específicas não foram inferidos.
+- Todos entram em Novidades e na categoria Brincos ou Pulseiras. Presentes ainda não foi curada. Fotos repetidas não geraram cadastros duplicados.
+- Os três produtos de amostra foram desativados, sem exclusão, para preservar histórico e os oito pedidos existentes. Fotos antigas continuam armazenadas para PDFs históricos, mas não aparecem nas páginas públicas. Bancos novos não recebem sementes demonstrativas.
+- Removidos o aviso de prévia e as fotos temporárias das páginas visíveis. `pnpm check` e `pnpm build` passaram. O lote foi ensaiado em cópia isolada do SQLite e aplicado ao banco local com backup `catalogo-antes-setembro-2026-*`. Após reinício do Node, o catálogo público HTTPS respondeu 200 com 23 peças e sem aviso de prévia.
+
 ## Estado das notas em 16/09/2026
 
 O Django em `../alejoias` usa PostgreSQL 17 local com histórico importado, sugestões de peças e troca da própria senha. `scripts/start-public.ps1` inicia notas, loja e Tunnel no mesmo PC. A loja responde em `https://alejoias.com/` e o teste local das notas usa `http://127.0.0.1:8009/entrar/`. A rota pública `notas.alejoias.com` ainda não foi criada; `PUBLIC_NOTAS_URL` e o link no admin continuam inativos. Roteiro de teste em `docs/ROTEIRO_TESTES.md` e operação em `../alejoias/docs/NOTAS_WEB.md`.
 
 ## Sistema de notas independente — preparação
 
-O projeto Django de notas de consignação foi iniciado em `C:\Users\rgcar\git\alejoias`, separado do site e do aplicativo Android. O admin Astro mostra “Notas e devoluções” somente quando `PUBLIC_NOTAS_URL` estiver definido no build. A URL deve apontar para o Django publicado e testado, por exemplo `https://notas.alejoias.com/`; os dois sistemas usam logins e bancos separados. O link ainda não está ativo na publicação atual. O servidor PostgreSQL legado 9.5 não atende aos requisitos do Django 5.2; preparar banco novo e isolado antes de ativar a rota. Detalhes operacionais em `alejoias/docs/NOTAS_WEB.md`.
+O projeto Django de notas de consignação foi iniciado em `C:\Users\rgcar\git\alejoias`, separado do site e do aplicativo Android. O admin Astro mostra “Notas e devoluções” somente quando `PUBLIC_NOTAS_URL` estiver definido no build. A URL deve apontar para o Django publicado e testado, por exemplo `https://notas.alejoias.com/`; os dois sistemas usam logins e bancos separados. O link ainda não está ativo na publicação atual. A preparação inicial do PostgreSQL novo foi concluída em 16/09; a ativação da rota pública e a validação HTTPS permanecem pendentes. Detalhes operacionais em `alejoias/docs/NOTAS_WEB.md`.
 
-Atualizado em 15/09/2026. Estado: loja publicada pelo PC via Tunnel; alternativa gratuita Workers/D1 preparada e validada localmente, ainda sem ativação remota.
+Estado da hospedagem documentado em 15/09/2026: loja publicada pelo PC via Tunnel; alternativa gratuita Workers/D1 preparada e validada localmente, ainda sem ativação remota.
 
 ## Decisão vigente de hospedagem
 
@@ -45,7 +63,7 @@ Categorias: Brincos, Pulseiras, Anéis, Colares, Conjuntos e Tornozeleiras. Cole
 - Sacola persiste IDs, opções e quantidades no navegador. Nome/telefone não são armazenados no localStorage.
 - Nome e telefone obrigatórios para registrar solicitação. Backend valida preços, opções e disponibilidade; salva cópia dos itens e valores antes de abrir WhatsApp.
 - WhatsApp confirmado: 5519988038395. Cliente revisa e envia a mensagem. Registro não comprova envio, compra, pagamento ou reserva.
-- Mensagem e resumo copiável usam itens numerados com nomes/códigos/opções completos e tabela monoespaçada Item/Qtd/Unit./Total em reais. Subtotal e identificação são preservados. Formatação comum em src/data/order-message.ts.
+- Novas mensagens e cópia na sacola contêm somente o link privado do PDF. Itens, valores e identificação permanecem no PDF e no snapshot; mensagens antigas são preservadas.
 - Painel /admin autenticado: cadastro/edição, fotos, descrição, preços, promoções com período, tags, opções, coleções e situações.
 - A lista de produtos e o formulário de edição mostram a mesma miniatura de 60 × 60 px da foto cadastrada; produtos sem imagem mostram “Sem foto”. A prévia acompanha mudanças no caminho ou novo upload.
 - Habilitado controla publicação; disponível controla solicitação. Desativar não apaga e permite reativar. Histórico registra antes/depois, data, origem e responsável administrativo.
@@ -58,7 +76,7 @@ Categorias: Brincos, Pulseiras, Anéis, Colares, Conjuntos e Tornozeleiras. Cole
 - Astro + TypeScript, pnpm com lockfile. React aprovado quando necessário, mas ainda não utilizado.
 - Ambiente validado com Node 24.19.0 e TypeScript 6. TypeScript 7 apresentou incompatibilidade com astro check.
 - Adapter Node e SQLite local em src/server/store.ts; alternativa Cloudflare/D1 em src/server/cloudflare. Ambos usam validação comum de produtos. Cada modo possui build separado.
-- Banco: .data/alejoias-site.sqlite. Uploads: .data/uploads. Sementes em src/data/products.ts só alimentam banco novo.
+- Banco: .data/alejoias-site.sqlite. Uploads: .data/uploads. Instalações novas começam sem produtos; src/data/products.ts não contém mais sementes demonstrativas.
 - .data e backups são ignorados pelo Git. Contatos, banco e credenciais não são sincronizados com GitHub.
 - Senha inicial privada em .data/acesso-admin.txt. Troca pelo painel encerra sessões e remove o arquivo da senha inicial.
 - Para backup local completo: parar o servidor e copiar .data inteira. Exportação do catálogo não substitui esse backup.
@@ -80,7 +98,7 @@ Checagem Astro/TypeScript e build passaram. Testes em banco isolado cobriram aut
 
 Próximos passos:
 1. Usuário testar loja/painel/BAT e trazer ajustes (docs/ROTEIRO_TESTES.md).
-2. Receber a lista e fotos reais, importar e revisar dados comerciais.
+2. Revisar os dados comerciais dos 23 produtos já importados; curar Presentes e cadastrar novos lotes quando fornecidos.
 3. Ativar e validar a alternativa gratuita Workers/D1, importar a cópia final dos dados e trocar o domínio. A publicação atual ainda usa o túnel local.
 4. Definir conteúdo comercial, entrega, políticas e requisitos de produção antes do lançamento.
 5. Pagamento online e integração com Android são futuras decisões, sem implementação atual.

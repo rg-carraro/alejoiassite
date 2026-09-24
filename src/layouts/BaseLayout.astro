@@ -6,10 +6,9 @@ const { title, description = 'Conheça o catálogo AleJoias e escolha suas peça
 <!doctype html><html lang="pt-BR"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="robots" content="noindex, nofollow"/><meta name="description" content={description}/><link rel="icon" href="/images/brand/diamante.png"/><title>{title} | AleJoias</title></head>
 <body>
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-<div class="preview">Prévia do catálogo · peças e preços de exemplo · disponibilidade a confirmar</div>
 <header class="header"><a href="/" aria-label="AleJoias — início"><img class="brand" src="/images/brand/alejoias.jpg" alt="Ale Joias" width="1000" height="500"/></a><nav aria-label="Principal"><a href="/catalogo">Coleção</a><a href="/catalogo?colecao=novidades">Novidades</a><a href="/catalogo?colecao=presentes">Presentes</a><a href="/sobre">A AleJoias</a></nav><a class="bag-link" href="/sacola">Sacola <span data-bag-count>0</span></a></header>
 <main id="conteudo"><slot/></main>
-<footer><div><img src="/images/brand/alejoias.jpg" alt="Ale Joias" width="170" height="85"/><p>Detalhes que acompanham você.</p></div><div><h2>Explore</h2><a href="/catalogo">Todas as peças</a><a href="/sobre">Sobre a AleJoias</a></div><div><h2>Vamos conversar?</h2><a href="/atendimento">Atendimento e dúvidas</a><a href="https://wa.me/5519988038395" target="_blank" rel="noopener noreferrer">WhatsApp · (19) 98803-8395 ↗</a></div><p class="footer-note">AleJoias · Prévia em desenvolvimento. Pedido sujeito à confirmação de valores e disponibilidade.</p></footer>
+<footer><div><img src="/images/brand/alejoias.jpg" alt="Ale Joias" width="170" height="85"/><p>Detalhes que acompanham você.</p></div><div><h2>Explore</h2><a href="/catalogo">Todas as peças</a><a href="/sobre">Sobre a AleJoias</a></div><div><h2>Vamos conversar?</h2><a href="/atendimento">Atendimento e dúvidas</a><a href="https://wa.me/5519988038395" target="_blank" rel="noopener noreferrer">WhatsApp · (19) 98803-8395 ↗</a></div><p class="footer-note">AleJoias · Consulte o atendimento para confirmar disponibilidade e entrega.</p></footer>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>import '../scripts/shop';</script>
 </body></html>

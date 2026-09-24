@@ -1,0 +1,2 @@
+// Somente para bancos isolados de QA; instalações da loja começam vazias.
+module.exports = [{id:'DEMO-01',slug:'anel-entrelacado',name:'Anel fictício de teste',category:'aneis',image:'/images/products/anel-exemplo.jpg',alt:'Peça fictícia de teste',description:'Produto exclusivo dos testes automatizados.',collections:['novidades'],variants:['Tamanho a confirmar'],priceInCents:10,tags:[],promoPriceInCents:null,promoStart:'',promoEnd:'',enabled:true,available:true,demo:true}];

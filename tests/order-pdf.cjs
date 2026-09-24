@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
-const base='http://127.0.0.1:4322',dir=path.resolve('.data/qa-admin');
+const base='http://127.0.0.1:4322',dir=process.env.QA_DATA_DIR||path.resolve('.data/qa-admin');
 (async()=>{
 const password=fs.readFileSync(path.join(dir,'acesso-admin.txt'),'utf8').match(/Senha inicial: (.+)/)[1].trim();
 async function post(action,data,cookie=''){return fetch(base+'/api/'+action,{method:'POST',headers:{Origin:base,'Content-Type':'application/json',Cookie:cookie},body:JSON.stringify(data)});}

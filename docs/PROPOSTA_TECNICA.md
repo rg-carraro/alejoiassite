@@ -1,6 +1,6 @@
 # Arquitetura técnica — AleJoias Site
 
-Atualizado em 15/09/2026. Substitui a proposta preliminar; o histórico permanece em DECISION_LOG.md.
+Revisado em 24/09/2026. Substitui a proposta preliminar; o histórico permanece em DECISION_LOG.md.
 
 ## Dois modos de execução
 
@@ -24,20 +24,18 @@ Responsabilidades:
 - src/server/store.ts: persistência, revisões, promoções, sessões e solicitações.
 - src/server/importer.ts: prévia e aplicação transacional de CSV/JSON.
 - src/data/catalog.ts: contrato e preços efetivos em centavos.
-- src/data/order-message.ts: tabela de texto compartilhada entre mensagem e resumo.
+- src/data/order-message.ts: formatação textual preservada; novas mensagens usam somente link do PDF.
 - src/pages/api: interfaces autenticadas e endpoint público de solicitação.
 - src/pages/admin e src/scripts/admin.ts: administração.
 - src/scripts/shop.ts: sacola e consumo do catálogo.
 
 Produtos desativados ficam no histórico, fora do catálogo. Disponibilidade é independente da publicação. Preço e situação são revalidados ao registrar a seleção. Contatos ficam no banco privado; Git versiona código e documentação.
 
-## Publicação ainda pendente
-Cloudflare é a direção aprovada, com domínio já administrado nela. O adapter Node/SQLite em disco não deve ser enviado como se fosse um projeto Workers pronto. Antes do deploy, configurar adapter e armazenamento compatíveis, planejar migração dos dados e fotos e validar autenticação e backup no ambiente hospedado. D1 e R2 foram considerados; não foram provisionados.
-
-Nenhuma mudança de DNS foi feita. Custos devem ser reavaliados no momento da escolha, sem presumir custo total zero.
+## Publicação e migração pendente
+A loja usa o Tunnel para Node/SQLite no PC desde 14/09. O modo Workers/D1 já está implementado e validado localmente; ainda faltam provisionamento remoto, migração final, validação de cotas e corte do domínio. R2 não faz parte da solução atual. O DNS da loja foi configurado para o Tunnel; não houve corte para Workers. Consulte PUBLICACAO_GRATUITA.md para a sequência de ativação e reversão.
 
 ## Evolução posterior
-Produtos reais e retorno dos testes primeiro. Checkout exige provedor definido, validação no servidor, notificações autenticadas e prevenção de processamento duplicado. Retorno do navegador não comprova pagamento. Integração com AleJoias Vendas depende de definição explícita e não modifica sua base SQLite Sync v2 automaticamente.
+Revisão comercial dos produtos já cadastrados e retorno dos testes primeiro. Checkout exige provedor definido, validação no servidor, notificações autenticadas e prevenção de processamento duplicado. Retorno do navegador não comprova pagamento. Integração com AleJoias Vendas depende de definição explícita e não modifica sua base SQLite Sync v2 automaticamente.
 
 ## Referências técnicas usadas no desenvolvimento
 - https://docs.astro.build/en/concepts/islands/

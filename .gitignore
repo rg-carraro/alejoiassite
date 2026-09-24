@@ -18,3 +18,6 @@ dist-cloudflare/
 .dev.vars
 .dev.vars.*
 .pnpm-store/
+
+# Originais locais; fotos otimizadas versionadas em public/images/products.
+produtos_cadastrar/

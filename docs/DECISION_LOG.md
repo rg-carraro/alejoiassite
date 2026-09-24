@@ -1,5 +1,19 @@
 # Histórico de decisões — AleJoias Site
 
+## 24/09/2026 — Retomada e sincronização
+
+Revisadas as alterações do catálogo de setembro que permaneciam sem commit. Atualizadas as pendências de catálogo, hospedagem e mensagens nas documentações. Originais/intermediários de fotos permanecem locais; imagens otimizadas, manifesto e script da operação são versionados. Testes passaram a usar fixtures próprias, preservando banco novo vazio; PDF e capturas respeitam QA_DATA_DIR.
+
+Validação em 24/09: Astro check (51 arquivos, zero erros/avisos/hints), build Node isolado e build Cloudflare aprovados. Regressões Node e Cloudflare passaram: painel, autenticação, concorrência, importação, sacola, PDF privado, compartilhamento simulado, troca de senha e backup/restauração D1 local. Responsividade aprovada em oito rotas e cinco larguras (320 a 1440 px); capturas mobile da loja e painel revisadas. Nenhuma mensagem real enviada nem pedido fictício criado no banco da loja.
+
+O domínio inicialmente retornou 530: servidor Node e conector estavam parados. Reativados os iniciadores existentes, sem alterar DNS, banco ou build publicado. Verificação HTTPS final: início, catálogo e login 200, com 23 produtos públicos. A disponibilidade ainda depende do PC ligado e dos processos ativos; a inicialização após reinício permanece a testar.
+
+Pendências reais: revisão comercial e testes no aparelho do usuário, curadoria de Presentes, ativação remota Workers/D1 e rota pública das notas no projeto independente. Pagamento e integração Android continuam futuros. Sincronização solicitada com origin/master, preservando dados privados fora do Git.
+
+## Catálogo de setembro publicado — 16/09/2026
+
+Das 25 imagens recebidas, 23 modelos distintos foram cadastrados (20 brincos, 3 pulseiras) a R$ 59,90 cada, com edição posterior pelo painel. Duas imagens repetidas não geraram produtos extras. As três amostras anteriores foram desativadas sem exclusão, preservando histórico e pedidos. Fotos antigas deixaram a vitrine, mas permanecem disponíveis aos PDFs históricos. Avisos de prévia foram retirados. Build, simulação em banco isolado e consulta à loja pública passaram. Correspondência das fotos e códigos em `scripts/catalogo-setembro-2026.json`.
+
 ## 11/09/2026 — Idealização e primeira versão
 
 ### Decisões do usuário
