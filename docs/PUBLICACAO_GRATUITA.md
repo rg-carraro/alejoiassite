@@ -1,6 +1,6 @@
 # Publicação gratuita — preparação e operação
 
-Atualizado em 15/09/2026. **A migração foi implementada e testada localmente; ainda não foi publicada na Cloudflare.** O domínio continua atendido pelo Node deste PC via Tunnel. O commit de código não troca o domínio nem transfere o banco.
+Atualizado em 24/09/2026. **Worker publicado para validação em https://alejoiassite.rgcarraro.workers.dev, com cópia inicial dos dados no D1. O corte do domínio ainda não foi feito.** O domínio continua atendido pelo Node deste PC via Tunnel. O commit de código não troca o domínio nem transfere o banco.
 
 ## Arquitetura preparada
 
@@ -42,7 +42,7 @@ pnpm test:cloudflare
 
 `build:cloudflare` gera `dist-cloudflare/` e não substitui `dist/`, usado pela publicação atual. `test:cloudflare` exige a porta 4322 livre, prepara banco fictício novo, executa o emulador, testa e encerra somente seus processos. Artefatos privados ficam em `.data/qa-cloudflare-*` e `.data/cloudflare-migration-*`.
 
-O arquivo `wrangler.jsonc` contém um ID D1 de zeros proposital, usado apenas nos testes locais. Não representa um banco remoto criado.
+O arquivo `wrangler.jsonc` usa o Worker `alejoiassite` e o D1 `alejoias-loja`, ID `b71e9298-e0d5-44b9-8d15-bb5dfd56efbe`. O banco remoto já recebeu schema e a cópia inicial. Testes devem continuar usando exclusivamente `--local` e dados fictícios.
 
 Simular o pacote, sem publicação:
 
@@ -79,7 +79,7 @@ Importar apenas em **banco de destino vazio**, depois de aplicar o schema. O SQL
 9. Associar `alejoias.com` e `www.alejoias.com` ao Worker, substituindo a rota do Tunnel após validação. O middleware redireciona GET/HEAD com `www` para HTTPS sem `www`. Preservar registros de e-mail.
 10. Confirmar HTTPS, novo pedido/PDF, login e redirecionamento externo; só então desligar o conector antigo. Testar acesso com o PC desligado e trocar a senha inicial da nuvem.
 
-Os recursos remotos, a migração real e a troca de domínio não foram executados nesta preparação.
+Recursos remotos, schema, importação inicial e deploy executados em 24/09/2026. Os passos acima são o procedimento de referência, não comandos para repetir sobre o banco preenchido. A troca de domínio e a cópia final ainda estão pendentes.
 
 ## Backup e retorno
 
@@ -107,3 +107,19 @@ Para retornar ao PC antes de receber novas gravações na nuvem, restaurar a rot
 - Simulação `wrangler deploy --dry-run` concluída: pacote de aproximadamente 168 KB comprimidos, com apenas bindings DB e ASSETS. Não houve publicação.
 
 Não houve envio real pelo WhatsApp. A compatibilidade do compartilhamento com WhatsApp no aparelho do usuário e o consumo real do plano remoto ainda exigem validação após ativação.
+
+## Worker e D1 publicados para validação — 24/09/2026
+
+Executada, por autorização do usuário, a migração inicial para D1 alejoias-loja (b71e9298-e0d5-44b9-8d15-bb5dfd56efbe). Destino conferido vazio antes da aplicação de 0001_store.sql. Importados 26 produtos (23 publicados), 35 históricos de produtos, 9 solicitações e 9 históricos de solicitações. Não havia uploads locais; fotos estáticas acompanham o build. Origem preservada e import.sql/acesso-admin.txt privados em .data/cloudflare-migration-1790288322003.
+
+Worker alejoiassite publicado em https://alejoiassite.rgcarraro.workers.dev, versão de4b3e5b-244d-4b44-99c0-c3f965c4b56b. Validação remota aprovou cinco rotas, 23 fotos, catálogo público, login/cookie Secure, 26 cadastros administrativos, bloqueio de acesso anônimo e de origem externa e seis snapshots de PDFs existentes com token, comparados com a origem. Não foram criados pedidos fictícios no banco real. A renderização e os fluxos de escrita continuam cobertos pelos testes locais anteriores; ainda falta medir CPU e testar os fluxos completos em homologação remota antes do corte.
+
+Três caminhos antigos de fotos ainda eram usados pelo banco migrado; adicionadas cópias estáticas compatíveis para pulseira-madreperola-geometrica.jpg, brinco-argola-cristais.jpg e brinco-perola-pendente.jpg, preservando os cadastros e os PDFs históricos.
+
+O domínio alejoias.com continua no Tunnel/PC. Esta é uma cópia inicial: novas gravações no PC não são sincronizadas com D1. Antes de trocar o domínio, interromper gravações e reconciliar ou migrar uma cópia final em destino vazio; não reaplicar import.sql sobre este D1 preenchido. Evitar cadastrar pedidos ou alterar produtos no Worker de validação até definir o corte.
+
+Nenhum plano foi contratado. A consulta de assinaturas retornou 403 por permissão insuficiente; o plano vigente ainda deve ser conferido no painel. Backup remoto para arquivo local solicitado, mas bloqueado pela revisão automática por exigir autorização explícita para baixar os dados privados; autorização pendente. A cópia de migração local continua preservada.
+
+## Build integrado ao GitHub
+
+No Worker, Settings > Build: branch master, raiz do repositório, build command pnpm build:cloudflare e deploy command pnpm exec wrangler deploy --config dist-cloudflare/server/wrangler.json. Variáveis NODE_VERSION=24.19.0 e PNPM_VERSION=11.19.0. A publicação desta rodada foi feita por CLI; as configurações do build automático no painel ainda precisam ser verificadas. Não incluir SQL privado ou senha no Git.

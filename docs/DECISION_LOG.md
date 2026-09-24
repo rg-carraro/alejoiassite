@@ -147,3 +147,20 @@ Conclusão da revisão: teste final também cobriu foto migrada, exportação SQ
 ## 15/09/2026 — Produtos com medida padrão
 
 Usuário informou que as medidas são padrão e o campo não faz sentido. Ocultado o seletor na página de produtos com uma única opção; a sacola também omite essa opção. Produtos com mais de uma alternativa continuam selecionáveis. Preservados cadastro, variante interna, validação e snapshots antigos. Check, builds Node/Cloudflare e regressão de painel/sacola/PDF passaram. Verificação em navegador mobile confirmou ausência do seletor, adição e sacola sem medida provisória. Build anterior guardado em backups/pre-opcao-padrao-* e servidor publicado reiniciado com o ajuste.
+
+
+## Configuração remota D1 — 24/09/2026
+
+Usuário forneceu captura do banco remoto alejoias-loja com ID b71e9298-e0d5-44b9-8d15-bb5dfd56efbe e zero tabelas. wrangler.jsonc atualizado localmente com esse ID e nome do Worker alejoiassite, mantendo binding DB. Isso substitui as menções anteriores ao ID placeholder. Schema, importação real, deploy e corte do domínio ainda não executados. Configuração JSON validada; alterações ainda não enviadas ao GitHub nesta etapa.
+
+## Worker e D1 publicados para validação — 24/09/2026
+
+Executada, por autorização do usuário, a migração inicial para D1 alejoias-loja (b71e9298-e0d5-44b9-8d15-bb5dfd56efbe). Destino conferido vazio antes da aplicação de 0001_store.sql. Importados 26 produtos (23 publicados), 35 históricos de produtos, 9 solicitações e 9 históricos de solicitações. Não havia uploads locais; fotos estáticas acompanham o build. Origem preservada e import.sql/acesso-admin.txt privados em .data/cloudflare-migration-1790288322003.
+
+Worker alejoiassite publicado em https://alejoiassite.rgcarraro.workers.dev, versão de4b3e5b-244d-4b44-99c0-c3f965c4b56b. Validação remota aprovou cinco rotas, 23 fotos, catálogo público, login/cookie Secure, 26 cadastros administrativos, bloqueio de acesso anônimo e de origem externa e seis snapshots de PDFs existentes com token, comparados com a origem. Não foram criados pedidos fictícios no banco real. A renderização e os fluxos de escrita continuam cobertos pelos testes locais anteriores; ainda falta medir CPU e testar os fluxos completos em homologação remota antes do corte.
+
+Três caminhos antigos de fotos ainda eram usados pelo banco migrado; adicionadas cópias estáticas compatíveis para pulseira-madreperola-geometrica.jpg, brinco-argola-cristais.jpg e brinco-perola-pendente.jpg, preservando os cadastros e os PDFs históricos.
+
+O domínio alejoias.com continua no Tunnel/PC. Esta é uma cópia inicial: novas gravações no PC não são sincronizadas com D1. Antes de trocar o domínio, interromper gravações e reconciliar ou migrar uma cópia final em destino vazio; não reaplicar import.sql sobre este D1 preenchido. Evitar cadastrar pedidos ou alterar produtos no Worker de validação até definir o corte.
+
+Nenhum plano foi contratado. A consulta de assinaturas retornou 403 por permissão insuficiente; o plano vigente ainda deve ser conferido no painel. Backup remoto para arquivo local solicitado, mas bloqueado pela revisão automática por exigir autorização explícita para baixar os dados privados; autorização pendente. A cópia de migração local continua preservada.

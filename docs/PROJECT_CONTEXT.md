@@ -134,3 +134,20 @@ Sacola exibe o link no resumo após preparar e permite copiá-lo. Download e com
 
 ## 15/09/2026 — Origem HTTPS pelo Tunnel
 Corrigido “Origem inválida” ao preparar pedido no domínio: `security.allowedDomains` do Astro reconhece o domínio exato `alejoias.com` e o protocolo encaminhado pelo proxy. A comparação estrita de Origin na API continua ativa; links novos de PDF preservam HTTPS e cookies administrativos usam Secure no domínio. Check e builds passaram. `tests/proxy-origin.cjs` usa build e banco isolados, testa origem local/pública, bloqueio de origem e host externos, geração de pedido/PDF, cookie e fluxo de compartilhamento no navegador. Correção aplicada ao servidor publicado, com backup do build anterior. Consulta pública sem ID passou a retornar 404 (PDF inexistente), enquanto origem externa continua 403; nenhum pedido de teste foi criado no banco real.
+
+
+## Configuração remota D1 — 24/09/2026
+
+Usuário forneceu captura do banco remoto alejoias-loja com ID b71e9298-e0d5-44b9-8d15-bb5dfd56efbe e zero tabelas. wrangler.jsonc atualizado localmente com esse ID e nome do Worker alejoiassite, mantendo binding DB. Isso substitui as menções anteriores ao ID placeholder. Schema, importação real, deploy e corte do domínio ainda não executados. Configuração JSON validada; alterações ainda não enviadas ao GitHub nesta etapa.
+
+## Worker e D1 publicados para validação — 24/09/2026
+
+Executada, por autorização do usuário, a migração inicial para D1 alejoias-loja (b71e9298-e0d5-44b9-8d15-bb5dfd56efbe). Destino conferido vazio antes da aplicação de 0001_store.sql. Importados 26 produtos (23 publicados), 35 históricos de produtos, 9 solicitações e 9 históricos de solicitações. Não havia uploads locais; fotos estáticas acompanham o build. Origem preservada e import.sql/acesso-admin.txt privados em .data/cloudflare-migration-1790288322003.
+
+Worker alejoiassite publicado em https://alejoiassite.rgcarraro.workers.dev, versão de4b3e5b-244d-4b44-99c0-c3f965c4b56b. Validação remota aprovou cinco rotas, 23 fotos, catálogo público, login/cookie Secure, 26 cadastros administrativos, bloqueio de acesso anônimo e de origem externa e seis snapshots de PDFs existentes com token, comparados com a origem. Não foram criados pedidos fictícios no banco real. A renderização e os fluxos de escrita continuam cobertos pelos testes locais anteriores; ainda falta medir CPU e testar os fluxos completos em homologação remota antes do corte.
+
+Três caminhos antigos de fotos ainda eram usados pelo banco migrado; adicionadas cópias estáticas compatíveis para pulseira-madreperola-geometrica.jpg, brinco-argola-cristais.jpg e brinco-perola-pendente.jpg, preservando os cadastros e os PDFs históricos.
+
+O domínio alejoias.com continua no Tunnel/PC. Esta é uma cópia inicial: novas gravações no PC não são sincronizadas com D1. Antes de trocar o domínio, interromper gravações e reconciliar ou migrar uma cópia final em destino vazio; não reaplicar import.sql sobre este D1 preenchido. Evitar cadastrar pedidos ou alterar produtos no Worker de validação até definir o corte.
+
+Nenhum plano foi contratado. A consulta de assinaturas retornou 403 por permissão insuficiente; o plano vigente ainda deve ser conferido no painel. Backup remoto para arquivo local solicitado, mas bloqueado pela revisão automática por exigir autorização explícita para baixar os dados privados; autorização pendente. A cópia de migração local continua preservada.
