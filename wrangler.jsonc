@@ -3,16 +3,37 @@
   "name": "alejoiassite",
   "main": "@astrojs/cloudflare/entrypoints/server",
   "compatibility_date": "2026-09-15",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "workers_dev": true,
   "preview_urls": false,
-  "observability": {"enabled": false},
-  "limits": {"cpu_ms": 100},
-  "assets": {"binding": "ASSETS", "directory": "./dist-cloudflare/client"},
-  "d1_databases": [{
-    "binding": "DB",
-    "database_name": "alejoias-loja",
-    "database_id": "b71e9298-e0d5-44b9-8d15-bb5dfd56efbe",
-    "migrations_dir": "migrations"
-  }]
+  "observability": {
+    "enabled": false
+  },
+  "limits": {
+    "cpu_ms": 100
+  },
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist-cloudflare/client"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "alejoias-loja",
+      "database_id": "b71e9298-e0d5-44b9-8d15-bb5dfd56efbe",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "routes": [
+    {
+      "zone_name": "alejoias.com",
+      "pattern": "alejoias.com/*"
+    },
+    {
+      "custom_domain": true,
+      "pattern": "www.alejoias.com"
+    }
+  ]
 }

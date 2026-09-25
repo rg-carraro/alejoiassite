@@ -1,5 +1,21 @@
 # Publicação gratuita — preparação e operação
 
+## Produção na Cloudflare — corte concluído em 25/09/2026
+
+A loja https://alejoias.com agora usa Worker alejoiassite + D1 alejoias-loja, no Workers Paid informado pelo usuário, com CPU limitada a 100 ms por execução. www.alejoias.com redireciona para HTTPS sem www preservando caminho e query. A loja não depende mais do servidor Node deste PC. O sistema Django de notas e o aplicativo Android permanecem independentes e não foram migrados nesta operação.
+
+Configuração efetiva: rota Worker alejoias.com/* na zona alejoias.com e Custom Domain www.alejoias.com. O Custom Domain do domínio raiz foi recusado por conflito com o registro DNS existente (100117); leitura/edição direta do DNS retornou 403 com a credencial disponível. Mantido o registro antigo do Tunnel e usada a rota oficial de Workers, que atende as requisições sem consultar a origem. NÃO apagar o CNAME existente nem excluir o Tunnel associado sem antes substituir o DNS: a rota exige resolução DNS. Registros de e-mail não foram alterados.
+
+Backup privado pré-corte em .data/cutover-20260925: d1-before-cutover.sql e local-before-cutover.sqlite. Com a origem parada, comparação integral local entre o SQLite e o backup D1 confirmou igualdade de todos os campos das quatro tabelas: 26 produtos, 35 históricos, 9 solicitações e 9 históricos de solicitações. Nenhum dado comercial precisou de nova importação. Sessões/configuração administrativa são específicas de cada ambiente.
+
+Versão de corte: 98cc3f80-ab43-4741-b6d7-a3f39c307d81. Validação no domínio definitivo: cinco rotas HTTPS 200, 23 produtos e 23 fotos públicas, 26 cadastros no admin, login Secure, CSRF e seis snapshots PDF com tokens existentes conferidos. www retorna 308; auth-config confirma modo pbkdf2-client-v1 do Worker; origem local 127.0.0.1:4323 desligada. Não foram criados pedidos fictícios no banco real. Geração/download dos PDFs e gravações foram testados na homologação remota na rodada anterior; avaliação final no celular real continua recomendada.
+
+A senha administrativa da nuvem é a do arquivo privado .data/cloudflare-migration-1790288322003/acesso-admin.txt até o usuário trocá-la pelo painel. O SQLite local é uma cópia histórica; mudanças em iniciar-dev.bat não atualizam a loja pública. Gerir o catálogo real somente em https://alejoias.com/admin.
+
+Criado marcador privado .data/cloudflare-active.json. scripts/start-live.ps1 respeita esse marcador e não reinicia a produção local automaticamente. -Recovery é reservado à recuperação planejada; nunca voltar ao SQLite sem reconciliar novas gravações recebidas no D1. Sintaxe PowerShell e execução do bloqueio de inicialização validadas. O conector do Tunnel foi preservado para recuperação/serviços independentes, mas o site foi comprovado sem a origem Node local.
+
+## Histórico anterior ao corte (referência)
+
 Atualizado em 24/09/2026. **Worker publicado para validação em https://alejoiassite.rgcarraro.workers.dev, com cópia inicial dos dados no D1. O corte do domínio ainda não foi feito.** O domínio continua atendido pelo Node deste PC via Tunnel. O commit de código não troca o domínio nem transfere o banco.
 
 ## Arquitetura preparada

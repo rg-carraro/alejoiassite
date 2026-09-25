@@ -68,3 +68,8 @@ Regressão do Tunnel: `pnpm build --outDir .data/qa-origin-build` seguido de `no
 `pnpm build --outDir .data/qa-origin-build` e `node tests/proxy-origin.cjs` criam banco exclusivo, confirmam catálogo inicialmente vazio, cadastram fixtures pela API e executam painel, PDF, compartilhamento e responsividade. `QA_DATA_DIR` aponta todos os artefatos para esse banco. A suíte Cloudflare usa as mesmas fixtures, sem importar produtos da aplicação. Não executar os testes individuais contra o servidor da loja.
 
 O lote de setembro já foi aplicado; não reaplicar `scripts/publish-september-catalog.mjs publish`. O script e o manifesto documentam a operação pontual. `prepare` depende dos originais locais ignorados em `produtos_cadastrar/`; as 23 imagens prontas acompanham o Git. Ajustes comerciais posteriores devem ser feitos pelo painel.
+
+
+## Após a migração de produção
+
+A produção usa Workers/D1 em https://alejoias.com. iniciar-dev.bat continua local e usa o SQLite histórico, sem sincronização automática para a nuvem. O marcador privado .data/cloudflare-active.json impede scripts/start-live.ps1 de iniciar a antiga produção; -Recovery é apenas para recuperação planejada após reconciliar os dados. Consulte CLOUDFLARE.md para o estado atual e backups.

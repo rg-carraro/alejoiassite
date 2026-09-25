@@ -1,6 +1,11 @@
+param([switch]$Recovery)
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 Set-Location -LiteralPath $projectRoot
+if ((Test-Path -LiteralPath (Join-Path $projectRoot '.data\cloudflare-active.json')) -and -not $Recovery) {
+    Write-Host 'A loja publica usa Cloudflare Workers/D1 em https://alejoias.com. Servidor local de producao nao iniciado.'
+    return
+}
 
 $nodeBin = Join-Path $env:USERPROFILE '.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin'
 if (Test-Path -LiteralPath (Join-Path $nodeBin 'node.exe')) { $env:Path = "$nodeBin;$env:Path" }
