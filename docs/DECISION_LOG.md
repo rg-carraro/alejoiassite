@@ -194,3 +194,9 @@ Versão de corte: 98cc3f80-ab43-4741-b6d7-a3f39c307d81. Validação no domínio 
 A senha administrativa da nuvem é a do arquivo privado .data/cloudflare-migration-1790288322003/acesso-admin.txt até o usuário trocá-la pelo painel. O SQLite local é uma cópia histórica; mudanças em iniciar-dev.bat não atualizam a loja pública. Gerir o catálogo real somente em https://alejoias.com/admin.
 
 Criado marcador privado .data/cloudflare-active.json. scripts/start-live.ps1 respeita esse marcador e não reinicia a produção local automaticamente. -Recovery é reservado à recuperação planejada; nunca voltar ao SQLite sem reconciliar novas gravações recebidas no D1. Sintaxe PowerShell e execução do bloqueio de inicialização validadas. O conector do Tunnel foi preservado para recuperação/serviços independentes, mas o site foi comprovado sem a origem Node local.
+
+## 25/09/2026 — Logos transparentes
+- Pedido: remover fundo dos logos e usar branco/dourado em fundo preto.
+- image_gen integrado: preservar monograma AC, diamante, nome e slogan; remover fundo com alpha real; segunda edição substitui letras pretas por brancas e mantém dourado.
+- Assets finais em public/images/brand/ale-carraro-transparente.png e ale-carraro-branco-dourado.png, ambos 1503 × 1046, canal alpha confirmado (0–255).
+- Validação: Astro check sem erros/avisos; builds Node e Cloudflare; testes isolados de painel, sacola, PDF e compartilhamento; oito rotas em 320/360/390/768/1440 px. Captura mobile revisada com logos sobre branco e preto.

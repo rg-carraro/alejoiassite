@@ -89,3 +89,6 @@ footer .footer-note { font-size:11px; }
  .about-brand { padding:16px; }
  footer { gap:20px; }
 }
+
+/* PNGs com alpha real: manter cores também nas superfícies claras. */
+footer img, .about-brand img { mix-blend-mode:normal; }

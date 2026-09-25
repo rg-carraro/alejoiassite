@@ -1,5 +1,9 @@
 # Contexto atual — AleJoias Site
 
+## Identidade Ale Carraro — 25/09/2026
+
+Site repaginado com os logos enviados pelo usuário. PNGs com alpha real em public/images/brand/ale-carraro-transparente.png (preto e dourado) e ale-carraro-branco-dourado.png (branco e dourado para fundo preto). Aplicados no cabeçalho, rodapé, início e página sobre; originais JPEG preservados. Variantes editadas com image_gen integrado, sem alterar catálogo ou dados de atendimento.
+
 ## Produção na Cloudflare — corte concluído em 25/09/2026
 
 A loja https://alejoias.com agora usa Worker alejoiassite + D1 alejoias-loja, no Workers Paid informado pelo usuário, com CPU limitada a 100 ms por execução. www.alejoias.com redireciona para HTTPS sem www preservando caminho e query. A loja não depende mais do servidor Node deste PC. O sistema Django de notas e o aplicativo Android permanecem independentes e não foram migrados nesta operação.
