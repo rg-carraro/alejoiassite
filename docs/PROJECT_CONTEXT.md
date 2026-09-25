@@ -1,5 +1,9 @@
 # Contexto atual — AleJoias Site
 
+## Primeira versão concluída — v1.0.0
+
+Implantada e validada em 25/09/2026 com logos transparentes. Worker: 566b5987-d0d7-4cee-a935-cad256d87ba1. Detalhes, verificações, operação e limites em [RELEASE_V1.0.0.md](RELEASE_V1.0.0.md).
+
 ## Identidade Ale Carraro — 25/09/2026
 
 Site repaginado com os logos enviados pelo usuário. PNGs com alpha real em public/images/brand/ale-carraro-transparente.png (preto e dourado) e ale-carraro-branco-dourado.png (branco e dourado para fundo preto). Aplicados no cabeçalho, rodapé, início e página sobre; originais JPEG preservados. Variantes editadas com image_gen integrado, sem alterar catálogo ou dados de atendimento.

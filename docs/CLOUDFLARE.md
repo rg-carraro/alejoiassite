@@ -1,5 +1,9 @@
 # Publicação no domínio AleJoias
 
+## Primeira versão concluída — v1.0.0
+
+Implantada e validada em 25/09/2026 com logos transparentes. Worker: 566b5987-d0d7-4cee-a935-cad256d87ba1. Detalhes, verificações, operação e limites em [RELEASE_V1.0.0.md](RELEASE_V1.0.0.md).
+
 ## Produção na Cloudflare — corte concluído em 25/09/2026
 
 A loja https://alejoias.com agora usa Worker alejoiassite + D1 alejoias-loja, no Workers Paid informado pelo usuário, com CPU limitada a 100 ms por execução. www.alejoias.com redireciona para HTTPS sem www preservando caminho e query. A loja não depende mais do servidor Node deste PC. O sistema Django de notas e o aplicativo Android permanecem independentes e não foram migrados nesta operação.

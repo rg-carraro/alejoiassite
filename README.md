@@ -1,26 +1,30 @@
-# AleJoias Site
+# Ale Carraro — site da loja
 
-Catálogo de joias com sacola, solicitação em PDF pelo WhatsApp e painel administrativo.
+Primeira versão desenvolvida e implantada: **v1.0.0**, em 25/09/2026.
 
-## Testar
-1. Dê dois cliques em **iniciar-dev.bat**.
-2. Loja: http://localhost:4321/ — Painel: http://localhost:4321/admin.
-3. No primeiro acesso, veja a senha em `.data/acesso-admin.txt`; troque-a no painel.
-4. Mantenha o terminal aberto; Ctrl+C encerra o servidor.
+- Loja: https://alejoias.com
+- Painel: https://alejoias.com/admin
+- [Entrega, validação e operação da versão 1.0.0](docs/RELEASE_V1.0.0.md)
 
-## Estado atual
-Astro + TypeScript. A publicação atual usa Node/SQLite neste PC via Cloudflare Tunnel. A versão gratuita com Workers/D1 está preparada e testada localmente, ainda sem substituir o túnel. Painel com cadastro, edição, fotos, promoções, histórico e importação CSV/JSON. Solicitações preservam dados e itens; o WhatsApp recebe somente o link privado do PDF. Pagamento online não está implementado.
+Astro + TypeScript em Cloudflare Workers com D1. O site funciona independentemente deste computador. Catálogo, sacola, atendimento com PDF e painel administrativo implementados; pagamento online não implementado.
 
-O banco, contatos, senha e fotos enviadas ficam em `.data`, fora do Git. Exportar o catálogo JSON não substitui backup completo. O aplicativo AleJoias Vendas SQLite Sync v2 permanece separado.
+## Desenvolvimento local
+Dê dois cliques em iniciar-dev.bat. Loja local: http://localhost:4321; painel: http://localhost:4321/admin. Mantenha o terminal aberto. Credenciais locais em .data não são as credenciais da produção. Nunca copiar o SQLite histórico sobre o banco remoto.
+
+## Publicação
+```powershell
+pnpm check
+pnpm build:cloudflare
+pnpm exec wrangler deploy --config dist-cloudflare/server/wrangler.json
+```
+Validar o domínio após cada implantação. Push no Git e deploy são operações distintas; conferir o resultado do build integrado quando usado.
 
 ## Documentação
-- [Preparação da publicação gratuita](docs/PUBLICACAO_GRATUITA.md)
 - [Contexto vigente](docs/PROJECT_CONTEXT.md)
-- [Como executar e preservar os dados](docs/DESENVOLVIMENTO.md)
+- [Implantação e DNS](docs/CLOUDFLARE.md)
+- [Desenvolvimento e dados](docs/DESENVOLVIMENTO.md)
 - [Roteiro de testes](docs/ROTEIRO_TESTES.md)
-- [Catálogo, importação e atendimento](docs/CATALOGO_E_ATENDIMENTO.md)
-- [Arquitetura](docs/PROPOSTA_TECNICA.md)
-- [Referências visuais](docs/REFERENCIAS_VISUAIS.md)
+- [Catálogo e atendimento](docs/CATALOGO_E_ATENDIMENTO.md)
 - [Histórico de decisões](docs/DECISION_LOG.md)
 
-Pasta oficial: `C:\Users\rgcar\git\alejoiassite`. Pasta `_old` apenas para recuperação. Repositório: https://github.com/rg-carraro/alejoiassite — branch `master`. Domínio: `alejoias.com`, administrado na Cloudflare; publicação atual depende do PC ligado.
+Credenciais, contatos, banco e backups privados ficam fora do Git. A tag não substitui backup D1. Aplicativo Android e sistema de notas continuam independentes.
