@@ -210,3 +210,6 @@ Validação: Astro check sem erros/avisos e build Cloudflare aprovados. Ícone p
 
 ## 25/09/2026 — Skill de cadastro de produtos
 Atualizada alejoias-catalogo: novos produtos sem preço informado usam R$ 0,01 (1 centavo); Codex escreve descrições fiéis; fotos finais sem marca-d'água ou marcações sobrepostas, preservando características reais. Preços existentes e edições manuais são preservados. A atualização da skill não modifica nem publica produtos.
+
+## 25/09/2026 — Padrão visual dos produtos
+Aprovado fundo branco levemente quente, imagem quadrada, peça centralizada e inteira, margens consistentes e sombra suave. Incorporado à alejoias-catalogo com conferência obrigatória em publicações realizadas por Codex. Fotos existentes não alteradas nesta atualização.

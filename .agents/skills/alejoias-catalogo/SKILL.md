@@ -11,7 +11,7 @@ Leia docs/PROJECT_CONTEXT.md, docs/CATALOGO_E_ATENDIMENTO.md e a implementação
 - Codex escreve nome, descrição e texto alternativo em português claro e elegante, com base nas fotos e informações fornecidas, sem exigir textos do usuário. Descrever formato, cores e detalhes visíveis; não inventar material, banho, pedra, medidas, origem, garantia ou propriedades hipoalergênicas. Sinalizar dados faltantes.
 - Antes de limpar fotos, registrar códigos/SKUs legíveis. Conciliar fotos repetidas ou diferentes vistas da mesma peça para evitar duplicatas. Não inferir estoque pela foto.
 - A imagem final precisa estar sem marca-d'água, logotipos sobrepostos, preços, códigos ou outras marcações adicionadas à foto. Preferir original limpo quando disponível. Preservar o original e salvar a imagem tratada separadamente.
-- Para edição raster, usar image_gen conforme as instruções disponíveis. Remover apenas marcações, preservando geometria, cores, textura, pedras, fechos e quantidade de peças. Preservar gravações e detalhes físicos reais da joia. Não inventar partes encobertas: quando não for possível recuperar fielmente, deixar pendente e solicitar foto limpa.
+- Para edição raster, usar image_gen conforme as instruções disponíveis. Remover marcações e padronizar o fundo conforme abaixo, preservando geometria, cores, textura, pedras, fechos e quantidade de peças. Preservar gravações e detalhes físicos reais da joia. Não inventar partes encobertas: quando não for possível recuperar fielmente, deixar pendente e solicitar foto limpa.
 - Inspecionar visualmente o resultado: sem resíduos, textos, duplicação, corte da peça ou mudança do modelo. Não afirmar que a imagem foi limpa se a edição não foi concluída.
 
 ## Importar e editar
@@ -33,3 +33,11 @@ Leia docs/PROJECT_CONTEXT.md, docs/CATALOGO_E_ATENDIMENTO.md e a implementação
 - Git versiona código e assets; não substitui persistência no D1 nem backup do catálogo e dos atendimentos.
 
 Ao concluir, informar criados/atualizados/ignorados/pendentes, preço padrão aplicado, situação de publicação e onde ajustar preços. Validar duplicatas, valores, fotos e exposição de inativos. Dados comerciais antigos ou fictícios não devem ser apresentados como dados atuais confirmados.
+
+## Padrão visual e publicação — aprovado em 25/09/2026
+- Usar esta skill em todo cadastro ou publicação de produtos solicitado a Codex, inclusive quando o pedido não mencionar a skill explicitamente.
+- Fundo branco levemente quente, uniforme e sem elementos decorativos. Imagem quadrada, peça inteira e centralizada, com margens consistentes entre os produtos e sombra suave para profundidade.
+- Preservar as cores, proporções e detalhes reais da peça; o tratamento do fundo não pode alterar sua aparência comercial. Manter pares e conjuntos completos como na referência.
+- Antes de publicar, conferir: identidade/código e duplicatas; descrição fiel; preço informado ou padrão de R$ 0,01 para novo item sem preço; imagem sem marcações e no padrão visual; categoria, opções, disponibilidade e publicação pretendida. Resolver ou relatar pendências antes de publicar o item afetado.
+- Após publicar, verificar o produto e a imagem no catálogo público e reportar o resultado. A skill orienta o trabalho de Codex; não é uma automação instalada no painel administrativo.
+- Aplicar o padrão aos próximos cadastros e publicações. Não substituir em lote fotos de produtos existentes sem pedido que inclua essa alteração.
