@@ -207,3 +207,6 @@ Publicação direta confirmada no Worker 566b5987-d0d7-4cee-a935-cad256d87ba1. D
 ## 25/09/2026 — Ícone da aba
 Substituído o favicon de diamante vermelho pela imagem alejoias.jpg enviada pelo usuário, copiada sem edição para public/images/brand/ale-carraro-icone.jpg. URL nova evita reutilizar o ícone antigo em cache. Tag v1.0.0 preservada.
 Validação: Astro check sem erros/avisos e build Cloudflare aprovados. Ícone publicado no Worker de produção.
+
+## 25/09/2026 — Skill de cadastro de produtos
+Atualizada alejoias-catalogo: novos produtos sem preço informado usam R$ 0,01 (1 centavo); Codex escreve descrições fiéis; fotos finais sem marca-d'água ou marcações sobrepostas, preservando características reais. Preços existentes e edições manuais são preservados. A atualização da skill não modifica nem publica produtos.

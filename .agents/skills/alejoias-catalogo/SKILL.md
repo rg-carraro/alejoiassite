@@ -1,33 +1,35 @@
 ---
 name: alejoias-catalogo
-description: Preparar importações de listas de produtos AleJoias, escrever descrições fiéis, manter preços, promoções e disponibilidade editáveis e preservar histórico sem apagar produtos.
+description: Cadastrar produtos Ale Carraro a partir de fotos ou listas com preço padrão de R$ 0,01, descrições escritas por Codex e fotos sem marca-d'água ou marcações; atualizar catálogo preservando preços editados e histórico.
 ---
-# Gestão do catálogo AleJoias
+# Cadastro e gestão do catálogo Ale Carraro
 
-Leia docs/CATALOGO_E_ATENDIMENTO.md e a implementação atual. Não alegar que há painel, banco ou importador antes de existirem. O usuário deseja importar listas automaticamente e poder corrigir os campos depois.
+Leia docs/PROJECT_CONTEXT.md, docs/CATALOGO_E_ATENDIMENTO.md e a implementação vigente. Produção usa Cloudflare Workers + D1; SQLite local é histórico, não destino de cadastros da loja publicada. Instalar ou atualizar esta skill não altera produtos nem autoriza publicá-los por si só.
+
+## Novos produtos — padrão autorizado em 25/09/2026
+- Para novos itens sem preço informado, usar R$ 0,01: priceInCents: 1. Preço explícito fornecido pelo usuário prevalece. É preço provisório real, não promoção. Informar onde ajustá-lo no painel.
+- Codex escreve nome, descrição e texto alternativo em português claro e elegante, com base nas fotos e informações fornecidas, sem exigir textos do usuário. Descrever formato, cores e detalhes visíveis; não inventar material, banho, pedra, medidas, origem, garantia ou propriedades hipoalergênicas. Sinalizar dados faltantes.
+- Antes de limpar fotos, registrar códigos/SKUs legíveis. Conciliar fotos repetidas ou diferentes vistas da mesma peça para evitar duplicatas. Não inferir estoque pela foto.
+- A imagem final precisa estar sem marca-d'água, logotipos sobrepostos, preços, códigos ou outras marcações adicionadas à foto. Preferir original limpo quando disponível. Preservar o original e salvar a imagem tratada separadamente.
+- Para edição raster, usar image_gen conforme as instruções disponíveis. Remover apenas marcações, preservando geometria, cores, textura, pedras, fechos e quantidade de peças. Preservar gravações e detalhes físicos reais da joia. Não inventar partes encobertas: quando não for possível recuperar fielmente, deixar pendente e solicitar foto limpa.
+- Inspecionar visualmente o resultado: sem resíduos, textos, duplicação, corte da peça ou mudança do modelo. Não afirmar que a imagem foi limpa se a edição não foi concluída.
 
 ## Importar e editar
-- Inspecione o formato da lista fornecida e mapeie código/SKU, nome, descrição, categoria, preço, imagens, variações, tags, disponibilidade e situação de publicação.
-- Use código estável para conciliar importações e evitar duplicatas; preserve IDs existentes. Se a lista não permitir identificar atualizações com segurança, mantenha os casos ambíguos pendentes e pergunte apenas o necessário.
-- Registre origem e resultado da importação. Campo ausente não significa apagar valor existente. Preserve edições manuais ao reimportar, salvo instrução explícita de sobrescrita.
-- Converta valores brasileiros em centavos; diferencie preço ausente de zero. Não substituir preços reais por R$ 0,10: esse valor foi autorizado apenas para as amostras iniciais.
-- Escreva em português claro e elegante, com informação útil sobre a peça. Não inventar material, banho, pedra, medidas, origem, garantia ou qualidades hipoalergênicas a partir de foto. Sinalize dados faltantes.
-- Sugira preços quando solicitado, usando custo, margem e regras fornecidos; não aplicar sugestão comercial como preço confirmado sem autorização.
-- Promoções precisam de preço anterior verdadeiro, preço promocional e período quando aplicável. Não fabricar desconto, escassez ou selo promocional. Descrição, preços, tags e disponibilidade devem ser editáveis no painel.
+- Mapear código/SKU, nome, descrição, categoria, preço, imagens, variações, tags, disponibilidade e publicação. Usar códigos estáveis e preservar IDs existentes; perguntar apenas sobre conciliações ambíguas que impeçam a aplicação segura.
+- Registrar origem e resultado da importação. Campo ausente ou vazio não apaga valor existente. Preservar edições manuais, especialmente preços: nunca substituir preço já cadastrado por R$ 0,01 numa reimportação sem pedido explícito.
+- Valores são inteiros em centavos. Distinguir preço ausente de zero. Não sugerir ou aplicar margens comerciais sem pedido e dados fornecidos.
+- Promoções exigem preço anterior verdadeiro e preço promocional; período quando aplicável. Não fabricar desconto, escassez ou selo promocional. Campos continuam editáveis no painel.
+- Importador CSV/JSON em src/server/importer.ts: até 500 itens e 1 MB, prévia obrigatória e aplicação transacional. XLSX requer conversão revisável. Confirmar limites na implementação quando mudarem.
+- Conferir prévia, códigos, categorias, valores e associação das fotos antes de aplicar. Aplicar quando o pedido de cadastro autorizar; não pedir confirmação repetida já coberta pelo escopo.
+- Novos importados são desativados por padrão. Preservar esse padrão salvo pedido de publicação. Não ativar silenciosamente itens de R$ 0,01; quando publicação fizer parte do pedido, informar o preço provisório publicado no resumo.
+- Upload aceita JPEG/PNG/WebP até 5 MB. Não associar fotos por mera semelhança sem evidência de código ou identificação segura. Não editar seeds para alterar produtos já existentes no banco.
+- Texto sugerido pelo painel é rascunho determinístico, não IA integrada. Codex pode escrever descrições com os dados fornecidos.
 
-## Preservar histórico
-- Habilitado/publicado e disponível para venda são conceitos separados. Desativar oculta do catálogo público sem excluir o cadastro.
-- Histórico deve registrar antes/depois, data, origem e responsável quando identificado. Inclua reativação e importações. Git do código não substitui histórico operacional do catálogo.
-- Produtos em pedidos antigos usam cópia dos dados no momento do pedido; alterações futuras não reescrevem o passado.
-- Produto desativado ou indisponível não pode permanecer comprável por uma sacola antiga. Preservar a revalidação já implementada no servidor.
+## Histórico e atendimento
+- Publicação e disponibilidade são conceitos separados. Desativar oculta sem excluir. Histórico registra antes/depois, data, origem e responsável quando identificado, incluindo reativação e importação.
+- Não sobrescrever metadados de histórico/revisão por arquivo. Limpar campos pelo editor quando solicitado. Preservar revisão concorrente e revalidação de preços, disponibilidade e opções no servidor.
+- Pedidos antigos usam snapshots; mudanças no catálogo não reescrevem o passado. Solicitação registrada não é pagamento, reserva ou confirmação de mensagem enviada.
+- Preservar identificação dos itens no resumo e PDF e manter contatos privados fora do Git. Testes usam banco isolado e nunca enviam WhatsApp real.
+- Git versiona código e assets; não substitui persistência no D1 nem backup do catálogo e dos atendimentos.
 
-Antes de concluir uma importação implementada, reporte novos/atualizados/ignorados/pendentes e valide duplicidades, valores e exposição de produtos inativos. Não publicar dados comerciais antigos ou fictícios como reais.
-
-Implementação atual: painel autenticado e importador CSV/JSON em src/server/importer.ts, SQLite em src/server/store.ts. Origem e política de campos documentadas em docs/CATALOGO_E_ATENDIMENTO.md. Não editar seeds para alterar produtos já existentes no banco.
-
-## Operação atual
-- Importação aceita CSV/JSON até 500 produtos e 1 MB, com prévia obrigatória e aplicação transacional. XLSX não é formato nativo do painel; converter de maneira revisável quando recebido.
-- Novos importados são desativados por padrão. Campos vazios não apagam valores; limpar campos pelo editor. Metadados de histórico/revisão do banco não devem ser sobrescritos por arquivo.
-- Upload aceita JPEG/PNG/WebP até 5 MB. Não associar foto a produto por mera semelhança sem evidência de código ou confirmação.
-- Texto sugerido no painel é rascunho determinístico; não descrevê-lo como IA integrada. Codex pode redigir versões melhores com os dados fornecidos.
-- Solicitações de atendimento preservam nome/telefone e snapshot dos itens; não são pagamentos. A tabela WhatsApp é compartilhada com o resumo copiável e deve conservar a identificação de cada peça.
+Ao concluir, informar criados/atualizados/ignorados/pendentes, preço padrão aplicado, situação de publicação e onde ajustar preços. Validar duplicatas, valores, fotos e exposição de inativos. Dados comerciais antigos ou fictícios não devem ser apresentados como dados atuais confirmados.
