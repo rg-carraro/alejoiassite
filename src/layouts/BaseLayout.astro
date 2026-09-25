@@ -1,14 +1,16 @@
 ---
 import '../styles/global.css';
+import '../styles/brand.css';
 interface Props { title: string; description?: string }
-const { title, description = 'Conheça o catálogo AleJoias e escolha suas peças para conversar com a gente pelo WhatsApp.' } = Astro.props;
+const { title, description = 'Ale Carraro — Joias & Presentes. Joias que contam sua história. Descubra a coleção e escolha suas favoritas.' } = Astro.props;
 ---
-<!doctype html><html lang="pt-BR"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="robots" content="noindex, nofollow"/><meta name="description" content={description}/><link rel="icon" href="/images/brand/diamante.png"/><title>{title} | AleJoias</title></head>
+<!doctype html><html lang="pt-BR"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="robots" content="noindex, nofollow"/><meta name="description" content={description}/><meta name="theme-color" content="#171614"/><link rel="icon" href="/images/brand/diamante.png"/><title>{title} | Ale Carraro</title></head>
 <body>
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-<header class="header"><a href="/" aria-label="AleJoias — início"><img class="brand" src="/images/brand/alejoias.jpg" alt="Ale Joias" width="1000" height="500"/></a><nav aria-label="Principal"><a href="/catalogo">Coleção</a><a href="/catalogo?colecao=novidades">Novidades</a><a href="/catalogo?colecao=presentes">Presentes</a><a href="/sobre">A AleJoias</a></nav><a class="bag-link" href="/sacola">Sacola <span data-bag-count>0</span></a></header>
+<div class="brand-ribbon">JOIAS QUE CONTAM SUA HISTÓRIA</div>
+<header class="header"><a href="/" aria-label="Ale Carraro — início"><img class="brand" src="/images/brand/ale-carraro-claro.jpg" alt="Ale Carraro — Joias & Presentes" width="1080" height="752"/></a><nav aria-label="Principal"><a href="/catalogo">Coleção</a><a href="/catalogo?colecao=novidades">Novidades</a><a href="/catalogo?colecao=presentes">Presentes</a><a href="/sobre">Nossa história</a></nav><a class="bag-link" href="/sacola">Sacola <span data-bag-count>0</span></a></header>
 <main id="conteudo"><slot/></main>
-<footer><div><img src="/images/brand/alejoias.jpg" alt="Ale Joias" width="170" height="85"/><p>Detalhes que acompanham você.</p></div><div><h2>Explore</h2><a href="/catalogo">Todas as peças</a><a href="/sobre">Sobre a AleJoias</a></div><div><h2>Vamos conversar?</h2><a href="/atendimento">Atendimento e dúvidas</a><a href="https://wa.me/5519988038395" target="_blank" rel="noopener noreferrer">WhatsApp · (19) 98803-8395 ↗</a></div><p class="footer-note">AleJoias · Consulte o atendimento para confirmar disponibilidade e entrega.</p></footer>
+<footer><div><a href="/" aria-label="Ale Carraro — início"><img src="/images/brand/ale-carraro-claro.jpg" alt="Ale Carraro — Joias & Presentes" width="216" height="150" loading="lazy"/></a><p>Joias que contam sua história.</p></div><div><h2>Explore</h2><a href="/catalogo">Todas as peças</a><a href="/sobre">Sobre a Ale Carraro</a></div><div><h2>Vamos conversar?</h2><a href="/atendimento">Atendimento e dúvidas</a><a href="https://wa.me/5519988038395" target="_blank" rel="noopener noreferrer">WhatsApp · (19) 98803-8395 ↗</a></div><p class="footer-note">Ale Carraro · Joias & Presentes · Consulte o atendimento para confirmar disponibilidade e entrega.</p></footer>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>import '../scripts/shop';</script>
 </body></html>

@@ -92,6 +92,6 @@ $('#whatsapp-order')?.addEventListener('click',async event=>{
 });
 $('#share-order-pdf')?.addEventListener('click',async()=>{
  if(!prepared?.file||prepared.payload!==JSON.stringify(payload())){invalidatePdf();toast('Prepare novamente o PDF da seleção atual.');return;}
- try{await navigator.share({files:[prepared.file],text:prepared.message,title:'Minha seleção AleJoias'});}
+ try{await navigator.share({files:[prepared.file],text:prepared.message,title:'Minha seleção Ale Carraro'});}
  catch(error){if((error as Error).name!=='AbortError')toast('Baixe o PDF e anexe na conversa pelo WhatsApp.');}
 });

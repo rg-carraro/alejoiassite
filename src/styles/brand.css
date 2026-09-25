@@ -1,0 +1,91 @@
+/* Identidade Ale Carraro: originais fornecidos pela marca, sem recorte ou distorção. */
+:root { color:#24211d; --gold:#87652d; --line:#e5ded3; --soft:#f7f4ee; --dark:#171614; }
+.brand-ribbon { background:var(--dark); color:#e1c38e; text-align:center; padding:9px 16px; font-size:10px; letter-spacing:.25em; }
+.header { padding:12px 6%; gap:28px; background:#fff; }
+.brand { width:176px; }
+.header nav { gap:32px; font-size:13px; letter-spacing:.04em; }
+.header nav a { display:inline-flex; align-items:center; min-height:44px; }
+.bag-link { font-size:13px; border-bottom:1px solid var(--gold); padding:10px 0; }
+.bag-link span { background:transparent; color:var(--dark); border:1px solid var(--line); }
+h1,h2 { letter-spacing:-.035em; }
+.eyebrow { font-size:11px; letter-spacing:.19em; line-height:1.8; }
+.hero { max-width:none; grid-template-columns:1.15fr 1fr 48px; background:#f5f1e9; }
+.hero-copy { padding:65px 10%; }
+.hero h1 { font-size:clamp(2.8rem,4.5vw,4.7rem); }
+.hero-copy>p:not(.eyebrow) { font-size:15px; line-height:1.9; color:#635d54; max-width:370px; }
+.hero-picture { min-height:490px; max-height:610px; background:#eae4d9; }
+.hero-picture img { display:block; object-fit:cover; object-position:center 48%; }
+.hero-picture span { bottom:20px; left:20px; right:20px; background:#171614dd; color:#f3e8d5; font-size:12px; padding:12px 15px; }
+.hero-side { color:#726653; font-size:9px; }
+.button { font-size:13px; letter-spacing:.04em; padding:16px 26px; }
+.button:hover { background:#65502f; border-color:#65502f; }
+.text-link { font-size:13px; }
+.category-strip { padding-inline:6%; background:white; }
+.category-strip a { font-size:13px; padding:24px 18px; }
+.category-strip a:hover { background:var(--soft); }
+.section { padding-block:85px; }
+.product-photo { border:1px solid var(--line); background:#faf9f6; }
+.product-info h3 { font-size:15px; line-height:1.5; }
+.add-small { border-color:#c9b68f; flex-shrink:0; }
+.add-small:hover:enabled { background:var(--soft); }
+.brand-story { display:grid; grid-template-columns:1fr 1fr; background:#090909; color:#f8f3ea; align-items:center; padding:30px 6%; gap:6%; }
+.brand-story-art img { width:100%; height:auto; display:block; }
+.brand-story-copy { padding:35px 0; max-width:490px; }
+.brand-story h2 { font-size:clamp(2rem,3.4vw,3.4rem); }
+.brand-story .eyebrow,.brand-story em { color:#d6b579; }
+.brand-story-copy>p:not(.eyebrow) { color:#c8c1b6; font-size:15px; line-height:1.9; }
+.brand-story .text-link { color:#e1c38e; display:inline-block; padding-block:10px; }
+.gift-section { margin:85px auto 0; background:var(--soft); }
+.gift-image { background:#f4f1eb; }
+.gift-section>div:last-child { padding:48px; }
+.gift-section h2 { font-size:clamp(2.2rem,3.5vw,3.5rem); }
+.steps { gap:32px; }
+.steps>div { border-top:1px solid var(--line); padding-top:25px; }
+.steps span { font-size:1.5rem; font-style:italic; }
+.steps h3 { font-family:Georgia,serif; font-size:1.4rem; }
+.steps p { font-size:14px; }
+footer { background:#f7f4ee; padding:42px 6% 24px; }
+footer img { width:200px; display:block; }
+footer h2 { color:var(--gold); font-size:12px; letter-spacing:.08em; }
+footer a { font-size:14px; }
+footer .footer-note { font-size:11px; }
+.about-brand { padding:30px; background:var(--soft); border:1px solid var(--line); }
+.about-brand img { object-fit:contain; mix-blend-mode:multiply; }
+.filters,.order-panel { border:1px solid var(--line); }
+@media(max-width:850px) {
+ .header { padding:10px 5%; gap:10px; }
+ .brand { width:144px; }
+ .header nav { gap:10px; font-size:12px; padding:0; border-top:1px solid var(--line); }
+ .hero { grid-template-columns:1fr 1fr; }
+ .hero-copy { padding:38px 8%; }
+ .hero h1 { font-size:2.8rem; }
+ .hero-picture { min-height:460px; }
+ .category-strip a { padding:18px 12px; }
+ .brand-story { gap:25px; padding:30px 5%; }
+ .gift-section { margin:55px 5% 0; }
+ .gift-section>div:last-child { padding:28px; }
+}
+@media(max-width:580px) {
+ .brand-ribbon { font-size:9px; padding:8px 12px; letter-spacing:.17em; }
+ .brand { width:130px; }
+ .header nav { justify-content:space-between; gap:4px 8px; }
+ .header nav a { font-size:11px; }
+ .hero { grid-template-columns:1fr; }
+ .hero-copy { padding:38px 6% 32px; }
+ .hero h1 { font-size:clamp(2.5rem,10vw,3.5rem); }
+ .hero-picture { min-height:0; height:330px; max-height:330px; margin:0 6% 24px; }
+ .hero-picture img { object-position:center 46%; }
+ .hero-picture span { font-size:11px; left:12px; right:12px; bottom:12px; }
+ .category-strip a { font-size:12px; padding:17px 8px; }
+ .section { padding-block:50px; }
+ .section-heading h2 { font-size:2.25rem; }
+ .product-info h3 { font-size:14px; }
+ .brand-story { grid-template-columns:1fr; gap:0; padding:24px 6% 35px; }
+ .brand-story-art { max-width:380px; margin:auto; }
+ .brand-story-copy { padding:15px 0 0; }
+ .brand-story h2 { font-size:2.35rem; }
+ .gift-section { margin-top:45px; }
+ .gift-section>div:last-child { padding:30px 24px; }
+ .about-brand { padding:16px; }
+ footer { gap:20px; }
+}

@@ -4,7 +4,7 @@ const clean=(value:string)=>value.normalize('NFC').replace(/[–—]/g,'-').repl
 const money=(value:number)=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(value/100);
 export async function selectionPdf(order:PdfSelection):Promise<Blob>{
   const doc=await PDFDocument.create(),font=await doc.embedFont(StandardFonts.Helvetica),bold=await doc.embedFont(StandardFonts.HelveticaBold);
-  doc.setTitle('AleJoias - seleção de produtos');doc.setAuthor('AleJoias');
+  doc.setTitle('Ale Carraro - seleção de produtos');doc.setAuthor('Ale Carraro');
   let page:PDFPage,y=0;
   function lines(value:string,width:number,size:number,f:PDFFont=font){
     const result:string[]=[];
@@ -24,7 +24,7 @@ export async function selectionPdf(order:PdfSelection):Promise<Blob>{
     wrapped.forEach((line,i)=>page.drawText(line,{x,y:842-top-size-i*(size+3),font:f,size,color:rgb(.19,.17,.16)}));
     return top+wrapped.length*(size+3);
   }
-  function header(){page=doc.addPage([595,842]);text('AleJoias',40,36,515,25,bold);text('SELEÇÃO DE PRODUTOS',40,73,515);text('Solicitação: '+order.id,40,96,515,8);y=130;}
+  function header(){page=doc.addPage([595,842]);text('Ale Carraro',40,36,515,25,bold);text('SELEÇÃO DE PRODUTOS',40,73,515);text('Solicitação: '+order.id,40,96,515,8);y=130;}
   function table(){page.drawRectangle({x:40,y:842-y-26,width:515,height:26,color:rgb(.95,.93,.91)});text('Foto',50,y+7,74,10,bold);text('Produto',144,y+7,267,10,bold);text('Valor',430,y+7,115,10,bold);y+=26;}
   header();y=text('Cliente: '+order.name,40,y,515,11,bold)+6;y=text('Telefone: '+order.phone,40,y,515)+6;
   y=text('Registrado em '+new Date(order.createdAt).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}),40,y,515,9)+18;table();
@@ -60,6 +60,6 @@ export async function selectionPdf(order:PdfSelection):Promise<Blob>{
   if(y+80+lines(note,515,10).length*13>752)header();
   y=text('Subtotal: '+money(order.subtotalInCents),40,y+20,515,15,bold)+8;
   y=text('Entrega a combinar no atendimento.',40,y,515,9)+14;if(note)text(note,40,y,515);
-  const pages=doc.getPages();pages.forEach((p,i)=>{page=p;text('AleJoias | (19) 98803-8395',40,780,400,8);text((i+1)+' / '+pages.length,510,780,45,8);});
+  const pages=doc.getPages();pages.forEach((p,i)=>{page=p;text('Ale Carraro | (19) 98803-8395',40,780,400,8);text((i+1)+' / '+pages.length,510,780,45,8);});
   return new Blob([new Uint8Array(await doc.save())],{type:'application/pdf'});
 }

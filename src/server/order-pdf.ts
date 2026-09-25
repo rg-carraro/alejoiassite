@@ -26,7 +26,7 @@ async function photo(url?:string){
 export async function selectionPdf(order:PdfSelection):Promise<Buffer>{
  const photos: (Buffer|null)[]=[];
  for(const item of order.items)photos.push(await photo(item.image));
- const doc=new PDFDocument({size:'A4',margin:40,bufferPages:true,info:{Title:'AleJoias - seleção de produtos',Author:'AleJoias'}});
+ const doc=new PDFDocument({size:'A4',margin:40,bufferPages:true,info:{Title:'Ale Carraro - seleção de produtos',Author:'Ale Carraro'}});
  const chunks:Buffer[]=[];
  const complete=new Promise<Buffer>((done,fail)=>{doc.on('data',chunk=>chunks.push(chunk));doc.on('end',()=>done(Buffer.concat(chunks)));doc.on('error',fail);});
  const left=40,width=515;
@@ -35,7 +35,7 @@ export async function selectionPdf(order:PdfSelection):Promise<Buffer>{
   return doc.y;
  };
  function header(){
-  text('AleJoias',left,36,width,25,true);
+  text('Ale Carraro',left,36,width,25,true);
   text('SELEÇÃO DE PRODUTOS',left,72,width,10);
   text('Solicitação: '+order.id,left,94,width,8);
   doc.moveTo(left,114).lineTo(left+width,114).strokeColor('#c4a574').stroke();
@@ -74,7 +74,7 @@ export async function selectionPdf(order:PdfSelection):Promise<Buffer>{
  y=text('Entrega a combinar no atendimento.',left,y,width,9)+14;
  if(order.note)text('Observação: '+order.note,left,y,width);
  const pages=doc.bufferedPageRange();
- for(let i=0;i<pages.count;i++){doc.switchToPage(i);text('AleJoias  |  (19) 98803-8395',40,780,400,8);text((i+1)+' / '+pages.count,510,780,45,8);}
+ for(let i=0;i<pages.count;i++){doc.switchToPage(i);text('Ale Carraro  |  (19) 98803-8395',40,780,400,8);text((i+1)+' / '+pages.count,510,780,45,8);}
  doc.end();
  return complete;
 }

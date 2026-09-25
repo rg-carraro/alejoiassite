@@ -7,8 +7,8 @@ Astro.response.headers.set('X-Robots-Tag','noindex, nofollow, noarchive');
 Astro.response.headers.set('Content-Security-Policy',"default-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'");
 ---
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="referrer" content="no-referrer"/><meta name="robots" content="noindex,nofollow"/><title>PDF da seleção | AleJoias</title></head>
-<body><main><h1>AleJoias</h1><h2>Sua seleção em PDF</h2><p id="pdf-status" role="status">Preparando o documento…</p><a id="pdf-download" hidden>Baixar PDF com fotos</a><button id="pdf-retry" hidden>Tentar novamente</button><p>O documento contém os dados e as peças da solicitação. Compartilhe este link apenas com quem deve ter acesso.</p></main></body></html>
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="referrer" content="no-referrer"/><meta name="robots" content="noindex,nofollow"/><title>PDF da seleção | Ale Carraro</title></head>
+<body><main><h1>Ale Carraro</h1><h2>Sua seleção em PDF</h2><p id="pdf-status" role="status">Preparando o documento…</p><a id="pdf-download" hidden>Baixar PDF com fotos</a><button id="pdf-retry" hidden>Tentar novamente</button><p>O documento contém os dados e as peças da solicitação. Compartilhe este link apenas com quem deve ter acesso.</p></main></body></html>
 <style>body{margin:0;background:#faf8f4;color:#302b28;font:16px/1.6 system-ui}main{max-width:540px;margin:10vh auto;padding:24px}h1{font-size:36px}a,button{display:inline-block;background:#354237;color:white;padding:14px 22px;border:0;font:inherit;border-radius:4px;cursor:pointer;text-decoration:none}[hidden]{display:none}</style>
 <script>
 import {pdfBlob} from '../../scripts/pdf-client';
