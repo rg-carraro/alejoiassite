@@ -41,3 +41,8 @@ Ao concluir, informar criados/atualizados/ignorados/pendentes, preço padrão ap
 - Antes de publicar, conferir: identidade/código e duplicatas; descrição fiel; preço informado ou padrão de R$ 0,01 para novo item sem preço; imagem sem marcações e no padrão visual; categoria, opções, disponibilidade e publicação pretendida. Resolver ou relatar pendências antes de publicar o item afetado.
 - Após publicar, verificar o produto e a imagem no catálogo público e reportar o resultado. A skill orienta o trabalho de Codex; não é uma automação instalada no painel administrativo.
 - Aplicar o padrão aos próximos cadastros e publicações. Não substituir em lote fotos de produtos existentes sem pedido que inclua essa alteração.
+## Nitidez e fidelidade da foto
+- Priorizar fotos nítidas, bem iluminadas e em resolução suficiente para avaliar a peça na página de produto. Usar o original de maior qualidade disponível e evitar compressão que apague textura, contornos, fechos ou detalhes.
+- Conferir a imagem final no tamanho de exibição e ampliada a 100%: foco adequado, detalhes visíveis, sem pixelização evidente, halos de nitidez, suavização excessiva ou reflexos que escondam a peça. Conferir também o arquivo servido após upload.
+- Ajustar nitidez com moderação, preservando cores e aparência reais. Aumentar resolução não recupera detalhes ausentes; não inventar textura, pedras, gravações ou acabamento para parecer mais definido.
+- Quando desfoque ou baixa resolução impedirem avaliar o produto fielmente, relatar a limitação e pedir uma foto melhor para o item afetado antes de publicá-lo. Não tratar uma reconstrução artificial como evidência do produto real.

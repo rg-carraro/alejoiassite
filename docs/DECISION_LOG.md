@@ -213,3 +213,6 @@ Atualizada alejoias-catalogo: novos produtos sem preço informado usam R$ 0,01 (
 
 ## 25/09/2026 — Padrão visual dos produtos
 Aprovado fundo branco levemente quente, imagem quadrada, peça centralizada e inteira, margens consistentes e sombra suave. Incorporado à alejoias-catalogo com conferência obrigatória em publicações realizadas por Codex. Fotos existentes não alteradas nesta atualização.
+
+## 25/09/2026 — Nitidez das fotos
+Incluída na skill de catálogo a conferência de foco, resolução e detalhes no tamanho de exibição e a 100%, com nitidez moderada e sem inventar características. Fontes insuficientes exigem foto melhor para o item afetado; fotos atuais não foram modificadas.
