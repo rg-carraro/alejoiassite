@@ -123,3 +123,15 @@ Nenhum plano foi contratado. A consulta de assinaturas retornou 403 por permiss�
 ## Build integrado ao GitHub
 
 No Worker, Settings > Build: branch master, raiz do repositório, build command pnpm build:cloudflare e deploy command pnpm exec wrangler deploy --config dist-cloudflare/server/wrangler.json. Variáveis NODE_VERSION=24.19.0 e PNPM_VERSION=11.19.0. A publicação desta rodada foi feita por CLI; as configurações do build automático no painel ainda precisam ser verificadas. Não incluir SQL privado ou senha no Git.
+
+## Validação de homologação — 24/09, registrada em 25/09/2026
+
+Criados Worker e D1 separados alejoias-qa-20260924, banco 03e37da3-88b4-4468-b1f8-ece5f5e192af, somente com dados fictícios. Testes remotos passaram: autenticação, CSRF, edição concorrente, promoções, inativos, importação, exportação, upload, painel mobile, solicitação idempotente, snapshot, compartilhamento simulado, download/PDF multipágina e troca de senha com revogação. Importações de 25 e 500 produtos fictícios também passaram. Nenhuma mensagem real enviada e nenhum pedido fictício adicionado ao banco da loja. Recursos de QA permanecem separados para investigação; não apontar o domínio para eles.
+
+CPU observada via tail do QA: catálogo até 15 ms, criação de solicitação até 14 ms, prévia de importação até 17 ms e aplicação até 29 ms. Nenhuma execução observada terminou com erro, mas exceder 10 ms impede afirmar adequação garantida ao Workers Free. Confirmar plano atual no painel e decidir entre otimização adicional ou Workers Paid antes do corte; nenhum upgrade foi contratado.
+
+Comparação restrita entre origem e D1 real: contagens, datas máximas e tamanhos agregados coincidem para produtos (26), histórico (35), solicitações (9) e histórico das solicitações (9). Não houve sinal de divergência nesses indicadores; isso não comprova igualdade campo a campo. A revisão automática bloqueou a consulta completa de registros; usada a alternativa agregada sem baixar dados pessoais. Repetir conferência na janela final de corte.
+
+Versão real conferida b6fddf4f-b63b-467e-9729-dd05f036fd78, posterior aos pushes, com bindings DB correto e ASSETS. Catálogo real com 23 produtos e 23 fotos OK; Worker e domínio atual responderam 200, API administrativa sem sessão 401. A lista de deployments mostra publicações posteriores aos pushes, mas a configuração exata do build automático e seu log ainda precisam ser conferidos no painel.
+
+Corrigido tests/cloudflare.cjs: exportação de backup local agora utiliza o mesmo database_id do build, em vez de zeros fixos. Suíte Cloudflare local completa passou, incluindo backup/restauração, após o ajuste. Artefatos privados de homologação em .data/qa-remote-20260924 e .data/cloudflare-migration-1790289197153. Domínio não alterado. Pendem plano/CPU, conferência final dos dados com gravações interrompidas e teste final no domínio após corte; validação no celular real do usuário continua recomendada.

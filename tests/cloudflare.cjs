@@ -32,7 +32,7 @@ function run(args,extra={}){
     const backup=path.join(root,'backup.sql');
     // d1 export não aceita --persist-to; usa .wrangler/state relativo ao config.
     const exportConfig=path.join(root,'wrangler.json');
-    fs.writeFileSync(exportConfig,JSON.stringify({name:'alejoias-qa',d1_databases:[{binding:'DB',database_name:'alejoias-loja',database_id:'00000000-0000-0000-0000-000000000000'}]}));
+    fs.writeFileSync(exportConfig,JSON.stringify({name:'alejoias-qa',d1_databases:[{binding:'DB',database_name:'alejoias-loja',database_id:JSON.parse(fs.readFileSync('dist-cloudflare/server/wrangler.json','utf8')).d1_databases.find(binding=>binding.binding==='DB').database_id}]}));
     run([wrangler,'d1','export','alejoias-loja','--local','--config',exportConfig,'--output',backup]);
     const restored=new DatabaseSync(path.join(root,'restored.sqlite'));restored.exec(fs.readFileSync(backup,'utf8'));
     assert.ok(restored.prepare('SELECT COUNT(*) AS count FROM requests').get().count>0);
