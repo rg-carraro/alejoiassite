@@ -203,3 +203,7 @@ Criado marcador privado .data/cloudflare-active.json. scripts/start-live.ps1 res
 
 ## 25/09/2026 — Primeira versão desenvolvida e implantada
 Publicação direta confirmada no Worker 566b5987-d0d7-4cee-a935-cad256d87ba1. Domínio e logos validados, 23 produtos e fotos acessíveis, www 308. Encerramento documentado em RELEASE_V1.0.0.md; tag anotada v1.0.0 marca o código e documentação entregues. Dados privados não incluídos no Git.
+
+## 25/09/2026 — Ícone da aba
+Substituído o favicon de diamante vermelho pela imagem alejoias.jpg enviada pelo usuário, copiada sem edição para public/images/brand/ale-carraro-icone.jpg. URL nova evita reutilizar o ícone antigo em cache. Tag v1.0.0 preservada.
+Validação: Astro check sem erros/avisos e build Cloudflare aprovados. Ícone publicado no Worker de produção.
