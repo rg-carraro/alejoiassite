@@ -1,5 +1,17 @@
 # Contexto atual — AleJoias Site
 
+## Cadastro por fotos — 26/09/2026
+
+Registrado o [fluxo permanente de cadastro](FLUXO_CADASTRO_PRODUTOS.md), com preços por categoria, tratamento por image_gen, JPEG de até 1000 px/300.000 bytes, publicação no Worker/D1 e verificação antes de excluir originais autorizados. Lote concluído com 40 novos produtos e imagens verificados, 26 cadastros anteriores intactos e 61 produtos públicos. Permanecem quatro produtos pendentes e uma foto de outra vista; 40 originais foram excluídos, mantendo todas as cópias tratadas. Senhas, fotos de entrada e evidências de importação ficam somente nas pastas privadas ignoradas pelo Git.
+
+## Portal de notas — alterações locais incluídas no Git em 26/09/2026
+
+O menu aponta para `/admin/portal-notas`. Essa página usa `PUBLIC_NOTAS_URL` quando configurado; no fluxo local consulta o serviço na porta 8009, tenta o iniciador `alejoias-notas://abrir` e oferece instrução manual se não abrir. Depende do iniciador e do serviço instalados no PC. O envio dessas alterações ao Git não constitui novo deploy da loja nem validação do iniciador no computador do usuário.
+
+## Notas Django pelo PC — 25/09/2026
+
+Usuário autorizou alternativa local à hospedagem conjunta. Menu admin agora tem fallback para http://127.0.0.1:8009/entrar/, identificado como “Notas e devoluções neste PC”, com instrução para iniciar-notas.bat no projeto alejoias. PUBLIC_NOTAS_URL continua permitindo um endereço HTTPS futuro. A loja permanece no Worker/D1; notas e PostgreSQL ficam no PC, com login independente. Não funciona no celular nem em outro computador sem a instalação. Publicação e validação desta alteração são registradas após os testes.
+
 ## Primeira versão concluída — v1.0.0
 
 Implantada e validada em 25/09/2026 com logos transparentes. Worker: 566b5987-d0d7-4cee-a935-cad256d87ba1. Detalhes, verificações, operação e limites em [RELEASE_V1.0.0.md](RELEASE_V1.0.0.md).
@@ -191,3 +203,6 @@ Corrigido tests/cloudflare.cjs: exportação de backup local agora utiliza o mes
 Usuário informou contratação do Workers Paid (US$ 5/mês + uso) e pediu nova tentativa. Definido limits.cpu_ms=100 no wrangler.jsonc: margem sobre o pico de 29 ms medido na homologação, sem representar teto de cobrança mensal. Build Cloudflare e deploy aprovados, versão e4d59bac-7119-4550-83d5-d5fa1b1312fc. A Cloudflare aceitou a configuração de CPU; nenhuma assinatura foi alterada pelo agente.
 
 Teste após deploy: cinco rotas responderam 200, catálogo com 23 produtos e todas as 23 fotos acessíveis, API administrativa sem sessão 401 e origem externa bloqueada com 403. Nenhum pedido de teste criado. Domínio ainda no Tunnel/PC. Pendem janela de corte com conferência final dos dados, associação do domínio ao Worker e verificação HTTPS/PDF no domínio com origem local desligada. A decisão anterior de orçamento mensal zero foi substituída pela contratação informada pelo usuário.
+## Publicação do link das notas — 25/09/2026
+
+Check Astro (52 arquivos sem erros/avisos/hints) e build Cloudflare aprovados. Publicada versão 18eadce1-a4bb-4dc4-8c19-ad2e2a856a51. Link local e texto “Notas e devoluções neste PC” conferidos no artefato publicado. Início, catálogo e login responderam 200. A senha inicial arquivada não foi aceita no login de validação; menu autenticado não foi conferido remotamente, e nenhuma senha foi alterada. Django local respondeu login, CSRF e CSS e rejeitou Host externo. Nove testes Django passaram em banco temporário. Iniciar pelo arquivo ../alejoias/iniciar-notas.bat; porta 8009 restrita a loopback com DEBUG desligado. Não foram criados produtos, pedidos ou notas de teste nos bancos de uso.
