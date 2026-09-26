@@ -1,0 +1,50 @@
+---
+import '../../styles/admin.css';
+const destination = import.meta.env.PUBLIC_NOTAS_URL?.trim() || 'http://127.0.0.1:8009/entrar/';
+const local = /^http:\/\/(127\.0\.0\.1|localhost)(:|\/)/.test(destination);
+if (!local) return Astro.redirect(destination);
+---
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="robots" content="noindex"/><title>Portal de notas · Ale Carraro</title></head>
+<body><main class="login-card"><a href="/admin">← Voltar ao admin</a><h1>Portal de notas</h1>
+<p id="portal-status" role="status" aria-live="polite">Verificando o Portal de notas…</p>
+<p>O portal funciona no PC do AleJoias e tem login próprio.</p>
+<button id="retry" type="button" hidden>Tentar iniciar novamente</button>
+<p id="manual" hidden>Você também pode executar iniciar-notas.bat na pasta do sistema e <a href="http://127.0.0.1:8009/entrar/">abrir o portal</a>.</p>
+<noscript>Ative o JavaScript ou execute iniciar-notas.bat e abra http://127.0.0.1:8009/entrar/.</noscript>
+</main>
+<script>
+import {openPortal} from '../../scripts/portal-notas';
+const status = document.querySelector<HTMLElement>('#portal-status')!;
+const retry = document.querySelector<HTMLButtonElement>('#retry')!;
+const manual = document.querySelector<HTMLElement>('#manual')!;
+let frame: HTMLIFrameElement | undefined;
+function launch() {
+  frame?.remove();
+  frame = document.createElement('iframe');
+  frame.hidden = true;
+  frame.title = 'Iniciador do Portal de notas';
+  frame.src = 'alejoias-notas://abrir';
+  document.body.append(frame);
+}
+async function run(alreadyLaunched = false) {
+  retry.hidden = true;
+  manual.hidden = true;
+  const success = await openPortal({
+    ready: async () => {
+      const response = await fetch('http://127.0.0.1:8009/portal/status/', {
+        cache: 'no-store', credentials: 'omit', signal: AbortSignal.timeout(1500),
+      });
+      if (!response.ok) return false;
+      const data = await response.json();
+      return data.service === 'alejoias-portal-notas' && data.ready === true;
+    },
+    launch: alreadyLaunched ? () => {} : launch,
+    open: () => location.replace('http://127.0.0.1:8009/entrar/'),
+    state: message => { status.textContent = message; },
+    wait: () => new Promise(resolve => setTimeout(resolve, 1500)),
+  });
+  if (!success) { retry.hidden = false; manual.hidden = false; }
+}
+retry.addEventListener('click', () => { try { launch(); } catch {} void run(true); });
+void run();
+</script></body></html>

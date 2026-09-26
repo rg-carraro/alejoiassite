@@ -8,6 +8,8 @@ Registrado o [fluxo permanente de cadastro](FLUXO_CADASTRO_PRODUTOS.md), com pre
 
 O menu aponta para `/admin/portal-notas`. Essa página usa `PUBLIC_NOTAS_URL` quando configurado; no fluxo local consulta o serviço na porta 8009, tenta o iniciador `alejoias-notas://abrir` e oferece instrução manual se não abrir. Depende do iniciador e do serviço instalados no PC. O envio dessas alterações ao Git não constitui novo deploy da loja nem validação do iniciador no computador do usuário.
 
+Validação antes do envio: Astro check com 54 arquivos, zero erros/avisos/hints; build Cloudflare concluído. Verificação isolada da função `openPortal` cobriu serviço já disponível, inicialização seguida de disponibilidade e falha com tentativas limitadas. Estrutura, descrição e referência da skill revisadas; o validador Python da skill não executou por ausência de PyYAML, e a conferência estrutural foi feita separadamente.
+
 ## Notas Django pelo PC — 25/09/2026
 
 Usuário autorizou alternativa local à hospedagem conjunta. Menu admin agora tem fallback para http://127.0.0.1:8009/entrar/, identificado como “Notas e devoluções neste PC”, com instrução para iniciar-notas.bat no projeto alejoias. PUBLIC_NOTAS_URL continua permitindo um endereço HTTPS futuro. A loja permanece no Worker/D1; notas e PostgreSQL ficam no PC, com login independente. Não funciona no celular nem em outro computador sem a instalação. Publicação e validação desta alteração são registradas após os testes.
