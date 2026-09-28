@@ -1,5 +1,11 @@
 # Contexto atual — AleJoias Site
 
+## Portal de Notas — atualização de 28/09/2026
+
+O destino padrão do menu admin passa a ser `https://alejoias.com/portal-notas/`, com Django/PostgreSQL no PC e login independente. O portal tem catálogo próprio, desconto por revendedora/nota, emissão, PDFs e conferência de devolução por código. A loja continua em Workers/D1.
+
+A publicação requer ingress específico `/portal-notas/.*` no Tunnel para `http://127.0.0.1:8008` e uma rota Workers de exclusão `alejoias.com/portal-notas/*` sem script. A exclusão evita que o Worker da loja intercepte o Django e aproveita o DNS existente, sem criar outro subdomínio. Não remover essa exclusão em deploys futuros. `PUBLIC_NOTAS_URL` ainda pode sobrescrever o destino. Detalhes e resultado da ativação em `../alejoias/docs/NOTAS_WEB.md`.
+
 ## Cadastro por fotos — 26/09/2026
 
 Registrado o [fluxo permanente de cadastro](FLUXO_CADASTRO_PRODUTOS.md), com preços por categoria, tratamento por image_gen, JPEG de até 1000 px/300.000 bytes, publicação no Worker/D1 e verificação antes de excluir originais autorizados. Lote concluído com 40 novos produtos e imagens verificados, 26 cadastros anteriores intactos e 61 produtos públicos. Permanecem quatro produtos pendentes e uma foto de outra vista; 40 originais foram excluídos, mantendo todas as cópias tratadas. Senhas, fotos de entrada e evidências de importação ficam somente nas pastas privadas ignoradas pelo Git.

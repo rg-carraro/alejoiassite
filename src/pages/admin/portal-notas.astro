@@ -1,6 +1,6 @@
 ---
 import '../../styles/admin.css';
-const destination = import.meta.env.PUBLIC_NOTAS_URL?.trim() || 'http://127.0.0.1:8009/entrar/';
+const destination = import.meta.env.PUBLIC_NOTAS_URL?.trim() || 'https://alejoias.com/portal-notas/';
 const local = /^http:\/\/(127\.0\.0\.1|localhost)(:|\/)/.test(destination);
 if (!local) return Astro.redirect(destination);
 ---
