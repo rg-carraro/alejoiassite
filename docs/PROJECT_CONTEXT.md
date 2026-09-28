@@ -2,6 +2,8 @@
 
 ## Portal de Notas — atualização de 28/09/2026
 
+Ativado em 28/09/2026 após autorização: portal público em `https://alejoias.com/portal-notas/`, com ingress do Tunnel e exclusão Workers conferidos. Site publicado na versão `419552a0-8c57-4e07-b876-eb4318819f99`. Login HTTPS do Django, páginas autenticadas e estáticos responderam 200; início e catálogo da loja também responderam 200. O portal recebeu 1.352 produtos do histórico, preservando 389 notas e 13.917 itens. Nenhuma nota fictícia foi criada no banco em uso. Câmera física e reinício do PC ainda precisam de conferência no equipamento.
+
 O destino padrão do menu admin passa a ser `https://alejoias.com/portal-notas/`, com Django/PostgreSQL no PC e login independente. O portal tem catálogo próprio, desconto por revendedora/nota, emissão, PDFs e conferência de devolução por código. A loja continua em Workers/D1.
 
 A publicação requer ingress específico `/portal-notas/.*` no Tunnel para `http://127.0.0.1:8008` e uma rota Workers de exclusão `alejoias.com/portal-notas/*` sem script. A exclusão evita que o Worker da loja intercepte o Django e aproveita o DNS existente, sem criar outro subdomínio. Não remover essa exclusão em deploys futuros. `PUBLIC_NOTAS_URL` ainda pode sobrescrever o destino. Detalhes e resultado da ativação em `../alejoias/docs/NOTAS_WEB.md`.
