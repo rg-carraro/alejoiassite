@@ -24,6 +24,8 @@ Escrever nome, descrição e texto alternativo em português com característica
 
 ## Publicação e verificação
 
+Regra vigente desde 05/10/2026: cadastrar cada peça na categoria correspondente e em `novidades`. Após publicar e verificar o novo lote, retirar apenas `novidades` dos IDs que já pertenciam à coleção no backup anterior. Preservar demais coleções e dados comerciais. Usar edição com revisão e histórico, pois campo vazio no importador não remove coleções. Duplicatas não voltam a Novidades. Se nenhum novo item for publicado, manter a coleção atual. Em retomadas, consultar o manifesto para distinguir o lote novo do anterior.
+
 1. Usar a loja ativa em `https://alejoias.com`, Cloudflare Workers/D1. Não gravar no SQLite histórico nem alterar seeds para publicar.
 2. Ler credenciais do arquivo privado local indicado pelo usuário. Nunca copiar senhas, cookies, tokens, exports ou backups para a skill ou Git. O arquivo usado neste lote é `.data/cloudflare-migration-1790288322003/acesso-admin.txt`; confirmar sua validade sem mostrar o conteúdo.
 3. Autenticar pelo fluxo vigente do admin e exportar todos os cadastros, inclusive inativos, para backup privado antes da alteração. Conferir IDs, slugs e possíveis duplicatas também pelas fotos.

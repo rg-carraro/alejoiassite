@@ -4,7 +4,7 @@ description: Cadastrar produtos Ale Carraro a partir de fotos ou listas com pre�
 ---
 # Cadastro e gestão do catálogo Ale Carraro
 
-Leia docs/PROJECT_CONTEXT.md, docs/CATALOGO_E_ATENDIMENTO.md e a implementação vigente. Produção usa Cloudflare Workers + D1; SQLite local é histórico, não destino de cadastros da loja publicada. Instalar ou atualizar esta skill não altera produtos nem autoriza publicá-los por si só.
+Leia docs/PROJECT_CONTEXT.md, docs/CATALOGO_E_ATENDIMENTO.md e docs/FLUXO_CADASTRO.md e a implementação vigente. Produção usa Cloudflare Workers + D1; SQLite local é histórico, não destino de cadastros da loja publicada. Instalar ou atualizar esta skill não altera produtos nem autoriza publicá-los por si só.
 
 ## Novos produtos — padrão vigente por categoria
 Para novos itens sem outro preço explícito do usuário, aplicar sempre:
@@ -20,7 +20,7 @@ Para novos itens sem outro preço explícito do usuário, aplicar sempre:
 - Preços normais por categoria da peça (chamada de coleção pelo usuário), não promoções. Substituem o antigo padrão de um centavo. Novidades e Presentes não alteram o preço da categoria. Preço explícito do usuário prevalece; informar onde ajustá-lo no painel.
 - Codex escreve nome, descrição e texto alternativo em português claro e elegante, com base nas fotos e informações fornecidas, sem exigir textos do usuário. Descrever formato, cores e detalhes visíveis; não inventar material, banho, pedra, medidas, origem, garantia ou propriedades hipoalergênicas. Sinalizar dados faltantes.
 - Antes de limpar fotos, registrar códigos/SKUs legíveis. Conciliar fotos repetidas ou diferentes vistas da mesma peça para evitar duplicatas. Não inferir estoque pela foto.
-- A imagem final precisa estar sem marca-d'água, logotipos sobrepostos, preços, códigos ou outras marcações adicionadas à foto. Preferir original limpo quando disponível. Preservar o original e salvar a imagem tratada separadamente.
+- A imagem final precisa estar sem marca-d'água, logotipos sobrepostos, preços, códigos ou outras marcações adicionadas à foto. Preferir original limpo quando disponível. Preservar o original da pasta produtos_cadastrar e salvar a imagem tratada separadamente em produtos_cadastrar/copias.
 - Para edição raster, usar image_gen conforme as instruções disponíveis. Remover marcações e padronizar o fundo conforme abaixo, preservando geometria, cores, textura, pedras, fechos e quantidade de peças. Preservar gravações e detalhes físicos reais da joia. Não inventar partes encobertas: quando não for possível recuperar fielmente, deixar pendente e solicitar foto limpa.
 - Inspecionar visualmente o resultado: sem resíduos, textos, duplicação, corte da peça ou mudança do modelo. Não afirmar que a imagem foi limpa se a edição não foi concluída.
 
@@ -32,6 +32,11 @@ Para novos itens sem outro preço explícito do usuário, aplicar sempre:
 - Nos pedidos de cadastro deste fluxo, usar imagens finais de `copias` para upload e publicar nas respectivas categorias/coleções. Respeitar pedidos específicos de somente preparar ou salvar rascunhos. Classificar pela peça; não atribuir Presentes indiscriminadamente.
 - Salvar em `copias` não publica por si só: concluir cadastro e upload na loja ativa Cloudflare/D1 e verificar produto, imagem e categoria/coleção no catálogo público. Não cadastrar no SQLite histórico.
 
+### Rotação de Novidades — decisão de 05/10/2026
+- Todo novo produto recebe sua categoria real desde o cadastro e a coleção `novidades`. A categoria define o preço; Novidades é uma coleção adicional. Respeitar exceções explícitas e pedidos de rascunho.
+- Após publicar e verificar um lote novo, retirar somente `novidades` dos IDs que já estavam nessa coleção no backup anterior. Preservar categorias, outras coleções, preços, fotos, disponibilidade e publicação. Não atribuir Presentes automaticamente.
+- Registrar os IDs anteriores antes da importação. Se nenhum novo item for publicado, manter Novidades como está. Duplicatas e reimportações não transformam produtos antigos em novidades.
+- Remover a coleção pela edição autenticada com revisão vigente e histórico, inclusive quando a lista ficar vazia: campo vazio no importador não apaga coleções. Conferir concorrência e resultado público. Em retomadas, usar o manifesto original para não retirar Novidades do próprio lote novo.
 ## Importar e editar
 - Mapear código/SKU, nome, descrição, categoria, preço, imagens, variações, tags, disponibilidade e publicação. Usar códigos estáveis e preservar IDs existentes; perguntar apenas sobre conciliações ambíguas que impeçam a aplicação segura.
 - Registrar origem e resultado da importação. Campo ausente ou vazio não apaga valor existente. Preservar edições manuais, especialmente preços: nunca substituir preço já cadastrado pelo padrão da categoria numa reimportação sem pedido explícito. A tabela se aplica a novos produtos; atualizar esta skill não reajusta o catálogo existente.

@@ -1,5 +1,11 @@
 # Contexto atual — AleJoias Site
 
+## Cadastro e Novidades — 05/10/2026
+
+Regra permanente: todo novo produto entra em sua categoria real e na coleção Novidades. Após publicar e verificar o lote novo, retirar somente Novidades dos produtos que já pertenciam à coleção no backup anterior, preservando outras coleções e dados comerciais. Duplicatas não voltam a Novidades. A skill orienta os cadastros feitos por Codex; não instala automação no painel.
+
+Lote de 14 fotos: nove produtos publicados e verificados na loja Cloudflare/D1, sendo oito brincos a R$ 59,90 e uma pulseira a R$ 119,90. Três modelos já cadastrados e uma foto repetida não geraram duplicatas. BR03-331 permanece pendente para confirmar a composição das argolas no cartão e concluir tratamento fiel. Imagens PNG/JPEG e manifesto em `produtos_cadastrar/copias/`; backup e evidências privados em `.data/catalogo-20261005/`. Originais preservados. Rotação concluída: Novidades removida de 65 fichas anteriores, inclusive inativas, com demais campos comerciais das 66 fichas preservados; apenas os nove novos produtos estão em Novidades. Catálogo público verificado com 70 produtos.
+
 ## Portal de Notas — atualização de 28/09/2026
 
 Ativado em 28/09/2026 após autorização: portal público em `https://alejoias.com/portal-notas/`, com ingress do Tunnel e exclusão Workers conferidos. Site publicado na versão `419552a0-8c57-4e07-b876-eb4318819f99`. Login HTTPS do Django, páginas autenticadas e estáticos responderam 200; início e catálogo da loja também responderam 200. O portal recebeu 1.352 produtos do histórico, preservando 389 notas e 13.917 itens. Nenhuma nota fictícia foi criada no banco em uso. Câmera física e reinício do PC ainda precisam de conferência no equipamento.
